@@ -34,8 +34,8 @@ public class DriveSystem {
 		leftMotor1 = new Motor(MotorType.Talon, 0);
 		rightMotor1 = new Motor(MotorType.Talon, 0);
 		// ENCODERS
-		leftEncoder = new Encoder(0, 0);
-		rightEncoder = new Encoder(0, 0);
+		//leftEncoder = new Encoder(0, 0);
+		//rightEncoder = new Encoder(0, 0);
 		// GYRO
 		gyro = new AHRS(Port.kUSB1);
 		// CHASSIS SIDE

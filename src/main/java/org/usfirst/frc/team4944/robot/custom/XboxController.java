@@ -3,6 +3,7 @@ package org.usfirst.frc.team4944.robot.custom;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.POVButton;
 import edu.wpi.first.wpilibj.command.Command;
 /*
  * When Creating a new XboxController: XboxController controller = new XboxController(Port#);
@@ -17,6 +18,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class XboxController extends Joystick{
 	Button A, B, X, Y, leftBumper, rightBumper, leftMenu, rightMenu, leftStick, rightStick;
+	POVButton dpad0, dpadn45, dpadn90,dpadn135,dpadp45,dpadp90,dpadp135;
 	public XboxController(int port) {
 		super(port);
 		this.A = new JoystickButton(this, 1);
@@ -29,6 +31,13 @@ public class XboxController extends Joystick{
 		this.rightMenu = new JoystickButton(this, 8);
 		this.leftStick = new JoystickButton(this, 9);
 		this.rightStick = new JoystickButton(this, 10);
+		this.dpad0 = new POVButton(this, 0);
+		this.dpadp45 = new POVButton(this, 45);
+		this.dpadp90 = new POVButton(this, 90);
+		this.dpadp135 = new POVButton(this, 135);
+		this.dpadn45 = new POVButton(this, 315);
+		this.dpadn90 = new POVButton(this, 270);
+		this.dpadn135 = new POVButton(this, 225);
 	}
 	// A BUTTON
 	public void addCommandToA(Command c) {
@@ -132,5 +141,29 @@ public class XboxController extends Joystick{
 	
 	public double getRightStickY() {
 		return this.getRawAxis(5);
+	}
+	//DPAD
+	public boolean getDpadPressed(){
+		return dpadn135.get() || dpadn90.get() || dpadn45.get() || dpad0.get() || dpadp45.get() || dpadp90.get() || dpadp135.get();
+	}
+
+	public double getDpadAngle(){
+		if(dpadn135.get()){
+			return -135;
+		}else if(dpadn90.get()){
+			return -90;
+		}else if(dpadn45.get()){
+			return -45;
+		}else if(dpad0.get()){
+			return 0;
+		}else if(dpadp45.get()){
+			return 45;
+		}else if(dpadp90.get()){
+			return 90;
+		}else if(dpadp135.get()){
+			return 135;
+		}else{
+			return Double.NaN;
+		}
 	}
 }

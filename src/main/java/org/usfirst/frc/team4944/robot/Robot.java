@@ -22,7 +22,7 @@ public class Robot extends TimedRobot {
 	XboxController driver;
 	XboxController operator;
 	// SUBSYSTEMS
-	DriveSystem driveSystem;
+	//DriveSystem driveSystem;
 	TurretSubsystem turret;
 	//SmartDashboard Values
 	double turretEncoder;
@@ -32,48 +32,67 @@ public class Robot extends TimedRobot {
 		// CONTROLLERS INIT
 		driver = new XboxController(0);
 		operator = new XboxController(1);
+		
 		// SUBSYSTEMS INIT
 		turret = new TurretSubsystem();
 		//driveSystem = new DriveSystem();
+		
 		//SmartDashboard
-		SmartDashboard.putNumber("Turret Encoder", turret.getTurretEncoderValue());
+		this.SmartDashboardDisplay();
 	}
 
 	@Override
 	public void disabledInit() {
-
+		this.SmartDashboardDisplay();
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run(); // KEEP HERE TO RUN COMMANDS
+		this.SmartDashboardDisplay();
 	}
 
 	@Override
 	public void autonomousInit() {
+		this.SmartDashboardDisplay();
 	}
 
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run(); // KEEP HERE TO RUN COMMANDS
+		this.updateValues();
 	}
 
 	@Override
 	public void teleopInit() {
+		this.SmartDashboardDisplay();
 	}
 
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run(); // KEEP HERE TO RUN COMMANDS
-		SmartDashboard.putNumber("Turret Encoder", turret.getTurretEncoderValue());
 		
 		double Y = driver.getLeftStickY();
 		double X = driver.getRightStickX();
 		
-		turret.setTurretMotorPower(X/5);
+		if(driver.getDpadPressed()){
+			turret.setAngle(driver.getDpadAngle());
+		}
+		this.updateValues();
 	}
 
 	@Override
 	public void testPeriodic() {
+	}
+
+	public void updateValues(){
+		turret.driveTurretPID();	
+		this.SmartDashboardDisplay();
+	}
+
+	public void SmartDashboardDisplay(){
+		SmartDashboard.putNumber("Turret Encoder", turret.getTurretEncoderValue());
+		SmartDashboard.putNumber("Limelight Y Offset", turret.lm.getYOffset());
+		SmartDashboard.putNumber("Distance From Target", turret.lm.getDistInFeet());
 	}
 }

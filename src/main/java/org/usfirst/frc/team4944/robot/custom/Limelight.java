@@ -14,12 +14,20 @@ import edu.wpi.first.networktables.NetworkTableInstance;
  * Add your docs here.
  */
 public class Limelight {
-    
+    // Network Table
     NetworkTable table;
-    
+    // Constants
+    final double feetOffGroundLimelight = 2.083;
+    final double feetOffGroundTarget = 8.71;
+    final double limelightAngle = 45;
+
     public Limelight(){
         this.table = NetworkTableInstance.getDefault().getTable("limelight");
     
+    }
+
+    public double getDistInFeet(){
+        return (feetOffGroundTarget-feetOffGroundLimelight)/(Math.tan(Math.toRadians(limelightAngle) + Math.toRadians(this.getYOffset())));
     }
 
     public boolean getTargetVisible(){
