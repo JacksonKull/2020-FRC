@@ -1,6 +1,8 @@
 package org.usfirst.frc.team4944.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -13,6 +15,8 @@ import org.usfirst.frc.team4944.robot.subsystems.ExampleSubsystem;
 
 
 public class Robot extends TimedRobot {
+	// SERIAL PORT
+	SerialPort serial;
 	// CONTROLLERS
 	XboxController driver;
 	XboxController operator;
@@ -21,11 +25,13 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotInit() {
+		//SERIAL PORT
+		serial = new SerialPort(9600, Port.kUSB1);
 		// CONTROLLERS INIT
-		driver = new XboxController(0);
-		operator = new XboxController(1);
+		//driver = new XboxController(0);
+		//operator = new XboxController(1);
 		// SUBSYSTEMS INIT
-		driveSystem = new DriveSystem();
+		//driveSystem = new DriveSystem();
 	}
 
 	@Override
@@ -54,10 +60,14 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run(); // KEEP HERE TO RUN COMMANDS
-		double Y = driver.getLeftStickY();
-		double X = driver.getRightStickX();
+//		double Y = driver.getLeftStickY();
+	//	double X = driver.getRightStickX();
 		
-		driveSystem.setPower(Y + X, Y - X);
+		int serialOut = serial.read(4)[0];
+		
+		//driveSystem.setPower(Y + X, Y - X);
+		//System.out.println("Test");
+		System.out.println(serialOut);
 		
 	}
 
