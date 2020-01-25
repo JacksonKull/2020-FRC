@@ -12,6 +12,7 @@ import org.usfirst.frc.team4944.robot.commands.ExampleCommand;
 import org.usfirst.frc.team4944.robot.custom.XboxController;
 import org.usfirst.frc.team4944.robot.subsystems.DriveSystem;
 import org.usfirst.frc.team4944.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team4944.robot.subsystems.TurretSubsystem;
 
 
 public class Robot extends TimedRobot {
@@ -22,16 +23,20 @@ public class Robot extends TimedRobot {
 	XboxController operator;
 	// SUBSYSTEMS
 	DriveSystem driveSystem;
+	TurretSubsystem turret;
+	//SmartDashboard Values
+	double turretEncoder;
 
 	@Override
 	public void robotInit() {
-		//SERIAL PORT
-		serial = new SerialPort(9600, Port.kUSB1);
 		// CONTROLLERS INIT
-		//driver = new XboxController(0);
-		//operator = new XboxController(1);
+		driver = new XboxController(0);
+		operator = new XboxController(1);
 		// SUBSYSTEMS INIT
+		turret = new TurretSubsystem();
 		//driveSystem = new DriveSystem();
+		//SmartDashboard
+		SmartDashboard.putNumber("Turret Encoder", turret.getTurretEncoderValue());
 	}
 
 	@Override
@@ -60,15 +65,12 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run(); // KEEP HERE TO RUN COMMANDS
-//		double Y = driver.getLeftStickY();
-	//	double X = driver.getRightStickX();
+		SmartDashboard.putNumber("Turret Encoder", turret.getTurretEncoderValue());
 		
-		int serialOut = serial.read(4)[0];
+		double Y = driver.getLeftStickY();
+		double X = driver.getRightStickX();
 		
-		//driveSystem.setPower(Y + X, Y - X);
-		//System.out.println("Test");
-		System.out.println(serialOut);
-		
+		turret.setTurretMotorPower(X/5);
 	}
 
 	@Override
