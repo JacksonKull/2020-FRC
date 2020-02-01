@@ -17,21 +17,40 @@ public class Limelight {
     // Network Table
     NetworkTable table;
     // Constants
-    final double feetOffGroundLimelight = 2.083;
+    final double feetOffGroundLimelight = 2.75;
     final double feetOffGroundTarget = 8.71;
-    final double limelightAngle = 45;
+    final double limelightAngle = 35;
+    final String tableName = "limelight";
 
     public Limelight(){
-        this.table = NetworkTableInstance.getDefault().getTable("limelight");
-    
+            this.table = NetworkTableInstance.getDefault().getTable(this.tableName);
     }
+
+    public boolean getLimeLightConnected(){
+        if(!(table == null)){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public void setNetworkTable(){
+        try{
+            this.table = NetworkTableInstance.getDefault().getTable(this.tableName);
+        }finally{}
+    }
+        
 
     public double getDistInFeet(){
         return (feetOffGroundTarget-feetOffGroundLimelight)/(Math.tan(Math.toRadians(limelightAngle) + Math.toRadians(this.getYOffset())));
     }
 
     public boolean getTargetVisible(){
-        return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getValue().getBoolean();
+        if(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getValue().getDouble() > 1){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public double getYOffset(){
