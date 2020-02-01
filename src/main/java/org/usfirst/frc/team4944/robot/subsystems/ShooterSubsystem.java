@@ -32,10 +32,10 @@ public class ShooterSubsystem extends Subsystem {
 
 	public ShooterSubsystem(){
 		// Motors
-		this.shooterMotor1 = new TalonFX(1);
-		this.shooterMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
-		this.shooterMotor1.setInverted(true);
-		this.shooterMotor2 = new TalonFX(2);
+		//this.shooterMotor1 = new TalonFX(1);
+		//this.shooterMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+		//this.shooterMotor1.setInverted(true);
+		//this.shooterMotor2 = new TalonFX(2);
 		// PID
 		this.shooterPID = new BasicPID(p, i, d);
 	}

@@ -19,6 +19,7 @@ import org.usfirst.team4944.robot.PID.BasicPID;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class TurretSubsystem extends Subsystem {
@@ -26,30 +27,58 @@ public class TurretSubsystem extends Subsystem {
 	public Limelight lm;
 	//Motors
 	TalonSRX turretMotor;
-	Encoder turretEncoder; 
+	Encoder turretEncoder;
+	//Servo
+	Servo hoodServo; 
 	//Constants
 	final int turretOffset = 100;
-	final int minEncoder = 0;
+	final int minEncoder = -1312;
 	final int neutralEncoder = 0;
-	final int maxEncoder = 0;
+	final int maxEncoder = 1220;
+	final double maxServo = 1;
+	final double minServo = 0;
+	final double maxServoAngle = 90;
+	final double minServoAngle = -90;
+	//Total Range of 2532
 	final double minAngle = -90;
 	final double maxAngle = 90;
+	final double maxPow = 0.35;
+	final double visionMaxPow = 0.15;
 	//PID
 	BasicPID turretPID;
-	final double p = 1;
+	final double visionP = .006;
+	final double p = .006;
 	final double i = 0;
 	final double d = 0;
 
 	public TurretSubsystem(){
 		this.turretMotor = new TalonSRX(0);
-		this.turretMotor.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition, 0, 0);
+		this.turretMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
+		this.turretMotor.setSelectedSensorPosition(neutralEncoder);
 		this.turretPID = new BasicPID(this.p, this.i, this.d);
 		this.turretPID.setSetPoint(this.neutralEncoder);
-		//this.turretEncoder = new Encoder(0, 0);
+		this.hoodServo = new Servo(0);
 		this.lm = new Limelight();
 	}
 
-	private void setTurretMotorPower(double power){
+	private void setHoodServo(double angle){
+		this.hoodServo.set(angle);
+	}
+
+	private double convertHoodAngle(double desiredAngle){
+		double valuesPerAngle = (maxServo - minServo)/(maxServoAngle - minServoAngle);
+		return (desiredAngle*valuesPerAngle);
+	}
+
+	public double getHoodAngle(){
+		return this.hoodServo.getAngle();
+	}
+
+	public void setHoodAngle(double desiredAngle){
+		this.setHoodServo(this.convertHoodAngle(desiredAngle));
+	}
+
+	public void setTurretMotorPower(double power){
 		this.turretMotor.set(ControlMode.PercentOutput,power);
 	}
 
@@ -63,9 +92,24 @@ public class TurretSubsystem extends Subsystem {
 		}
 	}
 
+	public double getTurretSetPoint(){
+		return this.turretPID.getSetPoint();
+	}
+
+	public double getTurretPower(){
+		return this.turretMotor.getMotorOutputPercent();
+	}
+
 	public void driveTurretPID(){
-		double power = this.turretPID.getPower(this.getTurretEncoderValue());
-		this.setTurretMotorPower(power);
+		//System.out.println(Math.abs(Math.abs(this.getTurretSetPoint()) - Math.abs(this.getTurretEncoderValue() )));
+		if(Math.abs(Math.abs(this.getTurretSetPoint()) - Math.abs(this.getTurretEncoderValue() )) > 10){
+			double power = this.turretPID.getPower(this.getTurretEncoderValue());
+			System.out.println((-power)*visionMaxPow);
+			this.setTurretMotorPower((-power)*maxPow);
+		}else{
+			System.out.println("Turret Within Range");
+			this.setTurretMotorPower(0);
+		}
 	}
 
 	public int getTurretEncoderValue(){
