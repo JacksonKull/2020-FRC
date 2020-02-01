@@ -12,6 +12,7 @@ import org.usfirst.frc.team4944.robot.commands.ExampleCommand;
 import org.usfirst.frc.team4944.robot.custom.XboxController;
 import org.usfirst.frc.team4944.robot.subsystems.DriveSystem;
 import org.usfirst.frc.team4944.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team4944.robot.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.TurretSubsystem;
 
 
@@ -24,6 +25,7 @@ public class Robot extends TimedRobot {
 	// SUBSYSTEMS
 	//DriveSystem driveSystem;
 	TurretSubsystem turret;
+	ShooterSubsystem shooter;
 	//SmartDashboard Values
 	double turretEncoder;
 
@@ -35,6 +37,7 @@ public class Robot extends TimedRobot {
 		
 		// SUBSYSTEMS INIT
 		turret = new TurretSubsystem();
+		shooter = new ShooterSubsystem();
 		//driveSystem = new DriveSystem();
 		
 		//SmartDashboard
@@ -75,8 +78,10 @@ public class Robot extends TimedRobot {
 		double Y = driver.getLeftStickY();
 		double X = driver.getRightStickX();
 		
-		if(driver.getDpadPressed()){
-			turret.setAngle(driver.getDpadAngle());
+		if(driver.getAButton()){
+			turret.setHoodAngle(180);
+		}else if(driver.getBButton()){
+			turret.setHoodAngle(-180);
 		}
 		this.updateValues();
 	}
@@ -86,13 +91,19 @@ public class Robot extends TimedRobot {
 	}
 
 	public void updateValues(){
-		turret.driveTurretPID();	
+		turret.followLimelight();
+		turret.driveTurretPID();
 		this.SmartDashboardDisplay();
 	}
 
 	public void SmartDashboardDisplay(){
 		SmartDashboard.putNumber("Turret Encoder", turret.getTurretEncoderValue());
 		SmartDashboard.putNumber("Limelight Y Offset", turret.lm.getYOffset());
+		SmartDashboard.putBoolean("Limelight Connection:", turret.lm.getLimeLightConnected());
 		SmartDashboard.putNumber("Distance From Target", turret.lm.getDistInFeet());
+		SmartDashboard.putNumber("Turret SetPoint", turret.getTurretSetPoint());
+		SmartDashboard.putNumber("Turret Power", turret.getTurretPower());
+		SmartDashboard.putNumber("Limelight X Offset", turret.lm.getXOffset());
+		SmartDashboard.putNumber("Hood Angle", turret.getHoodAngle());
 	}
 }
