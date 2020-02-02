@@ -1,17 +1,12 @@
 package org.usfirst.frc.team4944.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team4944.robot.commands.ExampleCommand;
 import org.usfirst.frc.team4944.robot.custom.XboxController;
 import org.usfirst.frc.team4944.robot.subsystems.DriveSystem;
-import org.usfirst.frc.team4944.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.TurretSubsystem;
 
@@ -23,7 +18,7 @@ public class Robot extends TimedRobot {
 	XboxController driver;
 	XboxController operator;
 	// SUBSYSTEMS
-	//DriveSystem driveSystem;
+	DriveSystem driveSystem;
 	TurretSubsystem turret;
 	ShooterSubsystem shooter;
 	//SmartDashboard Values
@@ -38,7 +33,7 @@ public class Robot extends TimedRobot {
 		// SUBSYSTEMS INIT
 		turret = new TurretSubsystem();
 		shooter = new ShooterSubsystem();
-		//driveSystem = new DriveSystem();
+		driveSystem = new DriveSystem();
 		
 		//SmartDashboard
 		this.SmartDashboardDisplay();
@@ -74,15 +69,12 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run(); // KEEP HERE TO RUN COMMANDS
-		
+		// Drive Code
 		double Y = driver.getLeftStickY();
 		double X = driver.getRightStickX();
+		this.driveSystem.setPower(X + Y, X - Y);
 		
-		if(driver.getAButton()){
-			turret.setHoodAngle(180);
-		}else if(driver.getBButton()){
-			turret.setHoodAngle(-180);
-		}
+		// Update Values
 		this.updateValues();
 	}
 
@@ -91,19 +83,21 @@ public class Robot extends TimedRobot {
 	}
 
 	public void updateValues(){
-		turret.followLimelight();
-		turret.driveTurretPID();
-		this.SmartDashboardDisplay();
+		turret.followLimelight(); // Uses the limelight to change the set points on the turret
+		turret.driveTurretPID(); // Drives the turret motors based off of the current set point
+		this.SmartDashboardDisplay(); // Displays all Smartdashboard Values
 	}
 
 	public void SmartDashboardDisplay(){
-		SmartDashboard.putNumber("Turret Encoder", turret.getTurretEncoderValue());
-		SmartDashboard.putNumber("Limelight Y Offset", turret.lm.getYOffset());
-		SmartDashboard.putBoolean("Limelight Connection:", turret.lm.getLimeLightConnected());
-		SmartDashboard.putNumber("Distance From Target", turret.lm.getDistInFeet());
+		// Turret
 		SmartDashboard.putNumber("Turret SetPoint", turret.getTurretSetPoint());
+		SmartDashboard.putNumber("Turret Encoder", turret.getTurretEncoderValue());
 		SmartDashboard.putNumber("Turret Power", turret.getTurretPower());
-		SmartDashboard.putNumber("Limelight X Offset", turret.lm.getXOffset());
 		SmartDashboard.putNumber("Hood Angle", turret.getHoodAngle());
+		// Limelight
+		SmartDashboard.putNumber("Limelight Y Offset", turret.lm.getYOffset());
+		SmartDashboard.putNumber("Limelight X Offset", turret.lm.getXOffset());
+		SmartDashboard.putNumber("Distance From Target", turret.lm.getDistInFeet());
+		SmartDashboard.putBoolean("Limelight Connection:", turret.lm.getLimeLightConnected());
 	}
 }
