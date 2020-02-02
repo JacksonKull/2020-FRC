@@ -1,26 +1,20 @@
 package org.usfirst.frc.team4944.robot.subsystems;
 
-import org.usfirst.frc.team4944.robot.custom.Motor;
-import org.usfirst.frc.team4944.robot.custom.MotorType;
 import org.usfirst.team4944.robot.PID.BasicPID;
 import org.usfirst.team4944.robot.PID.DrivePID;
-
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
-
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 
 public class DriveSystem {
-
-	// CHASSIS SIDES
-	ChassisSide leftSide;
-	ChassisSide rightSide;
+	//NOAH is a poopy head
 	// MOTORS
-	Motor leftMotor1;
-	Motor rightMotor1;
-	// ENCODERS
-	Encoder leftEncoder;
-	Encoder rightEncoder;
+	TalonSRX leftMotor1;
+	TalonSRX leftMotor2;
+	TalonSRX rightMotor1;
+	TalonSRX rightMotor2;
 	// GYRO
 	AHRS gyro;
 	// DRIVE PIDS
@@ -31,32 +25,27 @@ public class DriveSystem {
 	
 	public DriveSystem() {
 		// MOTORS
-		leftMotor1 = new Motor(MotorType.Talon, 0);
-		rightMotor1 = new Motor(MotorType.Talon, 0);
+		leftMotor1 = new TalonSRX(0);
+		leftMotor2 = new TalonSRX(1);
+		rightMotor1 = new TalonSRX(2);
+		rightMotor2 = new TalonSRX(3);
 		// ENCODERS
-		//leftEncoder = new Encoder(0, 0);
-		//rightEncoder = new Encoder(0, 0);
+		leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+		rightMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
 		// GYRO
 		gyro = new AHRS(Port.kUSB1);
-		// CHASSIS SIDE
-		leftSide = new ChassisSide(leftEncoder);
-		leftSide.addMotor(leftMotor1);
-		rightSide = new ChassisSide(rightEncoder);
-		rightSide.addMotor(rightMotor1);
-		// DRIVE PIDS
-		leftPID = new DrivePID(1/500, 1/500, 1/500, -50, 50);
-		rightPID = new DrivePID(1/500, 1/500, 1/500, -50, 50);
 		// ANGLE PID
 		anglePID = new BasicPID(1/500, 1/500, 1/500);
-	
 	}
 	
 	public void setLeftPower(double power) {
-		leftSide.setPower(power);
+		leftMotor1.set(ControlMode.PercentOutput, power);
+		leftMotor2.set(ControlMode.PercentOutput, power);
 	}
 	
 	public void setRightPower(double power) {
-		rightSide.setPower(power);
+		rightMotor1.set(ControlMode.PercentOutput, power);
+		rightMotor2.set(ControlMode.PercentOutput, power);
 	}
 	
 	public void setPower(double lPower, double rPower) {
@@ -69,11 +58,11 @@ public class DriveSystem {
 	}
 	
 	public int getLeftEncoder() {
-		return leftEncoder.get();
+		return leftMotor1.getSelectedSensorPosition();
 	}
 	
 	public int getRightEncoder() {
-		return rightEncoder.get();
+		return rightMotor1.getSelectedSensorPosition();
 	}
 	
 	public double getLeftSpeed() {
