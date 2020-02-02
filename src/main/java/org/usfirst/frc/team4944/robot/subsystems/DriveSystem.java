@@ -9,8 +9,9 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SerialPort.Port;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class DriveSystem {
+public class DriveSystem extends Subsystem{
 
 	// CHASSIS SIDES
 	ChassisSide leftSide;
@@ -82,6 +83,16 @@ public class DriveSystem {
 	
 	public double getRightSpeed() {
 		return 0;
+	}
+
+	public void stop(){
+		setPower(0, 0);
+	}
+
+	@Override
+	protected void initDefaultCommand() {
+		// TODO Auto-generated method stub
+
 	}
 	
 }
