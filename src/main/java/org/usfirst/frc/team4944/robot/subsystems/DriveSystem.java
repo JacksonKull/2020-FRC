@@ -9,7 +9,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 
 public class DriveSystem {
-	//NOAH is a poopy head
+	//Cus your a loser
 	// MOTORS
 	TalonSRX leftMotor1;
 	TalonSRX leftMotor2;
