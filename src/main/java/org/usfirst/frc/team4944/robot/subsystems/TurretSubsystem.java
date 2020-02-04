@@ -52,9 +52,9 @@ public class TurretSubsystem extends Subsystem {
 	final double d = 0;
 
 	public TurretSubsystem(){
-		this.turretMotor = new TalonSRX(0);
-		this.turretMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
-		this.turretMotor.setSelectedSensorPosition(neutralEncoder);
+		this.turretMotor = new TalonSRX(6);
+		//this.turretMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
+		//this.turretMotor.setSelectedSensorPosition(neutralEncoder);
 		this.turretPID = new BasicPID(this.p, this.i, this.d);
 		this.turretPID.setSetPoint(this.neutralEncoder);
 		this.hoodServo = new Servo(0);
@@ -97,7 +97,7 @@ public class TurretSubsystem extends Subsystem {
 	}
 
 	public double getTurretPower(){
-		return this.turretMotor.getMotorOutputPercent();
+		return 0;//this.turretMotor.getMotorOutputPercent();
 	}
 
 	public void driveTurretPID(){
@@ -113,7 +113,7 @@ public class TurretSubsystem extends Subsystem {
 	}
 
 	public int getTurretEncoderValue(){
-		return this.turretMotor.getSelectedSensorPosition();
+		return 0;//this.turretMotor.getSelectedSensorPosition();
 	}
 
 	//Returns if the shooter is within lineup range
