@@ -42,17 +42,22 @@ public class ShootingCommandGroup extends CommandGroup {
 
   @Override
 	protected boolean isFinished() {
+    if(this.ended){
+      System.out.println("Is Finished Is True");
+    }
 		return this.ended;
 	}
 
 	@Override
 	protected void end() {
+    System.out.println("End Activated");
     addSequential(new ShootingFinished());
     this.ended = false;
 	}
 
   @Override
 	protected void interrupted() {
+    System.out.println("Interrupted");
     cancel();
     this.ended = true;
   }
