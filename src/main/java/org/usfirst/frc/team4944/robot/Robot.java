@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team4944.robot.custom.XboxController;
 import org.usfirst.frc.team4944.robot.subsystems.DriveSystem;
+import org.usfirst.frc.team4944.robot.subsystems.HopperSubsystem;
+import org.usfirst.frc.team4944.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.TurretSubsystem;
 
@@ -18,22 +20,28 @@ public class Robot extends TimedRobot {
 	XboxController driver;
 	XboxController operator;
 	// SUBSYSTEMS
+	OI oi;
 	DriveSystem driveSystem;
 	TurretSubsystem turret;
 	ShooterSubsystem shooter;
+	IntakeSubsystem intake;
+	HopperSubsystem hopper;
 	//SmartDashboard Values
 	double turretEncoder;
 
 	@Override
 	public void robotInit() {
 		// CONTROLLERS INIT
-		driver = new XboxController(0);
-		operator = new XboxController(1);
+		this.driver = new XboxController(0);
+		this.operator = new XboxController(1);
 		
 		// SUBSYSTEMS INIT
-		turret = new TurretSubsystem();
-		shooter = new ShooterSubsystem();
-		driveSystem = new DriveSystem();
+		this.oi = new OI();
+		this.turret = new TurretSubsystem();
+		this.shooter = new ShooterSubsystem();
+		this.driveSystem = new DriveSystem();
+		this.hopper = new HopperSubsystem();
+		this.intake = new IntakeSubsystem();
 		
 		//SmartDashboard
 		this.SmartDashboardDisplay();
@@ -70,10 +78,25 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run(); // KEEP HERE TO RUN COMMANDS
 		// Drive Code
-		double Y = driver.getLeftStickY();
+		double Y = -driver.getLeftStickY();
 		double X = driver.getRightStickX();
 		this.driveSystem.setPower(X + Y, X - Y);
-		
+/*
+		if(this.driver.getAButton()){
+			this.shooter.setManualShooterPower(0.7);
+			this.hopper.setFeedMotor(0.75);
+			this.hopper.setHopperMotor(0.75);
+		}else{
+			this.shooter.setManualShooterPower(0);
+			this.hopper.setFeedMotor(0);
+			this.hopper.setHopperMotor(0);
+		}
+		if(this.driver.getBButton()){
+			this.intake.setIntakeMotor(0.75);
+		}else{
+			this.intake.setIntakeMotor(0);
+		}
+*/
 		// Update Values
 		this.updateValues();
 	}
@@ -84,7 +107,7 @@ public class Robot extends TimedRobot {
 
 	public void updateValues(){
 		turret.followLimelight(); // Uses the limelight to change the set points on the turret
-		turret.driveTurretPID(); // Drives the turret motors based off of the current set point
+		//turret.driveTurretPID(); // Drives the turret motors based off of the current set point
 		this.SmartDashboardDisplay(); // Displays all Smartdashboard Values
 	}
 

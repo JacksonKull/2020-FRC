@@ -43,12 +43,18 @@ public class XboxController extends Joystick{
 	public void addCommandToA(Command c) {
 		A.whenPressed(c);
 	}
+	public void addWhenReleasedToA(Command c){
+		A.whenReleased(c);
+	}
 	public boolean getAButton() {
 		return this.getRawButton(1);
 	}
 	// B BUTTON
 	public void addCommandToB(Command c) {
 		B.whenPressed(c);
+	}
+	public void addWhenReleasedToB(Command c){
+		B.whenReleased(c);
 	}
 	public boolean getBButton() {
 		return this.getRawButton(2);
@@ -57,13 +63,18 @@ public class XboxController extends Joystick{
 	public void addCommandToX(Command c) {
 		X.whenPressed(c);
 	}
-	
+	public void addWhenReleasedToX(Command c){
+		X.whenPressed(c);
+	}
 	public boolean getXButton() {
 		return this.getRawButton(3);
 	}
 	// Y BUTTON
 	public void addCommandToY(Command c) {
 		Y.whenPressed(c);
+	}
+	public void addWhenReleasedToY(Command c){
+		Y.whenReleased(c);
 	}
 	public boolean getYButton() {
 		return this.getRawButton(4);
