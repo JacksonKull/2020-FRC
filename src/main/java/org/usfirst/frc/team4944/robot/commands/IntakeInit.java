@@ -19,13 +19,14 @@ public class IntakeInit extends InstantCommand {
   public IntakeInit(double power) {
     super();
     this.intake = new IntakeSubsystem();
-    requires(intake);
     this.intakePower = power;
+    requires(intake);
   }
 
   // Called once when the command executes
   @Override
   protected void initialize() {
+    System.out.println("Intake Begining");
     this.intake.setIntakeMotor(this.intakePower);
   }
 

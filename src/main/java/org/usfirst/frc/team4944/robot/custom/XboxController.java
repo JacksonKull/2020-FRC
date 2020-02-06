@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class XboxController extends Joystick{
 	Button A, B, X, Y, leftBumper, rightBumper, leftMenu, rightMenu, leftStick, rightStick;
 	POVButton dpad0, dpadn45, dpadn90,dpadn135,dpadp45,dpadp90,dpadp135;
+	Boolean AToggle, BToggle, XToggle, YToggle;
 	public XboxController(int port) {
 		super(port);
 		this.A = new JoystickButton(this, 1);
@@ -38,6 +39,10 @@ public class XboxController extends Joystick{
 		this.dpadn45 = new POVButton(this, 315);
 		this.dpadn90 = new POVButton(this, 270);
 		this.dpadn135 = new POVButton(this, 225);
+		this.AToggle = false;
+		this.BToggle = false;
+		this.XToggle = false;
+		this.YToggle = false;
 	}
 	// A BUTTON
 	public void addCommandToA(Command c) {
@@ -46,8 +51,25 @@ public class XboxController extends Joystick{
 	public void addWhenReleasedToA(Command c){
 		A.whenReleased(c);
 	}
+	public void addWhenHeldToA(Command c){
+		A.whileHeld(c);
+	}
 	public boolean getAButton() {
 		return this.getRawButton(1);
+	}
+	public void toggleAButton(){
+		if(this.AToggle){
+			this.AToggle = false;
+		}else if(!this.AToggle){
+			this.AToggle = true;
+		}
+	}
+	public boolean getAToggle(){
+		if(this.AToggle){
+			return true;
+		}else{
+			return false;
+		}
 	}
 	// B BUTTON
 	public void addCommandToB(Command c) {
@@ -56,8 +78,25 @@ public class XboxController extends Joystick{
 	public void addWhenReleasedToB(Command c){
 		B.whenReleased(c);
 	}
+	public void addWhenHeldToB(Command c){
+		B.whileHeld(c);
+	}
 	public boolean getBButton() {
 		return this.getRawButton(2);
+	}
+	public void toggleBButton(){
+		if(this.BToggle){
+			this.BToggle = false;
+		}else if(!this.BToggle){
+			this.BToggle = true;
+		}
+	}
+	public boolean getBToggle(){
+		if(this.BToggle){
+			return true;
+		}else{
+			return false;
+		}
 	}
 	// X BUTTON
 	public void addCommandToX(Command c) {
@@ -69,6 +108,9 @@ public class XboxController extends Joystick{
 	public boolean getXButton() {
 		return this.getRawButton(3);
 	}
+	public void addWhenHeldToX(Command c){
+		X.whileHeld(c);
+	}
 	// Y BUTTON
 	public void addCommandToY(Command c) {
 		Y.whenPressed(c);
@@ -78,6 +120,9 @@ public class XboxController extends Joystick{
 	}
 	public boolean getYButton() {
 		return this.getRawButton(4);
+	}
+	public void addWhenHeldToY(Command c){
+		Y.whileHeld(c);
 	}
 	// LEFT BUMPER
 	public void addCommandToLeftBumper(Command c) {

@@ -14,10 +14,10 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 
 public class UnstickBall extends CommandGroup {
   public UnstickBall() {
-    addSequential(new UnstickBallInit(-0.5));
-    addSequential(new WaitCommand(0.25));
+    addSequential(new UnstickBallInit(-0.75));
+    addSequential(new WaitCommand(10));
     addSequential(new UnstickBallMid(0.75));
-    addSequential(new WaitCommand(0.25));
+    addSequential(new WaitCommand(0.75));
     addSequential(new UnstickBallFinish());
   }
 }

@@ -16,15 +16,15 @@ public class IntakingFinished extends InstantCommand {
   IntakeSubsystem intake;
 
   public IntakingFinished() {
-    super(); 
+    super();
     this.intake = new IntakeSubsystem();
-    requires(intake);
+    requires(intake); 
   }
 
   // Called once when the command executes
   @Override
   protected void initialize() {
+    System.out.println("Intakeing Finished");
     this.intake.setIntakeMotor(0);
   }
-
 }
