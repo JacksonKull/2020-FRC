@@ -21,19 +21,20 @@ public class OI {
     public OI() {
         this.driver = new XboxController(0);
         this.operator = new XboxController(1);
-
-        if(!(this.getDriverAButtonToggle)){
-            this.driver.addCommandToA(new ShooterSpinUpInit(0.75));
-        }else if(this.getDriverAButtonToggle){
-            this.driver.addWhenReleasedToA(new ShooterSpinDown());
-        }
-
-        this.driver.addCommandToB(new IntakeInit(0.9));
-        this.driver.addWhenReleasedToB(new IntakingFinished());
-
+        
+        //A Button Shooter Control
+        //this.driver.addWhenHeldToA(new ShooterSpinUpInit(0.75));
+        //this.driver.addWhenReleasedToA(new ShooterSpinDown());
+        
+        //B Button Intake Control
+        //this.driver.addWhenHeldToB(new IntakeInit(0.9));
+        //this.driver.addWhenReleasedToB(new IntakingFinished());
+        
+        //X Button Ustick Ball
         this.driver.addCommandToX(new UnstickBall());
-
-        this.driver.addCommandToY(new FeederBegin(0.5, 0.5));
+        
+        //Y Button Feeder Control
+        this.driver.addWhenHeldToY(new FeederBegin(0.5, 0.5));
         this.driver.addWhenReleasedToY(new FeederFinished());
 
         /*
@@ -44,13 +45,4 @@ public class OI {
         driver.addWhenReleasedToB(new IntakingFinished());
         */
     }
-
-    public void setDriverAButton(boolean position){
-        this.getDriverAButtonToggle = position;
-    }
-
-    public boolean getDriverAButtonToggle(){
-        return this.getDriverAButtonToggle;
-    }
-
 }

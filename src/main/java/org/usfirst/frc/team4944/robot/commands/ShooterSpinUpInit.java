@@ -20,7 +20,6 @@ public class ShooterSpinUpInit extends InstantCommand {
 
   public ShooterSpinUpInit(double shooterPow) {
     super();
-    this.oi = new OI();
     this.shooter = new ShooterSubsystem();
     this.requires(shooter);
     this.shooterPower = shooterPow;
@@ -29,7 +28,6 @@ public class ShooterSpinUpInit extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    this.oi.setDriverAButton(true);
     this.shooter.setManualShooterPower(this.shooterPower);
   }
 }

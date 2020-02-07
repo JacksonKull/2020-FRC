@@ -22,7 +22,6 @@ public class ShooterSpinDown extends InstantCommand {
 
   public ShooterSpinDown() {
     super();
-    this.oi = new OI();
     this.shooter = new ShooterSubsystem();
     this.requires(shooter);
   }
@@ -30,7 +29,6 @@ public class ShooterSpinDown extends InstantCommand {
   // Called once when the command executes
   @Override
   protected void initialize() {
-    this.oi.setDriverAButton(false);
     this.shooter.setManualShooterPower(0.0);
   }
 
