@@ -42,17 +42,18 @@ public class TurretSubsystem extends Subsystem {
 	//Total Range of 2532
 	final double minAngle = -90;
 	final double maxAngle = 90;
-	final double maxPow = 0.35;
+	final double maxPow = 0.15;
 	final double visionMaxPow = 0.15;
 	//PID
 	BasicPID turretPID;
-	final double visionP = .006;
-	final double p = .006;
+	//final double visionP = .58;
+	final double visionP = .28;
+	final double p = .05;
 	final double i = 0;
 	final double d = 0;
 
 	public TurretSubsystem(){
-		this.turretMotor = new TalonSRX(0);
+		this.turretMotor = new TalonSRX(6);
 		this.turretMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
 		this.turretMotor.setSelectedSensorPosition(neutralEncoder);
 		this.turretPID = new BasicPID(this.p, this.i, this.d);
@@ -101,14 +102,22 @@ public class TurretSubsystem extends Subsystem {
 	}
 
 	public void driveTurretPID(){
-		//System.out.println(Math.abs(Math.abs(this.getTurretSetPoint()) - Math.abs(this.getTurretEncoderValue() )));
-		if(Math.abs(Math.abs(this.getTurretSetPoint()) - Math.abs(this.getTurretEncoderValue() )) > 10){
+		System.out.println(Math.abs(Math.abs(this.getTurretSetPoint()) - Math.abs(this.getTurretEncoderValue() )) + " Difference");
+		if(Math.abs(Math.abs(this.getTurretSetPoint()) - Math.abs(this.getTurretEncoderValue() )) > 0.5){
 			double power = this.turretPID.getPower(this.getTurretEncoderValue());
-			System.out.println((-power)*visionMaxPow);
+			System.out.println((-power)*visionMaxPow + " Power");
 			this.setTurretMotorPower((-power)*maxPow);
 		}else{
 			System.out.println("Turret Within Range");
 			this.setTurretMotorPower(0);
+		}
+	}
+
+	public void followLimelightNoEncoder(){
+		if(lm.getTargetVisible()){
+			double turPow = lm.getXOffset()*visionP;
+			System.out.println(turPow*maxPow);
+			this.setTurretMotorPower((-turPow)*this.maxPow);
 		}
 	}
 
@@ -118,13 +127,16 @@ public class TurretSubsystem extends Subsystem {
 
 	//Returns if the shooter is within lineup range
 	public boolean followLimelight(){
-		if(!lm.getTargetVisible()){return false;}
-		if(Math.abs(lm.getXOffset()) < 1){
+		System.out.println(lm.getTargetVisible());
+		if(!lm.getTargetVisible()){
+			return false;
+		}else if(Math.abs(lm.getXOffset()) < 1){
 			this.setTurretSetPoint(this.getTurretEncoderValue());
 			return true;
+		}else{
+			this.addAngle(lm.getXOffset());
+			return false;
 		}
-		this.addAngle(lm.getXOffset());
-		return true;
 	}
 
 	private int convertAngleToEncoder(double desiredAngle){

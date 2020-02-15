@@ -46,7 +46,7 @@ public class Limelight {
     }
 
     public boolean getTargetVisible(){
-        if(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getValue().getDouble() > 1){
+        if(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getValue().getDouble() == 1){
             return true;
         }else{
             return false;

@@ -32,10 +32,10 @@ public class ShooterSubsystem extends Subsystem {
 
 	public ShooterSubsystem(){
 		// Motors
-		//this.shooterMotor1 = new TalonFX(1);
+		this.shooterMotor1 = new TalonFX(17);
 		//this.shooterMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
-		//this.shooterMotor1.setInverted(true);
-		//this.shooterMotor2 = new TalonFX(2);
+		this.shooterMotor1.setInverted(true);
+		this.shooterMotor2 = new TalonFX(12);
 		// PID
 		this.shooterPID = new BasicPID(p, i, d);
 	}
@@ -46,8 +46,13 @@ public class ShooterSubsystem extends Subsystem {
 		this.shooterMotor2.set(ControlMode.Velocity, velocity);
 	}
 
+	public void setManualShooterPower(double power){
+		this.shooterMotor1.set(ControlMode.PercentOutput, power);
+		this.shooterMotor2.set(ControlMode.PercentOutput, power);
+	}
+
 	public double getRPM(){
-		return (shooterMotor1.getSelectedSensorVelocity()/ticksPerRevolution)*600;
+		return 0;//(shooterMotor1.getSelectedSensorVelocity()/ticksPerRevolution)*600;
 	}
 
 	public void initDefaultCommand() {

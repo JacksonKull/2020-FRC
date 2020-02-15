@@ -24,15 +24,19 @@ public class DriveSystem {
 	
 	public DriveSystem() {
 		// MOTORS
-		leftMotor1 = new TalonSRX(0);
-		leftMotor2 = new TalonSRX(1);
-		rightMotor1 = new TalonSRX(2);
-		rightMotor2 = new TalonSRX(3);
+		leftMotor1 = new TalonSRX(9);
+		leftMotor1.setInverted(false);
+		leftMotor2 = new TalonSRX(7);
+		leftMotor2.setInverted(false);
+		rightMotor1 = new TalonSRX(3);
+		rightMotor1.setInverted(false);
+		rightMotor2 = new TalonSRX(4);
+		rightMotor2.setInverted(false);
 		// ENCODERS
-		leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
-		rightMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+		//leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+		//rightMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
 		// GYRO
-		gyro = new AHRS(Port.kUSB1);
+		//gyro = new AHRS(Port.kUSB1);
 		// ANGLE PID
 		anglePID = new BasicPID(1/500, 1/500, 1/500);
 	}
@@ -57,11 +61,13 @@ public class DriveSystem {
 	}
 	
 	public int getLeftEncoder() {
-		return leftMotor1.getSelectedSensorPosition();
+		return 0;
+		//leftMotor1.getSelectedSensorPosition();
 	}
 	
 	public int getRightEncoder() {
-		return rightMotor1.getSelectedSensorPosition();
+		return 0;
+		//rightMotor1.getSelectedSensorPosition();
 	}
 	
 	public double getLeftSpeed() {
