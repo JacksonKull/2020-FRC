@@ -12,6 +12,7 @@ import org.usfirst.frc.team4944.robot.commands.ShooterSpinDown;
 import org.usfirst.frc.team4944.robot.commands.ShooterSpinUpInit;
 import org.usfirst.frc.team4944.robot.custom.XboxController;
 import org.usfirst.frc.team4944.robot.subsystems.DriveSystem;
+import org.usfirst.frc.team4944.robot.subsystems.HoodSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.HopperSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.ShooterSubsystem;
@@ -19,8 +20,6 @@ import org.usfirst.frc.team4944.robot.subsystems.TurretSubsystem;
 
 
 public class Robot extends TimedRobot {
-	// SERIAL PORT
-	SerialPort serial;
 	// CONTROLLERS
 	XboxController driver;
 	XboxController operator;
@@ -31,11 +30,9 @@ public class Robot extends TimedRobot {
 	ShooterSubsystem shooter;
 	IntakeSubsystem intake;
 	HopperSubsystem hopper;
+	HoodSubsystem hood;
 	//SmartDashboard Values
 	double turretEncoder;
-	//Booleans
-	boolean prevAButton;
-	boolean prevBButton;
 
 	@Override
 	public void robotInit() {
@@ -50,13 +47,10 @@ public class Robot extends TimedRobot {
 		this.driveSystem = new DriveSystem();
 		this.hopper = new HopperSubsystem();
 		this.intake = new IntakeSubsystem();
+		this.hood = new HoodSubsystem();
 		
 		//SmartDashboard
 		this.SmartDashboardDisplay();
-
-		//Booleans
-		this.prevAButton = false;
-		this.prevBButton = false;
 	}
 
 	@Override
@@ -89,26 +83,31 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run(); // KEEP HERE TO RUN COMMANDS
+
 		// Drive Code
 		double Y = -driver.getLeftStickY();
 		double X = driver.getRightStickX();
-		//this.driveSystem.setPower(X + Y, X - Y);
+		this.driveSystem.setPower(X + Y, X - Y);
 
-		 //A Button Shooter Control
-		 if(!(this.driver.getAToggle())){
-            this.driver.addWhenHeldToA(new ShooterSpinUpInit(0.95));
-        }else if(!this.driver.getAToggle()){
-            this.driver.addWhenReleasedToA(new ShooterSpinDown());
-		}
-		//B Button Intake Control
-		if(!(this.driver.getBToggle())){
-            this.driver.addCommandToB(new IntakeInit(0.9));
-        }else if(!this.driver.getBToggle()){
-            this.driver.addWhenReleasedToB(new IntakingFinished());
-		}
+		this.hood.setHoodMotorPower(this.operator.getLeftStickY());
+
+		// //A Button Shooter Control
+		// if(!(this.driver.getAToggle())){
+        //     this.driver.addWhenHeldToA(new ShooterSpinUpInit(1.0));
+        // }else if(!this.driver.getAToggle()){
+        //     this.driver.addWhenReleasedToA(new ShooterSpinDown());
+		// }
+		// //B Button Intake Control
+		// if(!(this.driver.getBToggle())){
+        //     this.driver.addCommandToB(new IntakeInit(0.9));
+        // }else if(!this.driver.getBToggle()){
+        //     this.driver.addWhenReleasedToB(new IntakingFinished());
+		// }
 
 		// Update Values
 		this.updateValues();
+		this.SmartDashboardDisplay();
+		this.oi.updateCommands();
 	}
 
 	@Override
@@ -116,30 +115,36 @@ public class Robot extends TimedRobot {
 	}
 
 	public void updateValues(){
-		//Toggles A Button (Needs to be fully transfered into XboxController Class) TODO
-		if(this.driver.getAButton() && !prevAButton){this.driver.toggleAButton();this.prevAButton = true;}
-		else if(!this.driver.getAButton() && prevAButton){this.prevAButton = false;}
-		
-		//Toggles B Button (Needs to be fully transfered into XboxController Class) TODO
-		if(this.driver.getBButton() && !prevBButton){this.driver.toggleBButton();this.prevBButton = true;}
-		else if(!this.driver.getBButton() && prevBButton){this.prevBButton = false;}
-		
+		//System.out.println(this.hood.getHoodEncoderValue());
+		// if(this.driver.getRightBumper()){
+		// 	this.turret.setTurretAngle(25);
+		// }else if(this.driver.getLeftBumper()){
+		// 	this.turret.setTurretAngle(45);
+		// }
+		if(this.operator.getAButton()){
+			this.turret.followLimelightNoEncoder();
+		}else if(!this.operator.getAButton()){
+			this.turret.setTurretMotorPower(0);
+		}
 		//turret.followLimelight(); // Uses the limelight to change the set points on the turret
-		//turret.driveTurretPID();
-		turret.followLimelightNoEncoder();
+		//turret.driveTurretPID(); // Sets the turrets Power using a PID loop
+		//this.hood.driveHoodPID();
 		this.SmartDashboardDisplay(); // Displays all Smartdashboard Values
 	}
 
 	public void SmartDashboardDisplay(){
 		// Turret
-		SmartDashboard.putNumber("Turret SetPoint", turret.getTurretSetPoint());
-		SmartDashboard.putNumber("Turret Encoder", turret.getTurretEncoderValue());
-		SmartDashboard.putNumber("Turret Power", turret.getTurretPower());
-		SmartDashboard.putNumber("Hood Angle", turret.getHoodAngle());
+		// SmartDashboard.putNumber("Turret SetPoint", this.turret.getTurretSetPoint());
+		//SmartDashboard.putNumber("Turret Encoder", this.turret.getTurretEncoderValue());
+		// SmartDashboard.putNumber("Turret Power", this.turret.getTurretPower());
+		// SmartDashboard.putNumber("Hood Angle", this.turret.getHoodAngle());
+		SmartDashboard.putNumber("Hood Encoder", this.hood.getHoodEncoderValue());
+		SmartDashboard.putNumber("Hood SetPoint", this.hood.getHoodSetPoint());
+		SmartDashboard.putNumber("Hood Power", this.hood.getHoodMotorPower());
 		// Limelight
-		SmartDashboard.putNumber("Limelight Y Offset", turret.lm.getYOffset());
-		SmartDashboard.putNumber("Limelight X Offset", turret.lm.getXOffset());
-		SmartDashboard.putNumber("Distance From Target", turret.lm.getDistInFeet());
-		SmartDashboard.putBoolean("Limelight Connection:", turret.lm.getLimeLightConnected());
+		// SmartDashboard.putNumber("Limelight Y Offset", turret.lm.getYOffset());
+		// SmartDashboard.putNumber("Limelight X Offset", turret.lm.getXOffset());
+		// SmartDashboard.putNumber("Distance From Target", turret.lm.getDistInFeet());
+		// SmartDashboard.putBoolean("Limelight Connection:", turret.lm.getLimeLightConnected());
 	}
 }

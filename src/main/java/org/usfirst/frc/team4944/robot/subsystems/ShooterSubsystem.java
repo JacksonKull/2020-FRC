@@ -55,6 +55,10 @@ public class ShooterSubsystem extends Subsystem {
 		return 0;//(shooterMotor1.getSelectedSensorVelocity()/ticksPerRevolution)*600;
 	}
 
+	public double convertFPStoPercentOutput(double FPS){
+		return ((FPS - 15.19)/12.97);
+	}
+
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
