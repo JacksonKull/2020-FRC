@@ -89,7 +89,7 @@ public class Robot extends TimedRobot {
 		double X = driver.getRightStickX();
 		this.driveSystem.setPower(X + Y, X - Y);
 
-		this.hood.setHoodMotorPower(this.operator.getLeftStickY());
+		// this.hood.setHoodMotorPower(this.operator.getLeftStickY());
 
 		// //A Button Shooter Control
 		// if(!(this.driver.getAToggle())){
@@ -106,7 +106,6 @@ public class Robot extends TimedRobot {
 
 		// Update Values
 		this.updateValues();
-		this.SmartDashboardDisplay();
 		this.oi.updateCommands();
 	}
 
@@ -121,14 +120,24 @@ public class Robot extends TimedRobot {
 		// }else if(this.driver.getLeftBumper()){
 		// 	this.turret.setTurretAngle(45);
 		// }
-		if(this.operator.getAButton()){
-			this.turret.followLimelightNoEncoder();
-		}else if(!this.operator.getAButton()){
-			this.turret.setTurretMotorPower(0);
-		}
-		//turret.followLimelight(); // Uses the limelight to change the set points on the turret
-		//turret.driveTurretPID(); // Sets the turrets Power using a PID loop
-		//this.hood.driveHoodPID();
+
+		// if(this.operator.getAButton()){
+		// 	this.turret.followLimelightNoEncoder();
+		// }else if(!this.operator.getAButton()){
+		// 	this.turret.setTurretMotorPower(0);
+		// }
+
+		// this.turret.followLimelightNoEncoder();
+
+		// // System.out.println(this.hood.getVx() + " VX");
+		// // System.out.println(this.hood.getVy() + " VY");
+		// // System.out.println(this.hood.getRequiredAngle());
+		// // //turret.followLimelight(); // Uses the limelight to change the set points on the turret
+		// //turret.driveTurretPID(); // Sets the turrets Power using a PID loop
+		// this.shooter.updateValues();
+		// this.hood.updateValues();
+		// this.hood.setAngleByLM();
+		// this.hood.driveHoodPID();
 		this.SmartDashboardDisplay(); // Displays all Smartdashboard Values
 	}
 
@@ -141,10 +150,13 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Hood Encoder", this.hood.getHoodEncoderValue());
 		SmartDashboard.putNumber("Hood SetPoint", this.hood.getHoodSetPoint());
 		SmartDashboard.putNumber("Hood Power", this.hood.getHoodMotorPower());
+		SmartDashboard.putNumber("Set Hood Angle", this.hood.getRequiredAngle());
+		SmartDashboard.putNumber("Vx", this.hood.getVx());
+		SmartDashboard.putNumber("Vy", this.hood.getVy());
 		// Limelight
-		// SmartDashboard.putNumber("Limelight Y Offset", turret.lm.getYOffset());
-		// SmartDashboard.putNumber("Limelight X Offset", turret.lm.getXOffset());
-		// SmartDashboard.putNumber("Distance From Target", turret.lm.getDistInFeet());
+		SmartDashboard.putNumber("Limelight Y Offset", turret.lm.getYOffset());
+		SmartDashboard.putNumber("Limelight X Offset", turret.lm.getXOffset());
+		SmartDashboard.putNumber("Distance From Target", turret.lm.getDistInFeet());
 		// SmartDashboard.putBoolean("Limelight Connection:", turret.lm.getLimeLightConnected());
 	}
 }
