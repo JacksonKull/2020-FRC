@@ -16,6 +16,7 @@ import org.usfirst.frc.team4944.robot.commands.UnstickBallInit;
 import org.usfirst.frc.team4944.robot.custom.ToggleCommand;
 import org.usfirst.frc.team4944.robot.custom.TriggerCommand;
 import org.usfirst.frc.team4944.robot.custom.XboxController;
+import org.usfirst.frc.team4944.robot.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.TurretSubsystem;
 
 import edu.wpi.first.wpilibj.buttons.Trigger;
@@ -28,11 +29,17 @@ public class OI {
     TurretSubsystem turret;
     ToggleCommand toggleA, toggleB, toggleX, toggleY, toggleRB, toggleLB, toggleRT, toggleLT;
     TriggerCommand leftTrigger, rightTrigger;
+    ShooterSubsystem shooter;
+    double shooterFPS, shooterPower;
 
     public OI() {
         //Controllers
         this.driver = new XboxController(0);
         this.operator = new XboxController(1);
+        //Subsystem
+        this.shooter = new ShooterSubsystem();
+        //ShooterSpeed
+        this.shooterPower = this.shooter.convertFPStoPercentOutput(this.shooterFPS);
         //Button Toggles
         this.prevAButton = false;
         this.prevBButton = false;
@@ -54,16 +61,18 @@ public class OI {
         this.driver.addCommandToB(this.toggleB);
         
         //Toggle X
-        this.xCommandOn = null;
-        this.xCommandOff = null;
-        //this.toggleX = new ToggleCommand(this.xCommandOn, this.xCommandOff);
-        //this.driver.addCommandToX(this.toggleX);
+        this.xCommandOn = new OutTakeInit(-0.9);
+        this.xCommandOff = new OutTakingFinished();
+        this.toggleX = new ToggleCommand(this.xCommandOn, this.xCommandOff);
+        this.driver.addCommandToX(this.toggleX);
 
         //Toggle Y
-        this.yCommandOn = new OutTakeInit(-0.9);
-        this.yCommandOff = new OutTakingFinished();
-        this.toggleY = new ToggleCommand(this.yCommandOn, this.yCommandOff);
-        this.driver.addCommandToY(this.toggleY);
+        this.yCommandOn = new FeederBegin(0.7, 0.7);
+        this.yCommandOff = new FeederFinished();
+        this.driver.addWhenHeldToY(this.yCommandOn);
+        this.driver.addWhenReleasedToY(this.yCommandOff);
+        // this.toggleY = new ToggleCommand(this.yCommandOn, this.yCommandOff);
+        // this.driver.addCommandToY(this.toggleY);
         
         //Toggle RB
         this.rbCommandOn = null;
@@ -78,101 +87,26 @@ public class OI {
         //this.driver.addCommandToLeftBumper(this.toggleLB);
         
         //Toggle RT
-        this.rtCommandOn = new FeederBegin(0.5, 0.5);
-        this.rtCommandOff = new FeederFinished();
-        this.toggleRT = new ToggleCommand(this.rtCommandOn, this.rtCommandOff);
-        this.driver.addCommandToRightTrigger(this.toggleRT);
+        this.rtCommandOn = null;
+        this.rtCommandOff = null;
+        //this.toggleRT = new ToggleCommand(this.rtCommandOn, this.rtCommandOff);
+        //this.driver.addCommandToRightTrigger(this.toggleRT);
 
         //Toggle LT
-        this.ltCommandOn = new ShooterSpinUpInit(1.0);
+        //this.ltCommandOn = new ShooterSpinUpInit(this.shooter.getRequiredVelocity());
+        this.ltCommandOn = new ShooterSpinUpInit(0.75);
         this.ltCommandOff = new ShooterSpinDown();        
         this.toggleLT = new ToggleCommand(this.ltCommandOn, this.ltCommandOff);
         this.driver.addCommandToLeftTrigger(this.toggleLT);
     }
 
     public void updateCommands(){
-        // //Toggles A Button
-		// if(this.driver.getAButton() && !this.prevAButton){this.driver.toggleAButton();this.prevAButton = true;}
-        // else if(!this.driver.getAButton() && this.prevAButton){this.prevAButton = false;}
-        // //Toggles B Button
-		// if(this.driver.getBButton() && !this.prevBButton){this.driver.toggleBButton();this.prevBButton = true;}
-        // else if(!this.driver.getBButton() && this.prevBButton){this.prevBButton = false;this.driver.toggleBButton();}
-        // //Toggles X Button 
-        // if(this.driver.getXButton() && !this.prevXButton){this.driver.toggleXButton();this.prevXButton = true;}
-        // else if(!this.driver.getXButton() && this.prevXButton){this.prevXButton = false;}
-        // //Toggles Y Button
-        // if(this.driver.getYButton() && !this.prevYButton){this.driver.toggleYButton();this.prevYButton = true;}
-        // else if(!this.driver.getYButton() && this.prevYButton){this.prevYButton = false;}
-        // //Toggles RB Button
-        // if(this.driver.getRightBumper() && !this.prevRBButton){this.driver.toggleRBButton();this.prevRBButton = true;}
-        // else if(!this.driver.getRightBumper() && this.prevRBButton){this.prevRBButton = false;}
-        // //Toggles LB Button
-        // if(this.driver.getLeftBumper() && !this.prevLBButton){this.driver.toggleLBButton();this.prevLBButton = true;}
-        // else if(!this.driver.getLeftBumper() && this.prevLBButton){this.prevLBButton = false;}
-        // //Toggles RT Button
-        // // if(this.driver.getRightTriggerDown() && !this.prevRTButton){this.driver.toggleRTButton();this.prevRTButton = true;}
-        // // else if(!this.driver.getRightTriggerDown() && !this.prevRTButton){this.prevRTButton = false;}
-        // // //Toggles LT Button
-        // // if(this.driver.getLeftTriggerDown() && !this.prevLTButton){this.driver.toggleLTButton();this.prevLTButton = true;}
-        // // else if(!this.driver.getLeftTriggerDown() && !this.prevLTButton){this.prevLTButton = false;}
-        
-        // //Toggle A Commands
-        // if(!(this.driver.getAToggle())){
-        //     this.driver.addWhenHeldToA(this.aCommandOn);
-        // }else if(!this.driver.getAToggle()){
-        //     this.driver.addWhenReleasedToA(this.aCommandOff);
-		// }
-        // //Toggle B Commands
-        // // if(this.driver.getBToggle() && this.prevBButton){
-        // //     this.driver.addCommandToB(this.bCommandOn);
-        // // }else if(this.driver.getBToggle() && !this.prevBButton){
-        // //     this.driver.addWhenReleasedToB(this.bCommandOff);
-        // // }
-        // this.driver.addWhenPressed(new ToggleCommand(this.bCommandOn, this.bCommandOff));
-        // //Toggle X Commands
-        // if(!(this.driver.getXToggle())){
-        //     this.driver.addWhenHeldToX(this.xCommandOn);
-        // }else if(!this.driver.getXToggle()){
-        //     this.driver.addWhenReleasedToX(this.xCommandOff);
-		// }
-        // //Toggle Y Commands
-        // if(!(this.driver.getYToggle())){
-        //     this.driver.addWhenHeldToY(this.yCommandOn);
-        // }else if(!this.driver.getYToggle()){
-        //     this.driver.addWhenReleasedToY(this.yCommandOff);
-        // }
-        // //Toggle RB Commands
-        // if(!(this.driver.getRBToggle())){
-        //     this.driver.addWhenHeldToRightBumper(this.rbCommandOn);
-        // }else if(!this.driver.getRBToggle()){
-        //     this.driver.addWhenReleasedToRightBumper(this.rbCommandOff);
-        // }
-        // //Toggle LB Commands
-        // if(!(this.driver.getLBToggle())){
-        //     this.driver.addWhenHeldToLeftBumper(this.lbCommandOn);
-        // }else if(!this.driver.getLBToggle()){
-        //     this.driver.addWhenReleasedToLeftBumper(this.lbCommandOff);
-        // }
-        // //Toggle RT Commands
-        // if(this.driver.getRightTriggerDown() && !prevRTButton){
-        //     this.rtCommandOn.start();
-        //     this.turret.followLimelightNoEncoder();
-        // }else if(!this.driver.getRightTriggerDown() && prevRTButton){
-        //     this.rtCommandOff.start();
-        //     if(this.driver.getRightBumper()){
-        //         this.turret.setTurretMotorPower(0.5);
-        //     }else if(this.driver.getLeftBumper()){
-        //         this.turret.setTurretMotorPower(-0.5);
-        //     }else{
-        //         this.turret.setTurretMotorPower(0.0);
-        //     }
-        // }
-        // //Toggle LT Commands
-        // if(this.driver.getLeftTriggerDown() && !prevLTButton){
-        //     this.ltCommandOn.start();
-        // }else if(!this.driver.getLeftTriggerDown() && prevLTButton){
-        //     this.ltCommandOff.start();
-        // }
-         
+    //     this.shooter.updateValues();
+    //     //Toggle LT
+    //    // this.ltCommandOn = new ShooterSpinUpInit(this.shooter.getRequiredVelocity());
+    //     this.ltCommandOn = new ShooterSpinUpInit(1);
+    //     this.ltCommandOff = new ShooterSpinDown();        
+    //     this.toggleLT = new ToggleCommand(this.ltCommandOn, this.ltCommandOff);
+    //     this.driver.addCommandToLeftTrigger(this.toggleLT);         
     }
 }
