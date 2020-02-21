@@ -4,16 +4,17 @@ import org.usfirst.team4944.robot.PID.BasicPID;
 import org.usfirst.team4944.robot.PID.DrivePID;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 
 public class DriveSystem {
 	// MOTORS
-	TalonSRX leftMotor1;
-	TalonSRX leftMotor2;
-	TalonSRX rightMotor1;
-	TalonSRX rightMotor2;
+	TalonFX leftMotor1;
+	TalonFX leftMotor2;
+	TalonFX rightMotor1;
+	TalonFX rightMotor2;
 	// GYRO
 	AHRS gyro;
 	// DRIVE PIDS
@@ -21,29 +22,31 @@ public class DriveSystem {
 	DrivePID rightPID;
 	// GYRO PID
 	BasicPID anglePID;
+	//Constants
+	final double maxPow = 0.25;
 	
-	public DriveSystem() {
+	public DriveSystem(){
 		// MOTORS
-		leftMotor1 = new TalonSRX(9);
-		leftMotor1.setInverted(false);
-		leftMotor2 = new TalonSRX(7);
-		leftMotor2.setInverted(false);
-		rightMotor1 = new TalonSRX(3);
-		rightMotor1.setInverted(false);
-		rightMotor2 = new TalonSRX(4);
-		rightMotor2.setInverted(false);
+		this.leftMotor1 = new TalonFX(3);
+		this.leftMotor1.setInverted(false);
+		this.leftMotor2 = new TalonFX(4);
+		this.leftMotor2.setInverted(false);
+		this.rightMotor1 = new TalonFX(1);
+		this.rightMotor1.setInverted(false);
+		this.rightMotor2 = new TalonFX(2);
+		this.rightMotor2.setInverted(false);
 		// ENCODERS
-		//leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
-		//rightMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+		this.leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+		this.rightMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
 		// GYRO
-		//gyro = new AHRS(Port.kUSB1);
+		this.gyro = new AHRS(Port.kMXP);
 		// ANGLE PID
-		anglePID = new BasicPID(1/500, 1/500, 1/500);
+		this.anglePID = new BasicPID(1/500, 1/500, 1/500);
 	}
 	
 	public void setLeftPower(double power) {
-		leftMotor1.set(ControlMode.PercentOutput, power);
-		leftMotor2.set(ControlMode.PercentOutput, power);
+		this.leftMotor1.set(ControlMode.PercentOutput, power);
+		this.leftMotor2.set(ControlMode.PercentOutput, power);
 	}
 	
 	public void setRightPower(double power) {
@@ -52,8 +55,8 @@ public class DriveSystem {
 	}
 	
 	public void setPower(double lPower, double rPower) {
-		setLeftPower(lPower);
-		setRightPower(rPower);
+		setLeftPower(lPower*this.maxPow);
+		setRightPower(rPower*this.maxPow);
 	}
 	
 	public double getAngle() {
@@ -61,13 +64,11 @@ public class DriveSystem {
 	}
 	
 	public int getLeftEncoder() {
-		return 0;
-		//leftMotor1.getSelectedSensorPosition();
+		return leftMotor1.getSelectedSensorPosition();
 	}
 	
 	public int getRightEncoder() {
-		return 0;
-		//rightMotor1.getSelectedSensorPosition();
+		return rightMotor1.getSelectedSensorPosition();
 	}
 	
 	public double getLeftSpeed() {
