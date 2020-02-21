@@ -98,12 +98,12 @@ public class Robot extends TimedRobot {
 
 	public void SmartDashboardDisplay(){
 		SmartDashboard.putNumber("Turret Encoder", turret.getTurretEncoderValue());
-		SmartDashboard.putNumber("Limelight Y Offset", turret.lm.getYOffset());
-		SmartDashboard.putBoolean("Limelight Connection:", turret.lm.getLimeLightConnected());
-		SmartDashboard.putNumber("Distance From Target", turret.lm.getDistInFeet());
+	// 	SmartDashboard.putNumber("Limelight Y Offset", turret.lm.getYOffset());
+	// 	SmartDashboard.putBoolean("Limelight Connection:", turret.lm.getLimeLightConnected());
+	// 	SmartDashboard.putNumber("Distance From Target", turret.lm.getDistInFeet());
 		SmartDashboard.putNumber("Turret SetPoint", turret.getTurretSetPoint());
 		SmartDashboard.putNumber("Turret Power", turret.getTurretPower());
-		SmartDashboard.putNumber("Limelight X Offset", turret.lm.getXOffset());
+	// 	SmartDashboard.putNumber("Limelight X Offset", turret.lm.getXOffset());
 		SmartDashboard.putNumber("Hood Angle", turret.getHoodAngle());
 	}
 }
