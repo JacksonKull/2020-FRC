@@ -44,7 +44,7 @@ public class Robot extends TimedRobot {
 		// SUBSYSTEMS INIT
 		// this.oi = new OI();
 		// this.turret = new TurretSubsystem();
-		// this.shooter = new ShooterSubsystem();
+		this.shooter = new ShooterSubsystem();
 		this.driveSystem = new DriveSystem();
 		// this.hopper = new HopperSubsystem();
 		// this.intake = new IntakeSubsystem();
@@ -95,12 +95,12 @@ public class Robot extends TimedRobot {
 		this.driveSystem.setPower(X + Y, X - Y);
 
 		//Shooter Testing
-		// this.shooterPower = SmartDashboard.getNumber("Shooter Power", 0);
-		// if(this.driver.getAButton()){
-		// 	this.shooter.setManualShooterPower(this.shooterPower);
-		// }else{
-		// 	this.shooter.setManualShooterPower(0);
-		// }
+		this.shooterPower = SmartDashboard.getNumber("Shooter Power", 0);
+		if(this.driver.getAButton()){
+			this.shooter.setManualShooterPower(this.shooterPower);
+		}else{
+			this.shooter.setManualShooterPower(0);
+		}
 		
 		// Update Values
 		this.updateValues();

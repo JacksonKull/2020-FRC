@@ -42,7 +42,7 @@ public class ShooterSubsystem extends Subsystem {
 		this.shooterMotor1.setInverted(true);
 		this.shooterMotor2 = new TalonFX(12);
 		//Limelight
-		this.lm = new Limelight();
+		//this.lm = new Limelight();
 		// PID
 		this.shooterPID = new BasicPID(p, i, d);
 	}
