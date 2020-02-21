@@ -17,9 +17,9 @@ public class Limelight {
     // Network Table
     NetworkTable table;
     // Constants
-    final double feetOffGroundLimelight = 2.75;
+    final double feetOffGroundLimelight = 1.875;
     final double feetOffGroundTarget = 8.71;
-    final double limelightAngle = 35;
+    final double limelightAngle = 12;
     final String tableName = "limelight";
 
     public Limelight(){
@@ -46,7 +46,7 @@ public class Limelight {
     }
 
     public boolean getTargetVisible(){
-        if(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getValue().getDouble() > 1){
+        if(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getValue().getDouble() == 1){
             return true;
         }else{
             return false;
@@ -59,6 +59,10 @@ public class Limelight {
 
     public double getXOffset(){
         return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getValue().getDouble();
+    }
+
+    public double getHeighOffGroudLM(){
+        return this.feetOffGroundLimelight;
     }
 
 }
