@@ -10,12 +10,15 @@ import org.usfirst.frc.team4944.robot.commands.IntakeInit;
 import org.usfirst.frc.team4944.robot.commands.IntakingFinished;
 import org.usfirst.frc.team4944.robot.commands.ShooterSpinDown;
 import org.usfirst.frc.team4944.robot.commands.ShooterSpinUpInit;
+import org.usfirst.frc.team4944.robot.custom.RobotContainer;
 import org.usfirst.frc.team4944.robot.custom.XboxController;
 import org.usfirst.frc.team4944.robot.subsystems.DriveSystem;
 import org.usfirst.frc.team4944.robot.subsystems.HoodSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.HopperSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.IntakeSubsystem;
+import org.usfirst.frc.team4944.robot.subsystems.PathPlanningDriveSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.ShooterSubsystem;
+import org.usfirst.frc.team4944.robot.subsystems.TestShooter;
 import org.usfirst.frc.team4944.robot.subsystems.TurretSubsystem;
 
 
@@ -26,14 +29,18 @@ public class Robot extends TimedRobot {
 	// SUBSYSTEMS
 	OI oi;
 	DriveSystem driveSystem;
+	PathPlanningDriveSubsystem pathDrive;
+	RobotContainer roboCon;
 	TurretSubsystem turret;
 	ShooterSubsystem shooter;
+	TestShooter testShooter;
 	IntakeSubsystem intake;
 	HopperSubsystem hopper;
 	HoodSubsystem hood;
 	//SmartDashboard Values
 	double turretEncoder;
-	double shooterPower;
+	double shooterRPM;
+	double hoodAngle_SD;
 
 	@Override
 	public void robotInit() {
@@ -45,17 +52,23 @@ public class Robot extends TimedRobot {
 		this.oi = new OI();
 		this.turret = new TurretSubsystem();
 		this.shooter = new ShooterSubsystem();
+		this.testShooter = new TestShooter();
 		this.driveSystem = new DriveSystem();
+		// this.pathDrive = new PathPlanningDriveSubsystem();
+		// this.roboCon = new RobotContainer();
 		this.hopper = new HopperSubsystem();
 		this.intake = new IntakeSubsystem();
 		this.hood = new HoodSubsystem();
 		
 		//SmartDashboard
-		SmartDashboard.putNumber("Shooter Power", this.shooterPower);
+		SmartDashboard.putNumber("Shooter RPM", 1000);
+		SmartDashboard.putNumber("Hood Angle Offset", this.hood.getHoodAngleOffset());
+		SmartDashboard.putNumber("Hood Angle SETPOINT", 45);
 		this.SmartDashboardDisplay();
 
 		//Double 
-		this.shooterPower = 0.5;
+		this.shooterRPM = 1000;
+		this.hoodAngle_SD = 45;
 	}
 
 	@Override
@@ -72,6 +85,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		this.SmartDashboardDisplay();
+		// Command autoCommand = new roboCon.getAutonomousCommand();
 	}
 
 	@Override
@@ -95,13 +109,19 @@ public class Robot extends TimedRobot {
 		this.driveSystem.setPower(X + Y, X - Y);
 
 		//Shooter Testing
-		this.shooterPower = SmartDashboard.getNumber("Shooter Power", 0);
+		this.shooterRPM = SmartDashboard.getNumber("Shooter RPM", 0);
+		this.hood.setHoodAngleOffset(SmartDashboard.getNumber("Hood Angle Offset", 0));
 		if(this.driver.getAButton()){
-			this.shooter.setManualShooterPower(this.shooterPower);
+			//System.out.println("settting RPM");
+			this.testShooter.setShooterVelocity(3415);
 		}else{
-			this.shooter.setManualShooterPower(0);
+			this.testShooter.setShooterVelocity(0);
 		}
+
+		//System.out.println(this.shooter.getRPM() + " RPM");
 		
+		this.hoodAngle_SD = SmartDashboard.getNumber("Hood Angle SETPOINT", 45);
+
 		// Update Values
 		this.updateValues();
 		//this.oi.updateCommands();
@@ -120,8 +140,11 @@ public class Robot extends TimedRobot {
 		
 		// SHOOTER
 		// this.shooter.updateValues();
+		
+		// HOOD
 		this.hood.updateValues();
-		this.hood.setAngleByLM();
+		//this.hood.setAngleByLM();
+		this.hood.setHoodAngle(hoodAngle_SD);
 		this.hood.driveHoodPID();
 		
 		// SMARTDASHBOARD
@@ -144,6 +167,7 @@ public class Robot extends TimedRobot {
 		//Velocity
 		SmartDashboard.putNumber("Vx", this.hood.getVx());
 		SmartDashboard.putNumber("Vy", this.hood.getVy());
+		SmartDashboard.putNumber("Current Shooter RPM", this.shooter.getRPM());
 
 		// Limelight
 		SmartDashboard.putNumber("Limelight Y Offset", turret.lm.getYOffset());
