@@ -42,13 +42,13 @@ public class Robot extends TimedRobot {
 		this.operator = new XboxController(1);
 		
 		// SUBSYSTEMS INIT
-		// this.oi = new OI();
-		// this.turret = new TurretSubsystem();
+		this.oi = new OI();
+		this.turret = new TurretSubsystem();
 		this.shooter = new ShooterSubsystem();
 		this.driveSystem = new DriveSystem();
-		// this.hopper = new HopperSubsystem();
-		// this.intake = new IntakeSubsystem();
-		// this.hood = new HoodSubsystem();
+		this.hopper = new HopperSubsystem();
+		this.intake = new IntakeSubsystem();
+		this.hood = new HoodSubsystem();
 		
 		//SmartDashboard
 		SmartDashboard.putNumber("Shooter Power", this.shooterPower);
@@ -93,18 +93,9 @@ public class Robot extends TimedRobot {
 		double Y = -driver.getLeftStickY();
 		double X = driver.getRightStickX();
 		this.driveSystem.setPower(X + Y, X - Y);
-
-		//Shooter Testing
-		this.shooterPower = SmartDashboard.getNumber("Shooter Power", 0);
-		if(this.driver.getAButton()){
-			this.shooter.setManualShooterPower(this.shooterPower);
-		}else{
-			this.shooter.setManualShooterPower(0);
-		}
 		
 		// Update Values
 		this.updateValues();
-		//this.oi.updateCommands();
 	}
 
 	@Override
@@ -115,11 +106,13 @@ public class Robot extends TimedRobot {
 		
 		// TURRET
 		// this.turret.followLimelightNoEncoder();
-		//turret.followLimelight(); // Uses the limelight to change the set points on the turret
-		// //turret.driveTurretPID(); // Sets the turrets Power using a PID loop
+		// turret.followLimelight(); // Uses the limelight to change the set points on the turret
+		// turret.driveTurretPID(); // Sets the turrets Power using a PID loop
 		
 		// SHOOTER
 		// this.shooter.updateValues();
+		
+		// HOOD
 		// this.hood.updateValues();
 		// this.hood.setAngleByLM();
 		// this.hood.driveHoodPID();
@@ -131,15 +124,20 @@ public class Robot extends TimedRobot {
 	public void SmartDashboardDisplay(){
 		// Turret
 		// SmartDashboard.putNumber("Turret SetPoint", this.turret.getTurretSetPoint());
-		//SmartDashboard.putNumber("Turret Encoder", this.turret.getTurretEncoderValue());
+		// SmartDashboard.putNumber("Turret Encoder", this.turret.getTurretEncoderValue());
 		// SmartDashboard.putNumber("Turret Power", this.turret.getTurretPower());
+		
+		// Hood
 		// SmartDashboard.putNumber("Hood Angle", this.turret.getHoodAngle());
 		// SmartDashboard.putNumber("Hood Encoder", this.hood.getHoodEncoderValue());
 		// SmartDashboard.putNumber("Hood SetPoint", this.hood.getHoodSetPoint());
 		// SmartDashboard.putNumber("Hood Power", this.hood.getHoodMotorPower());
 		// SmartDashboard.putNumber("Set Hood Angle", this.hood.getRequiredAngle());
+		
+		// Calculated Values
 		// SmartDashboard.putNumber("Vx", this.hood.getVx());
 		// SmartDashboard.putNumber("Vy", this.hood.getVy());
+		
 		// Limelight
 		// SmartDashboard.putNumber("Limelight Y Offset", turret.lm.getYOffset());
 		// SmartDashboard.putNumber("Limelight X Offset", turret.lm.getXOffset());
