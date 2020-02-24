@@ -94,6 +94,7 @@ public class Robot extends TimedRobot {
 		double X = driver.getRightStickX();
 		this.driveSystem.setPower(X + Y, X - Y);
 		
+		
 		// Update Values
 		this.updateValues();
 	}
