@@ -51,7 +51,7 @@ public class TurretSubsystem extends Subsystem {
 
 	public TurretSubsystem() {
 		// Motors
-		this.turretMotor = new TalonSRX(6);
+		this.turretMotor = new TalonSRX(7);
 		// Encoder
 		this.turretEncoder = new AS5600EncoderPwm(this.turretMotor.getSensorCollection());
 		this.turretPID = new BasicPID(this.turret_p, this.turret_i, this.turret_d);

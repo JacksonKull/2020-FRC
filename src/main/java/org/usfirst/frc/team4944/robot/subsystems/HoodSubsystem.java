@@ -39,7 +39,7 @@ public class HoodSubsystem extends Subsystem {
 
   public HoodSubsystem() {
     // Motors
-    this.hoodMotor = new TalonSRX(2);
+    this.hoodMotor = new TalonSRX(9);
     // Encoder
     this.hoodMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
     this.hoodMotor.setSelectedSensorPosition(0);

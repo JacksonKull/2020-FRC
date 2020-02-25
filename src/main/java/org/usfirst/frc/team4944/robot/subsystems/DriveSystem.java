@@ -54,13 +54,13 @@ public class DriveSystem extends Subsystem{
 		// this.rightMotor2.setInverted(false);
 		
 		//Practice Bot
-		this.leftMotor1 = new TalonSRX(9);
+		this.leftMotor1 = new TalonSRX(3);
 		this.leftMotor1.setInverted(false);
-		this.leftMotor2 = new TalonSRX(7);
+		this.leftMotor2 = new TalonSRX(4);
 		this.leftMotor2.setInverted(false);
-		this.rightMotor1 = new TalonSRX(3);
+		this.rightMotor1 = new TalonSRX(1);
 		this.rightMotor1.setInverted(false);
-		this.rightMotor2 = new TalonSRX(4);
+		this.rightMotor2 = new TalonSRX(2);
 		this.rightMotor2.setInverted(false);
 		
 		// ENCODERS

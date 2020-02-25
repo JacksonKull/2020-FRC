@@ -93,11 +93,13 @@ public class OI {
         //this.driver.addCommandToRightTrigger(this.toggleRT);
 
         //Toggle LT
-        //this.ltCommandOn = new ShooterSpinUpInit(this.shooter.getRequiredVelocity());
-        //this.ltCommandOn = new ShooterSpinUpInit(this.shooterPower);
-        //this.ltCommandOff = new ShooterSpinDown();        
-        //this.toggleLT = new ToggleCommand(this.ltCommandOn, this.ltCommandOff);
-        //this.driver.addCommandToLeftTrigger(this.toggleLT);
+        this.ltCommandOn = null;
+        this.ltCommandOff = null;
+        // this.ltCommandOn = new ShooterSpinUpInit(this.shooter.getRequiredVelocity());
+        // this.ltCommandOn = new ShooterSpinUpInit(this.shooterPower);
+        // this.ltCommandOff = new ShooterSpinDown();        
+        // this.toggleLT = new ToggleCommand(this.ltCommandOn, this.ltCommandOff);
+        // this.driver.addCommandToLeftTrigger(this.toggleLT);
     }
 
     public void updateCommands(){

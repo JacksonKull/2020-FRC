@@ -20,16 +20,16 @@ public class ArmSubsystem extends Subsystem {
   TalonFX rightArmMotor;
 
   public ArmSubsystem() {
-    this.leftArmMotor = new TalonFX(0);
-    this.rightArmMotor = new TalonFX(1);
+    this.leftArmMotor = new TalonFX(5);
+    this.rightArmMotor = new TalonFX(6);
     this.leftArmMotor.setInverted(true);
   }
 
-  public void leftArmMotor(double power) {
+  public void setLeftArmMotor(double power) {
     this.leftArmMotor.set(ControlMode.PercentOutput, .2);
   }
 
-  public void rightArmMotor(double power) {
+  public void setRightArmMotor(double power) {
     this.rightArmMotor.set(ControlMode.PercentOutput, .2);
   }
 

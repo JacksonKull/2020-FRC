@@ -21,8 +21,8 @@ public class HopperSubsystem extends Subsystem{
     TalonSRX feederMotor;
 
     public HopperSubsystem(){
-        this.hopperMotor = new TalonSRX(14);
-        this.feederMotor = new TalonSRX(8);
+        this.hopperMotor = new TalonSRX(13);
+        this.feederMotor = new TalonSRX(14);
     }
 
 

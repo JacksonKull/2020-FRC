@@ -47,12 +47,12 @@ public class ShooterSubsystem extends Subsystem {
 	// motor.setPID(p, i, d, f, 0, ramp, 0); 
 	public ShooterSubsystem(){
 		// Motors
-		this.shooterMotor1 = new TalonFX(17);
+		this.shooterMotor1 = new TalonFX(10);
 		this.shooterMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 		this.shooterMotor1.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
 		this.shooterMotor1.setInverted(true);
 
-		this.shooterMotor2 = new TalonFX(12);
+		this.shooterMotor2 = new TalonFX(8);
 		this.shooterMotor2.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 		this.shooterMotor2.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
 		//Limelight

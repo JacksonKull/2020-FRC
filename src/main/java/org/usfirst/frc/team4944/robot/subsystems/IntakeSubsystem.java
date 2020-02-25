@@ -20,7 +20,7 @@ public class IntakeSubsystem extends Subsystem{
     TalonSRX intakeMotor;
 
     public IntakeSubsystem(){
-        this.intakeMotor = new TalonSRX(1);
+        this.intakeMotor = new TalonSRX(15);
     }
 
     public void setIntakeMotor(double power){
