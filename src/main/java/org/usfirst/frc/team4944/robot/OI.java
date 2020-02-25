@@ -39,7 +39,7 @@ public class OI {
         //Subsystem
         this.shooter = new ShooterSubsystem();
         //ShooterSpeed
-        this.shooterPower = this.shooter.convertFPStoPercentOutput(this.shooterFPS);
+        this.shooterPower = 0.5;
         //Button Toggles
         this.prevAButton = false;
         this.prevBButton = false;
@@ -94,19 +94,13 @@ public class OI {
 
         //Toggle LT
         //this.ltCommandOn = new ShooterSpinUpInit(this.shooter.getRequiredVelocity());
-        this.ltCommandOn = new ShooterSpinUpInit(0.75);
-        this.ltCommandOff = new ShooterSpinDown();        
-        this.toggleLT = new ToggleCommand(this.ltCommandOn, this.ltCommandOff);
-        this.driver.addCommandToLeftTrigger(this.toggleLT);
+        //this.ltCommandOn = new ShooterSpinUpInit(this.shooterPower);
+        //this.ltCommandOff = new ShooterSpinDown();        
+        //this.toggleLT = new ToggleCommand(this.ltCommandOn, this.ltCommandOff);
+        //this.driver.addCommandToLeftTrigger(this.toggleLT);
     }
 
     public void updateCommands(){
-    //     this.shooter.updateValues();
-    //     //Toggle LT
-    //    // this.ltCommandOn = new ShooterSpinUpInit(this.shooter.getRequiredVelocity());
-    //     this.ltCommandOn = new ShooterSpinUpInit(1);
-    //     this.ltCommandOff = new ShooterSpinDown();        
-    //     this.toggleLT = new ToggleCommand(this.ltCommandOn, this.ltCommandOff);
-    //     this.driver.addCommandToLeftTrigger(this.toggleLT);         
+    
     }
 }
