@@ -49,11 +49,11 @@ public class HoodSubsystem extends Subsystem {
     this.hoodPID = new BasicPID(this.hood_p, this.hood_i, this.hood_d);
   }
 
-  public void setHoodAngleOffset(double offset){
+  public void setHoodAngleOffset(double offset) {
     this.hoodAngleOffset = offset;
   }
 
-  public double getHoodAngleOffset(){
+  public double getHoodAngleOffset() {
     return this.hoodAngleOffset;
   }
 
@@ -80,16 +80,18 @@ public class HoodSubsystem extends Subsystem {
   }
 
   public void driveHoodPID() {
-    //System.out.println(Math.abs(Math.abs(this.getHoodSetPoint())) - Math.abs(this.getHoodEncoderValue()) + " Error");
-    // System.out.println(Math.abs(Math.abs(this.getHoodSetPoint())) - Math.abs(this.getHoodEncoderValue()) > 0.5);
+    // System.out.println(Math.abs(Math.abs(this.getHoodSetPoint())) -
+    // Math.abs(this.getHoodEncoderValue()) + " Error");
+    // System.out.println(Math.abs(Math.abs(this.getHoodSetPoint())) -
+    // Math.abs(this.getHoodEncoderValue()) > 0.5);
     double error = Math.abs(this.getHoodSetPoint()) - Math.abs(this.getHoodEncoderValue());
-    if (error > 0.5 || error <-0.5) {
-      //double power = this.hoodPID.getPower(this.getHoodEncoderValue());
-      double power = this.hood_p*(error);
-     // double power = this.hoodPID.getPower(this.getHoodEncoderValue());
+    if (error > 0.5 || error < -0.5) {
+      // double power = this.hoodPID.getPower(this.getHoodEncoderValue());
+      double power = this.hood_p * (error);
+      // double power = this.hoodPID.getPower(this.getHoodEncoderValue());
       this.setHoodMotorPower(power);
     } else {
-      //System.out.println("Hood Within Range");
+      // System.out.println("Hood Within Range");
       this.setHoodMotorPower(0);
     }
   }
@@ -99,13 +101,14 @@ public class HoodSubsystem extends Subsystem {
   }
 
   private int convertHoodAngleToEncoder(double desiredAngle) {
-    // double ticksPerDegree = (maxHoodEncoder - minHoodEncoder) / (maxHoodAngle - minHoodAngle);
+    // double ticksPerDegree = (maxHoodEncoder - minHoodEncoder) / (maxHoodAngle -
+    // minHoodAngle);
     // return (int) (desiredAngle * ticksPerDegree);
     double encoderCounts = (this.maxHoodAngle - desiredAngle) * (this.encoderConst);
     return (int) encoderCounts;
   }
 
-  public double convertEncoderToAngle(double encoder){
+  public double convertEncoderToAngle(double encoder) {
     return (0);
   }
 

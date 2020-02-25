@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-
 public class PathPlanningDriveSubsystem extends SubsystemBase {
   // The motors on the left side of the drive.
   private final SpeedControllerGroup m_leftMotors = new SpeedControllerGroup(new WPI_TalonFX(3), new WPI_TalonFX(4));
@@ -60,9 +59,8 @@ public class PathPlanningDriveSubsystem extends SubsystemBase {
     this.leftEncoder.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
     this.rightEncoder = new TalonSRX(1);
     this.rightEncoder.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
-    //this.leftEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
-    //this.rightEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
-      
+    // this.leftEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
+    // this.rightEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
 
     resetEncoders();
     this.m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
@@ -72,7 +70,7 @@ public class PathPlanningDriveSubsystem extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     m_odometry.update(Rotation2d.fromDegrees(getHeading()), this.leftEncoder.getSelectedSensorPosition(),
-                      this.rightEncoder.getSelectedSensorPosition());
+        this.rightEncoder.getSelectedSensorPosition());
   }
 
   /**
@@ -91,7 +89,7 @@ public class PathPlanningDriveSubsystem extends SubsystemBase {
    */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(this.leftEncoder.getSelectedSensorVelocity(),
-     this.rightEncoder.getSelectedSensorVelocity());
+        this.rightEncoder.getSelectedSensorVelocity());
   }
 
   /**
@@ -162,7 +160,8 @@ public class PathPlanningDriveSubsystem extends SubsystemBase {
   }
 
   /**
-   * Sets the max output of the drive.  Useful for scaling the drive to drive more slowly.
+   * Sets the max output of the drive. Useful for scaling the drive to drive more
+   * slowly.
    *
    * @param maxOutput the maximum output to which the drive will be constrained
    */

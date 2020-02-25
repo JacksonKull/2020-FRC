@@ -83,7 +83,8 @@ public class TurretSubsystem extends Subsystem {
 
 	// Drives the Motors based off of the PID and
 	public void driveTurretPID() {
-		System.out.println(Math.abs(Math.abs(this.getTurretSetPoint()) - Math.abs(this.getTurretEncoderValue())) + " Difference");
+		System.out.println(
+				Math.abs(Math.abs(this.getTurretSetPoint()) - Math.abs(this.getTurretEncoderValue())) + " Difference");
 		if (Math.abs(Math.abs(this.getTurretSetPoint()) - Math.abs(this.getTurretEncoderValue())) > 0.5) {
 			double power = this.turretPID.getPower(this.getTurretEncoderValue());
 			System.out.println((-power) * visionMaxPow + " Power");
