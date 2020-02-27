@@ -99,7 +99,7 @@ public class Robot extends TimedRobot {
 		} else {
 			this.shooter.setManualShooterPower(0);
 		}
-		
+
 		// Update Values
 		this.updateValues();
 		// this.oi.updateCommands();

@@ -15,22 +15,21 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * Add your docs here.
  */
-public class HopperSubsystem extends Subsystem{
-    //Motors
+public class HopperSubsystem extends Subsystem {
+    // Motors
     TalonSRX hopperMotor;
     TalonSRX feederMotor;
 
-    public HopperSubsystem(){
+    public HopperSubsystem() {
         this.hopperMotor = new TalonSRX(13);
         this.feederMotor = new TalonSRX(14);
     }
 
-
-    public void setFeedMotor(double power){
+    public void setFeedMotor(double power) {
         this.feederMotor.set(ControlMode.PercentOutput, power);
     }
 
-    public void setHopperMotor(double power){
+    public void setHopperMotor(double power) {
         this.hopperMotor.set(ControlMode.PercentOutput, power);
     }
 

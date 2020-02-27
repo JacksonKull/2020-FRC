@@ -22,13 +22,13 @@ import org.usfirst.team4944.robot.PID.BasicPID;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- * An example subsystem.  You can replace me with your own Subsystem.
+ * An example subsystem. You can replace me with your own Subsystem.
  */
 public class ShooterSubsystem extends Subsystem {
 
 	// Motors
 	TalonFX shooterMotor1, shooterMotor2;
-	//Limelight
+	// Limelight
 	Limelight lm;
 	// Constants
 	final int ticksPerRevolution = 4096;
@@ -40,12 +40,12 @@ public class ShooterSubsystem extends Subsystem {
 	// PID
 	BasicPID shooterPID;
 	double vx, vy, lmSpeed;
-	
+
 	// motor = new CANTalon(address);
 	// motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 	// motor.changeControlMode(TalonControlMode.Speed);
-	// motor.setPID(p, i, d, f, 0, ramp, 0); 
-	public ShooterSubsystem(){
+	// motor.setPID(p, i, d, f, 0, ramp, 0);
+	public ShooterSubsystem() {
 		// Motors
 		this.shooterMotor1 = new TalonFX(10);
 		this.shooterMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
@@ -55,23 +55,23 @@ public class ShooterSubsystem extends Subsystem {
 		this.shooterMotor2 = new TalonFX(8);
 		this.shooterMotor2.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 		this.shooterMotor2.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
-		//Limelight
+		// Limelight
 		this.lm = new Limelight();
 		// PID
 		this.shooterPID = new BasicPID(this.p, this.i, this.d);
 	}
 
-	public void setShooterPower(double rpm){
+	public void setShooterPower(double rpm) {
 		this.shooterPID.setSetPoint(rpm);
 		System.out.println(rpm + " RPM SETPOINT");
 		double errorRPM = rpm - this.getRPM();
 		System.out.println(errorRPM + " ERROR");
-		if(errorRPM < 0){
+		if (errorRPM < 0) {
 			double power = 0;
 			this.shooterMotor1.set(ControlMode.PercentOutput, power);
 			this.shooterMotor2.set(ControlMode.PercentOutput, power);
 			System.out.println(power);
-		}else{
+		} else {
 			double power = this.shooterPID.getPower(this.getRPM());
 			// double power = errorRPM * this.p;
 			this.shooterMotor1.set(ControlMode.PercentOutput, power);
@@ -79,20 +79,20 @@ public class ShooterSubsystem extends Subsystem {
 			System.out.println(power);
 		}
 
-		//double power = rpm/(600/2048);
+		// double power = rpm/(600/2048);
 		// double velocity = (rpm/0.292968);
 		// System.out.println(velocity + " Velocity");
 		// this.shooterMotor1.set(TalonFXControlMode.Velocity, velocity);
 		// this.shooterMotor2.set(TalonFXControlMode.Velocity, velocity);
-		
+
 	}
 
-	public void setManualShooterPower(double power){
+	public void setManualShooterPower(double power) {
 		this.shooterMotor1.set(ControlMode.PercentOutput, power);
 		this.shooterMotor2.set(ControlMode.PercentOutput, power);
 	}
 
-	public double getRPM(){
+	public double getRPM() {
 		double motorTPMS = this.shooterMotor1.getSelectedSensorVelocity(0);
 		return this.shooterMotor1.getSelectedSensorVelocity(0) * (0.292968);
 	}
@@ -100,19 +100,19 @@ public class ShooterSubsystem extends Subsystem {
 	public double getVx() {
 		this.vx = 32 * ((this.lm.getDistInFeet() + 2.5) / (this.vy));
 		return this.vx;
-	  }
-	
+	}
+
 	public double getVy() {
 		this.vy = 8 * (Math.sqrt(8.2 - this.lm.getHeighOffGroudLM()));
 		return this.vy;
 	}
 
-	public double  getRequiredVelocity(){
-		this.lmSpeed = Math.sqrt((this.vy*this.vy) + (this.vx*this.vx));
+	public double getRequiredVelocity() {
+		this.lmSpeed = Math.sqrt((this.vy * this.vy) + (this.vx * this.vx));
 		return this.lmSpeed + 8;
 	}
 
-	public void setSpeedBasedOffLM(){
+	public void setSpeedBasedOffLM() {
 		this.setManualShooterPower(this.convertFPStoPercentOutput(this.lmSpeed));
 	}
 
@@ -121,8 +121,8 @@ public class ShooterSubsystem extends Subsystem {
 		this.vy = 8 * (Math.sqrt(8.2 - this.lm.getHeighOffGroudLM()));
 	}
 
-	public double convertFPStoPercentOutput(double FPS){
-		return ((FPS - 15.19)/12.97);
+	public double convertFPStoPercentOutput(double FPS) {
+		return ((FPS - 15.19) / 12.97);
 	}
 
 	public void initDefaultCommand() {
