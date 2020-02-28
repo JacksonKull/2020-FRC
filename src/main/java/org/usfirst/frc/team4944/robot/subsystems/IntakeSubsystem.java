@@ -15,15 +15,16 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * Add your docs here.
  */
-public class IntakeSubsystem extends Subsystem{
-    //Motors
+public class IntakeSubsystem extends Subsystem {
+    // Motors
     TalonSRX intakeMotor;
 
-    public IntakeSubsystem(){
+    public IntakeSubsystem() {
         this.intakeMotor = new TalonSRX(15);
+        this.intakeMotor.setInverted(true);
     }
 
-    public void setIntakeMotor(double power){
+    public void setIntakeMotor(double power) {
         this.intakeMotor.set(ControlMode.PercentOutput, power);
     }
 

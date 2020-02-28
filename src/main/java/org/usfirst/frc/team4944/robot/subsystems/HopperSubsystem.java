@@ -22,7 +22,9 @@ public class HopperSubsystem extends Subsystem {
 
     public HopperSubsystem() {
         this.hopperMotor = new TalonSRX(13);
+        this.hopperMotor.setInverted(true);
         this.feederMotor = new TalonSRX(14);
+        // this.feederMotor.setInverted(true);
     }
 
     public void setFeedMotor(double power) {

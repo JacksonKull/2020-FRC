@@ -7,27 +7,36 @@
 
 package org.usfirst.frc.team4944.robot.commands;
 
+import org.usfirst.frc.team4944.robot.subsystems.ArmSubsystem;
+import org.usfirst.frc.team4944.robot.subsystems.HopperSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
 public class OutTakeInit extends InstantCommand {
-  
-  IntakeSubsystem intake;
-  double outTakePower;
 
-  public OutTakeInit(double power) {
+  IntakeSubsystem intake;
+  HopperSubsystem hopper;
+  double intakePow, hopperPow, feederPow;
+  ArmSubsystem arms;
+
+  public OutTakeInit(double intakePow,double hopperPow,double feederPow) {
     super();
     this.intake = new IntakeSubsystem();
-    this.outTakePower = power;
+    this.intakePow = intakePow;
     requires(intake);
+    this.hopper = new HopperSubsystem();
+    this.hopperPow = hopperPow;
+    this.feederPow = hopperPow;
   }
 
   // Called once when the command executes
   @Override
   protected void initialize() {
-    System.out.println("OutTake Begining");
-    this.intake.setIntakeMotor(this.outTakePower);
+    // this.arms.disableBreak();
+    this.intake.setIntakeMotor(this.intakePow);
+    this.hopper.setHopperMotor(this.hopperPow);
+    this.hopper.setFeedMotor(this.hopperPow);
   }
 
 }

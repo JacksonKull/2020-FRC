@@ -6,8 +6,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
-import org.usfirst.frc.team4944.robot.custom.DriveConstants;
-
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
@@ -21,7 +19,11 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 
+<<<<<<< HEAD
+public class PathPlanningDriveSubsystem extends SubsystemBase {
+=======
 public class PathPlanningDriveSubsystem extends Subsystem {
+>>>>>>> 0d38c850bd260b6283c672aa8b031f7f4c827002
   // The motors on the left side of the drive.
   private final SpeedControllerGroup m_leftMotors = new SpeedControllerGroup(new WPI_TalonFX(3), new WPI_TalonFX(4));
 

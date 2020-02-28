@@ -7,26 +7,30 @@
 
 package org.usfirst.frc.team4944.robot.commands;
 
+import org.usfirst.frc.team4944.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
 public class IntakeInit extends InstantCommand {
-  
+
   IntakeSubsystem intake;
   double intakePower;
+  ArmSubsystem arms;
 
   public IntakeInit(double power) {
     super();
     this.intake = new IntakeSubsystem();
     this.intakePower = power;
     requires(intake);
+    this.arms = new ArmSubsystem();
+    requires(arms);
   }
 
   // Called once when the command executes
   @Override
   protected void initialize() {
-    System.out.println("Intake Begining");
+    this.arms.disableBreak();
     this.intake.setIntakeMotor(this.intakePower);
   }
 

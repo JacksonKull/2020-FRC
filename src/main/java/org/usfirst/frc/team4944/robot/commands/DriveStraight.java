@@ -6,7 +6,6 @@ import org.usfirst.team4944.robot.PID.DrivePID;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-
 public class DriveStraight extends Command {
 	// SUBSYSTEMS
 	DriveSystem driveSystem;
@@ -17,7 +16,7 @@ public class DriveStraight extends Command {
 	DrivePID rightPID;
 	// BASIC PIDS
 	BasicPID anglePID;
-	
+
 	public DriveStraight(double driveGoal, double headingGoal, DrivePID leftPID, DrivePID rightPID, BasicPID anglePID) {
 		this.driveGoal = driveGoal;
 		this.headingGoal = headingGoal;
@@ -29,13 +28,13 @@ public class DriveStraight extends Command {
 		this.angleInit = driveSystem.getAngle();
 		init();
 	}
-	
+
 	public void init() {
 		leftPID.setSetPoint(leftInit + driveGoal);
 		rightPID.setSetPoint(rightInit + driveGoal);
 		anglePID.setSetPoint(angleInit + headingGoal);
 	}
-	
+
 	public void execute() {
 		// POWERS
 		double leftPower = leftPID.getPower(driveSystem.getLeftEncoder());
@@ -44,10 +43,11 @@ public class DriveStraight extends Command {
 		// SETTING DRIVE TRAIN POWERS
 		driveSystem.setPower(leftPower + anglePower, rightPower - anglePower);
 	}
-	
+
 	public boolean isFinished() {
-		if((Math.abs(driveSystem.getLeftSpeed()) < 1 && Math.abs(driveSystem.getRightSpeed()) < 1) && (Math.abs(leftPID.getError()) <= 7.5 && Math.abs(rightPID.getError()) <= 7.5)) {
-		 
+		if ((Math.abs(driveSystem.getLeftSpeed()) < 1 && Math.abs(driveSystem.getRightSpeed()) < 1)
+				&& (Math.abs(leftPID.getError()) <= 7.5 && Math.abs(rightPID.getError()) <= 7.5)) {
+
 			System.out.println("Exited");
 			driveSystem.setLeftPower(0);
 			driveSystem.setRightPower(0);
