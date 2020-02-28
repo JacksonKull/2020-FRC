@@ -1,5 +1,10 @@
 package org.usfirst.frc.team4944.robot;
 
+import org.usfirst.frc.team4944.robot.commands.ArmsDown;
+import org.usfirst.frc.team4944.robot.commands.ArmsFinished;
+import org.usfirst.frc.team4944.robot.commands.ArmsUp;
+import org.usfirst.frc.team4944.robot.commands.CPFinished;
+import org.usfirst.frc.team4944.robot.commands.CPStart;
 import org.usfirst.frc.team4944.robot.commands.FeederBegin;
 import org.usfirst.frc.team4944.robot.commands.FeederFinished;
 import org.usfirst.frc.team4944.robot.commands.IntakeInit;
@@ -10,22 +15,19 @@ import org.usfirst.frc.team4944.robot.commands.ShooterSpinDown;
 import org.usfirst.frc.team4944.robot.commands.ShooterSpinUpInit;
 import org.usfirst.frc.team4944.robot.commands.ShootingCommandGroup;
 import org.usfirst.frc.team4944.robot.commands.ShootingFinished;
-import org.usfirst.frc.team4944.robot.commands.UnstickBall;
-import org.usfirst.frc.team4944.robot.commands.UnstickBallFinish;
-import org.usfirst.frc.team4944.robot.commands.UnstickBallInit;
 import org.usfirst.frc.team4944.robot.custom.ToggleCommand;
 import org.usfirst.frc.team4944.robot.custom.TriggerCommand;
 import org.usfirst.frc.team4944.robot.custom.XboxController;
 import org.usfirst.frc.team4944.robot.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.TurretSubsystem;
-
-import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class OI {
     XboxController driver, operator;
     boolean prevAButton, prevBButton, prevXButton, prevYButton, prevRBButton, prevLBButton, prevRTButton, prevLTButton;
-    Command aCommandOn, aCommandOff, bCommandOn, bCommandOff, xCommandOn, xCommandOff, yCommandOn, yCommandOff, lbCommandOn, lbCommandOff, rbCommandOn, rbCommandOff, rtCommandOn, rtCommandOff, ltCommandOn, ltCommandOff;
+    Command aCommandOn, aCommandOff, bCommandOn, bCommandOff, xCommandOn, xCommandOff, yCommandOn, yCommandOff;
+    Command lbCommandOn, lbCommandOff, rbCommandOn, rbCommandOff, rtCommandOn, rtCommandOff, ltCommandOn, ltCommandOff;
+    Command dpad0On, dpad0Off, dpad180On, dpad180Off, dpad270On, dpad270Off, dpad90On, dpad90Off;
     TurretSubsystem turret;
     ToggleCommand toggleA, toggleB, toggleX, toggleY, toggleRB, toggleLB, toggleRT, toggleLT;
     TriggerCommand leftTrigger, rightTrigger;
@@ -33,14 +35,18 @@ public class OI {
     double shooterFPS, shooterPower;
 
     public OI() {
-        //Controllers
+
+        // Controllers
         this.driver = new XboxController(0);
         this.operator = new XboxController(1);
-        //Subsystem
+
+        // Subsystem
         this.shooter = new ShooterSubsystem();
-        //ShooterSpeed
+
+        // ShooterSpeed
         this.shooterPower = 0.5;
-        //Button Toggles
+
+        // Button Toggles
         this.prevAButton = false;
         this.prevBButton = false;
         this.prevXButton = false;
@@ -48,61 +54,74 @@ public class OI {
         this.prevRBButton = false;
         this.prevLBButton = false;
         this.prevLTButton = false;
-        //Toggle Commands
-        //Toggle A
-        this.aCommandOn = null;
-        this.aCommandOff = null;
-        //this.toggleA = new ToggleCommand(this.aCommandOn, this.aCommandOff);
-        
-        //Toggle B
+        // Commands
+
+        // A
+        this.aCommandOn = new CPStart(0.2);
+        this.aCommandOff = new CPFinished();
+        this.driver.addWhenHeldToA(this.aCommandOn);
+        this.driver.addWhenReleasedToA(this.aCommandOff);
+
+        // B
         this.bCommandOn = new IntakeInit(0.9);
         this.bCommandOff = new IntakingFinished();
-        this.toggleB = new ToggleCommand(this.bCommandOn, this.bCommandOff);
-        this.driver.addCommandToB(this.toggleB);
-        
-        //Toggle X
-        this.xCommandOn = new OutTakeInit(-0.9);
-        this.xCommandOff = new OutTakingFinished();
-        this.toggleX = new ToggleCommand(this.xCommandOn, this.xCommandOff);
-        this.driver.addCommandToX(this.toggleX);
+        this.driver.addWhenHeldToB(this.bCommandOn);
+        this.driver.addWhenReleasedToB(this.bCommandOff);
 
-        //Toggle Y
+        // X
+        this.xCommandOn = new OutTakeInit(-0.9, -0.5, -0.5);
+        this.xCommandOff = new OutTakingFinished();
+        this.driver.addWhenHeldToX(this.xCommandOn);
+        this.driver.addWhenReleasedToX(this.xCommandOff);
+
+        // Y
         this.yCommandOn = new FeederBegin(0.7, 0.7);
         this.yCommandOff = new FeederFinished();
         this.driver.addWhenHeldToY(this.yCommandOn);
         this.driver.addWhenReleasedToY(this.yCommandOff);
-        // this.toggleY = new ToggleCommand(this.yCommandOn, this.yCommandOff);
-        // this.driver.addCommandToY(this.toggleY);
-        
-        //Toggle RB
-        this.rbCommandOn = null;
-        this.rbCommandOff = null;
-        //this.toggleRB = new ToggleCommand(this.rbCommandOn, this.rbCommandOff);
-        //this.driver.addCommandToRightBumper(this.toggleRB);
-        
-        //Toggle LB
-        this.lbCommandOn = null;
-        this.lbCommandOff = null;
-        //this.toggleLB = new ToggleCommand(this.lbCommandOn, this.lbCommandOff);
-        //this.driver.addCommandToLeftBumper(this.toggleLB);
-        
-        //Toggle RT
+
+        // RB
+        this.rbCommandOn = new ArmsUp(0.2);
+        this.rbCommandOff = new ArmsFinished();
+        this.driver.addWhenHeldToRightBumper(this.rbCommandOn);
+        this.driver.addWhenReleasedToRightBumper(this.rbCommandOff);
+
+        // LB
+        this.lbCommandOn = new ArmsDown(0.1);
+        this.lbCommandOff = new ArmsFinished();
+        this.driver.addWhenHeldToLeftBumper(this.lbCommandOn);
+        this.driver.addWhenReleasedToLeftBumper(this.lbCommandOff);
+        ;
+        // RT
         this.rtCommandOn = null;
         this.rtCommandOff = null;
-        //this.toggleRT = new ToggleCommand(this.rtCommandOn, this.rtCommandOff);
-        //this.driver.addCommandToRightTrigger(this.toggleRT);
+        // this.driver.addWhenHeldToRightTrigger(this.rtCommandOn);
+        // this.driver.addWhenReleasedToRightTrigger(this.rtCommandOff);
 
-        //Toggle LT
+        // LT
         this.ltCommandOn = null;
         this.ltCommandOff = null;
-        // this.ltCommandOn = new ShooterSpinUpInit(this.shooter.getRequiredVelocity());
-        // this.ltCommandOn = new ShooterSpinUpInit(this.shooterPower);
-        // this.ltCommandOff = new ShooterSpinDown();        
-        // this.toggleLT = new ToggleCommand(this.ltCommandOn, this.ltCommandOff);
-        // this.driver.addCommandToLeftTrigger(this.toggleLT);
-    }
+        // this.driver.addWhenHeldToLeftTrigger(this.ltCommandOn);
+        // this.driver.addWhenReleasedToRightTrigger(this.rtCommandOff);
 
-    public void updateCommands(){
-    
+        // Dpad Up
+        this.dpad0On = null;
+        this.dpad0Off = null;
+        // this.driver.addWhenHeldToDpad0(this.dpad0On);
+        // this.driver.addWhenReleasedToDpad0(this.dpad0Off);
+
+        // Dpad Down
+        this.dpad180On = null;
+        this.dpad180Off = null;
+        // this.driver.addWhenHeldToDpad180(this.dpad180On);
+        // this.driver.addWhenReleasedToDpad0(this.dpad180Off);
+
+        // Dpad Left
+        this.dpad270On = null;
+        this.dpad270Off = null;
+        // this.driver.addWhenHeldToDpad270(this.dpad270On);
+        // this.driver.addWhenReleasedToDpad270(this.dpad270Off);
+
+        // Dpad Right
     }
 }

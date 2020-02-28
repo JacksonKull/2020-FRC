@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team4944.robot.commands;
 
+import org.usfirst.frc.team4944.robot.subsystems.HopperSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
@@ -14,17 +15,21 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 public class OutTakingFinished extends InstantCommand {
   
   IntakeSubsystem intake;
+  HopperSubsystem hopper;
 
   public OutTakingFinished() {
     super();
     this.intake = new IntakeSubsystem();
     requires(intake); 
+    this.hopper = new HopperSubsystem();
+    requires(hopper);
   }
 
   // Called once when the command executes
   @Override
   protected void initialize() {
-    System.out.println("OutTaking Finished");
     this.intake.setIntakeMotor(0);
+    this.hopper.setFeedMotor(0);
+    this.hopper.setHopperMotor(0);
   }
 }
