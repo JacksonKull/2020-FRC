@@ -37,8 +37,13 @@ public class DriveSystem extends Subsystem {
 	// GYRO PID
 	BasicPID anglePID;
 	// Constants
+<<<<<<< HEAD
 	// final double maxPow = 1;
 	final double maxPow = 0.25;
+=======
+	final double maxPow = 1;
+	// final double maxPow = 0.25;
+>>>>>>> 0d38c850bd260b6283c672aa8b031f7f4c827002
 
 	public DriveSystem() {
 		// MOTORS
