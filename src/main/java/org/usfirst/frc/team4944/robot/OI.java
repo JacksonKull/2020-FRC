@@ -37,7 +37,8 @@ public class OI {
     TriggerCommand leftTrigger, rightTrigger;
     ShooterSubsystem shooter;
     double shooterFPS, shooterPower;
-    double controlMode;
+    Boolean controlMode;
+
     public OI() {
 
         // Controllers
@@ -45,7 +46,7 @@ public class OI {
         this.operator = new XboxController(1);
 
         // Controller Mode
-        this.controlMode = 0;
+        this.controlMode = true;
 
         // Subsystem
         this.shooter = new ShooterSubsystem();
@@ -63,44 +64,6 @@ public class OI {
         this.prevLTButton = false;
         // Commands
 
-        
-
-        // A
-        this.aCommandOn = new CPStart(0.2);
-        this.aCommandOff = new CPFinished();
-        this.driver.addWhenHeldToA(this.aCommandOn);
-        this.driver.addWhenReleasedToA(this.aCommandOff);
-
-        // B
-        this.bCommandOn = new IntakeInit(0.9);
-        this.bCommandOff = new IntakingFinished();
-        this.driver.addWhenHeldToB(this.bCommandOn);
-        this.driver.addWhenReleasedToB(this.bCommandOff);
-
-        // X
-        this.xCommandOn = new OutTakeInit(-0.9, -0.5, -0.5, -0.3);
-        this.xCommandOff = new OutTakingFinished();
-        this.driver.addWhenHeldToX(this.xCommandOn);
-        this.driver.addWhenReleasedToX(this.xCommandOff);
-
-        // Y
-        this.yCommandOn = new FeederBegin(0.7, 0.7);
-        this.yCommandOff = new FeederFinished();
-        this.driver.addWhenHeldToY(this.yCommandOn);
-        this.driver.addWhenReleasedToY(this.yCommandOff);
-
-        // RB
-        this.rbCommandOn = new ArmsUp(0.2);
-        this.rbCommandOff = new ArmsFinished();
-        this.driver.addWhenHeldToRightBumper(this.rbCommandOn);
-        this.driver.addWhenReleasedToRightBumper(this.rbCommandOff);
-
-        // LB
-        this.lbCommandOn = new ArmsDown(0.1);
-        this.lbCommandOff = new ArmsFinished();
-        this.driver.addWhenHeldToLeftBumper(this.lbCommandOn);
-        this.driver.addWhenReleasedToLeftBumper(this.lbCommandOff);
-        
         // LM
         this.lmCommandOn = null;
         this.lmCommandOff = null;
@@ -138,13 +101,73 @@ public class OI {
 
         // Dpad Right
     }
-    //Controller Mode 0 
-    //Drive/CP/Intake/etc...
-    //Controller Mode 1
-    //Climber
-    // True = 0/False = 1
-	public void setControlMode(boolean controllerMode) {
 
-        
-	}
+    // Controller Mode 0
+    // Drive/CP/Intake/etc...
+    // Controller Mode 1
+    // Climber
+    // True = 0/False = 1
+    public Boolean getControlMode() {
+        return this.controlMode;
+    }
+
+    public void setControlMode(Boolean mode) {
+        this.controlMode = mode;
+
+    }
+
+    public void setupControlModeOne() {
+        // A
+        this.aCommandOn = new CPStart(0.2);
+        this.aCommandOff = new CPFinished();
+        this.driver.addWhenHeldToA(this.aCommandOn);
+        this.driver.addWhenReleasedToA(this.aCommandOff);
+
+        // B
+        this.bCommandOn = new IntakeInit(0.9);
+        this.bCommandOff = new IntakingFinished();
+        this.driver.addWhenHeldToB(this.bCommandOn);
+        this.driver.addWhenReleasedToB(this.bCommandOff);
+
+        // X
+        this.xCommandOn = new OutTakeInit(-0.9, -0.5, -0.5, -0.3);
+        this.xCommandOff = new OutTakingFinished();
+        this.driver.addWhenHeldToX(this.xCommandOn);
+        this.driver.addWhenReleasedToX(this.xCommandOff);
+
+        // Y
+        this.yCommandOn = new FeederBegin(0.7, 0.7);
+        this.yCommandOff = new FeederFinished();
+        this.driver.addWhenHeldToY(this.yCommandOn);
+        this.driver.addWhenReleasedToY(this.yCommandOff);
+
+        // RB
+        this.rbCommandOn = new ArmsUp(0.2);
+        this.rbCommandOff = new ArmsFinished();
+        this.driver.addWhenHeldToRightBumper(this.rbCommandOn);
+        this.driver.addWhenReleasedToRightBumper(this.rbCommandOff);
+
+        // LB
+        this.lbCommandOn = new ArmsDown(0.1);
+        this.lbCommandOff = new ArmsFinished();
+        this.driver.addWhenHeldToLeftBumper(this.lbCommandOn);
+        this.driver.addWhenReleasedToLeftBumper(this.lbCommandOff);
+
+    }
+
+    public void setupControlModeTwo() {
+
+        // RT
+        this.rtCommandOn = new ArmsUp(0.4);
+        this.rtCommandOff = new ArmsFinished();
+        this.driver.addWhenHeldToRightTrigger(this.rtCommandOn);
+        this.driver.addWhenReleasedToRightTrigger(this.rtCommandOff);
+
+        // LT
+        this.ltCommandOn = new ArmsDown(0.2);
+        this.ltCommandOff = new ArmsFinished();
+        this.driver.addWhenHeldToLeftTrigger(this.ltCommandOn);
+        this.driver.addWhenReleasedToLeftTrigger(this.ltCommandOff);
+
+    }
 }

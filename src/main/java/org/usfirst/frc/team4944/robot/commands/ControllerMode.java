@@ -11,17 +11,24 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 import org.usfirst.frc.team4944.robot.OI;
 
 public class ControllerMode extends InstantCommand {
+  public static final boolean Mode = false;
   /**
    * Creates a new ControllerMode.
    */
-  int controllerMode = 0;
   OI oi;
 
   public ControllerMode() {
+    oi = new OI();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if(this.oi.getControlMode() == true){
+      this.oi.setControlMode(false);
+
+    }else{
+      this.oi.setControlMode(true);
+    }
   }
 }

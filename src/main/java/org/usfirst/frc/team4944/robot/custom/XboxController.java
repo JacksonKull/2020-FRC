@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.POVButton;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /*
  * When Creating a new XboxController: XboxController controller = new XboxController(Port#);
@@ -23,6 +24,7 @@ public class XboxController extends Joystick {
 	POVButton dpad0, dpad45, dpad90, dpad135, dpad180, dpad225, dpad270, dpad315;
 	Boolean AToggle, BToggle, XToggle, YToggle, RBToggle, LBToggle, RTToggle, LTToggle, LMToggle;
 	Boolean prevA, prevB, prevX, prevY, prevRB, prevLB, prevRT, prevLT;
+	Button leftTrig, rightTrig;
 
 	public XboxController(int port) {
 		super(port);
@@ -53,6 +55,19 @@ public class XboxController extends Joystick {
 		this.RTToggle = false;
 		this.LTToggle = false;
 		this.LMToggle = false;
+
+		this.rightTrig = new Button() {
+			@Override
+			public boolean get() {
+				return getRawAxis(3) > 0.75;
+			}
+		};
+		this.leftTrig = new Button() {
+			@Override
+			public boolean get() {
+				return getRawAxis(2) > 0.75;
+			}
+		};
 	}
 
 	// A BUTTON
@@ -106,30 +121,30 @@ public class XboxController extends Joystick {
 	}
 
 	// public void toggleBButton() {
-	// 	if (this.BToggle) {
-	// 		this.BToggle = false;
-	// 	} else if (!this.BToggle) {
-	// 		this.BToggle = true;
-	// 	}
+	// if (this.BToggle) {
+	// this.BToggle = false;
+	// } else if (!this.BToggle) {
+	// this.BToggle = true;
+	// }
 	// }
 
 	// public boolean getBToggle() {
-	// 	return this.BToggle;
+	// return this.BToggle;
 	// }
 
 	// public void toggleCommandsB(Command onCommand, Command offCommand) {
-	// 	// Toggles A Button (Needs to be fully transfered into XboxController Class)
-	// 	if (this.getBButton() && !prevB) {
-	// 		this.toggleBButton();
-	// 		this.prevB = true;
-	// 	} else if (!this.getBButton() && prevB) {
-	// 		this.prevB = false;
-	// 	}
-	// 	if (!(this.getBToggle())) {
-	// 		this.addWhenHeldToB(onCommand);
-	// 	} else if (!this.getBToggle()) {
-	// 		this.addWhenReleasedToB(offCommand);
-	// 	}
+	// // Toggles A Button (Needs to be fully transfered into XboxController Class)
+	// if (this.getBButton() && !prevB) {
+	// this.toggleBButton();
+	// this.prevB = true;
+	// } else if (!this.getBButton() && prevB) {
+	// this.prevB = false;
+	// }
+	// if (!(this.getBToggle())) {
+	// this.addWhenHeldToB(onCommand);
+	// } else if (!this.getBToggle()) {
+	// this.addWhenReleasedToB(offCommand);
+	// }
 	// }
 
 	// X BUTTON
@@ -148,22 +163,6 @@ public class XboxController extends Joystick {
 	public void addWhenHeldToX(Command c) {
 		X.whileHeld(c);
 	}
-
-	// public void toggleXButton() {
-	// 	if (this.XToggle) {
-	// 		this.XToggle = false;
-	// 	} else if (!this.XToggle) {
-	// 		this.XToggle = true;
-	// 	}
-	// }
-
-	// public boolean getXToggle() {
-	// 	if (this.XToggle) {
-	// 		return true;
-	// 	} else {
-	// 		return false;
-	// 	}
-	// }
 
 	// Y BUTTON
 	public void addCommandToY(Command c) {
@@ -280,6 +279,7 @@ public class XboxController extends Joystick {
 			this.LMToggle = true;
 		}
 	}
+
 	public boolean getLMToggle() {
 		if (this.LMToggle) {
 			return true;
@@ -324,17 +324,18 @@ public class XboxController extends Joystick {
 		return this.getLeftTriggerAnalog() >= 0.75;
 	}
 
-	// public void addWhenReleasedToLeftTrigger(Command c){
-	//
-	// }
-	// public void toggleLTButton(){
-	// if(this.LTToggle){this.LTToggle = false;}
-	// else if(!this.LTToggle){this.LTToggle = true;}
-	// }
-	// public boolean getLTToggle(){
-	// if(this.LTToggle){return true;
-	// }else{return false;}
-	// }
+	public void addWhenHeldToLeftTrigger(Command c) {
+		this.leftTrig.whileHeld(c);
+	}
+
+	public void addCommandToLeftTrigger(Command c) {
+		this.leftTrig.whenActive(c);
+	}
+
+	public void addWhenReleasedToLeftTrigger(Command c) {
+		this.leftTrig.whenReleased(c);
+	}
+
 	// RIGHT TRIGGER
 	public double getRightTriggerAnalog() {
 		return this.getRawAxis(3);
@@ -343,6 +344,19 @@ public class XboxController extends Joystick {
 	public boolean getRightTriggerDown() {
 		return this.getRightTriggerAnalog() >= 0.75;
 	}
+
+	public void addWhenHeldToRightTrigger(Command c) {
+		this.rightTrig.whileHeld(c);
+	}
+
+	public void addCommandToRightTrigger(Command c) {
+		this.rightTrig.whenActive(c);
+	}
+
+	public void addWhenReleasedToRightTrigger(Command c) {
+		this.rightTrig.whenReleased(c);
+	}
+
 
 	// Integrate Properly TODO
 	public void toggleRTButton() {
@@ -381,77 +395,78 @@ public class XboxController extends Joystick {
 
 	// DPAD
 	// public boolean getDpadPressed() {
-	// 	return dpad315.get() || dpad270.get() || dpad225.get() || dpad0.get() || dpad45.get() || dpad90.get()
-	// 			|| dpad135.get() || dpad180.get();
+	// return dpad315.get() || dpad270.get() || dpad225.get() || dpad0.get() ||
+	// dpad45.get() || dpad90.get()
+	// || dpad135.get() || dpad180.get();
 	// }
 
 	// public double getDpadAngle() {
-	// 	if (dpad315.get()) {
-	// 		return -135;
-	// 	} else if (dpad270.get()) {
-	// 		return -90;
-	// 	} else if (dpad225.get()) {
-	// 		return -45;
-	// 	} else if (dpad0.get()) {
-	// 		return 0;
-	// 	} else if (dpad45.get()) {
-	// 		return 45;
-	// 	} else if (dpad90.get()) {
-	// 		return 90;
-	// 	} else if (dpad135.get()) {
-	// 		return 135;
-	// 	} else if (dpad180.get()) {
-	// 		return 180;
-	// 	} else {
-	// 		return Double.NaN;
-	// 	}
+	// if (dpad315.get()) {
+	// return -135;
+	// } else if (dpad270.get()) {
+	// return -90;
+	// } else if (dpad225.get()) {
+	// return -45;
+	// } else if (dpad0.get()) {
+	// return 0;
+	// } else if (dpad45.get()) {
+	// return 45;
+	// } else if (dpad90.get()) {
+	// return 90;
+	// } else if (dpad135.get()) {
+	// return 135;
+	// } else if (dpad180.get()) {
+	// return 180;
+	// } else {
+	// return Double.NaN;
+	// }
 	// }
 
 	// public boolean getDpadUpPressed() {
-	// 	return this.getDpadAngle() == 0;
+	// return this.getDpadAngle() == 0;
 	// }
 
 	// public boolean getDpadDownPressed() {
-	// 	return this.getDpadAngle() == 180;
+	// return this.getDpadAngle() == 180;
 	// }
 
 	// public boolean getDpadLeftPressed() {
-	// 	return this.getDpadAngle() == 270;
+	// return this.getDpadAngle() == 270;
 	// }
 
 	// public boolean getDpadRightPressed() {
-	// 	return this.getDpadAngle() == 90;
+	// return this.getDpadAngle() == 90;
 	// }
 
 	// public void addWhenHeldToDpad0(Command c) {
-	// 	dpad0.whileHeld(c);
+	// dpad0.whileHeld(c);
 	// }
 
 	// public void addWhenReleasedToDpad0(Command c) {
-	// 	dpad0.whenReleased(c);
+	// dpad0.whenReleased(c);
 	// }
 
 	// public void addWhenHeldToDpad180(Command c) {
-	// 	dpad180.whileHeld(c);
+	// dpad180.whileHeld(c);
 	// }
 
 	// public void addWhenRealesedToDpad180(Command c) {
-	// 	dpad180.whenReleased(c);
+	// dpad180.whenReleased(c);
 	// }
 
 	// public void addWhenHeldToDpad270(Command c) {
-	// 	dpad270.whileHeld(c);
+	// dpad270.whileHeld(c);
 	// }
 
 	// public void addWhenReleasedToDpad270(Command c) {
-	// 	dpad270.whenReleased(c);
+	// dpad270.whenReleased(c);
 	// }
 
 	// public void addWhenHeldToDpad90(Command c) {
-	// 	dpad90.whileHeld(c);
+	// dpad90.whileHeld(c);
 	// }
 
 	// public void addWhenReleasedToDpad90(Command c) {
-	// 	dpad90.whenReleased(c);
+	// dpad90.whenReleased(c);
 	// }
 }
