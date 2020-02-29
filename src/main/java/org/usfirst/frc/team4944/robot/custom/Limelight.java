@@ -17,9 +17,10 @@ public class Limelight {
     // Network Table
     NetworkTable table;
     // Constants
-    final double feetOffGroundLimelight = 1.875;
+    final double feetOffGroundLimelight = 1.75;
     final double feetOffGroundTarget = 8.71;
-    final double limelightAngle = 12;
+    final double limelightAngle = 17;
+    //Practice bot angle 12
     final String tableName = "limelight";
 
     public Limelight(){
