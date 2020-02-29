@@ -113,19 +113,28 @@ public class Robot extends TimedRobot {
 		this.shooterPower = SmartDashboard.getNumber("Shooter Power", 0.6);
 		if (this.driver.getLeftTriggerDown()) {
 			this.shooter.setManualShooterPower(this.shooterPower);
-			this.turret.followLimelightNoEncoder();
+
 		} else {
 			this.shooter.setManualShooterPower(0);
+
+		}
+
+		// LOCK ON MODE
+		if (this.driver.getRightMenu()) {
+			this.turret.followLimelightNoEncoder();
+			this.hood.updateValues();
+			this.hood.setAngleByLM();
+			this.hood.driveHoodPID();
+		} else {
 			this.turret.setTurretMotorPower(0);
+			this.hood.setHoodMotorPower(0);
 		}
 
 		// SHOOTER
 		// this.shooter.updateValues();
 
 		// HOOD
-		this.hood.updateValues();
-		this.hood.setAngleByLM();
-		this.hood.driveHoodPID();
+
 		// SMARTDASHBOARD
 		this.SmartDashboardDisplay(); // Displays all Smartdashboard Values
 	}
