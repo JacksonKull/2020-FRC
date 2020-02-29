@@ -10,6 +10,7 @@ package org.usfirst.frc.team4944.robot.commands;
 import org.usfirst.frc.team4944.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.HopperSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.IntakeSubsystem;
+import org.usfirst.frc.team4944.robot.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
@@ -17,26 +18,32 @@ public class OutTakeInit extends InstantCommand {
 
   IntakeSubsystem intake;
   HopperSubsystem hopper;
-  double intakePow, hopperPow, feederPow;
+  double intakePower, hopperPower, feederPower, shooterPower;
   ArmSubsystem arms;
+  ShooterSubsystem shooter;
 
-  public OutTakeInit(double intakePow,double hopperPow,double feederPow) {
+  public OutTakeInit(double intakePow,double hopperPow,double feederPow, double shooterPow) {
     super();
     this.intake = new IntakeSubsystem();
-    this.intakePow = intakePow;
-    requires(intake);
     this.hopper = new HopperSubsystem();
-    this.hopperPow = hopperPow;
-    this.feederPow = hopperPow;
+    this.shooter = new ShooterSubsystem();
+    requires(intake);
+    requires(hopper);
+    requires(shooter);
+    this.intakePower = intakePow;
+    this.hopperPower = hopperPow;
+    this.feederPower = hopperPow;
+    this.shooterPower = shooterPow;
   }
 
   // Called once when the command executes
   @Override
   protected void initialize() {
     // this.arms.disableBreak();
-    this.intake.setIntakeMotor(this.intakePow);
-    this.hopper.setHopperMotor(this.hopperPow);
-    this.hopper.setFeedMotor(this.hopperPow);
+    this.intake.setIntakeMotor(this.intakePower);
+    this.hopper.setHopperMotor(this.hopperPower);
+    this.hopper.setFeedMotor(this.hopperPower);
+    this.shooter.setManualShooterPower(this.shooterPower);;
   }
 
 }

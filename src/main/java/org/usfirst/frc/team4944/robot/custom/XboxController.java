@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class XboxController extends Joystick {
 	Button A, B, X, Y, leftBumper, rightBumper, leftMenu, rightMenu, leftStick, rightStick;
 	POVButton dpad0, dpad45, dpad90, dpad135, dpad180, dpad225, dpad270, dpad315;
-	Boolean AToggle, BToggle, XToggle, YToggle, RBToggle, LBToggle, RTToggle, LTToggle;
+	Boolean AToggle, BToggle, XToggle, YToggle, RBToggle, LBToggle, RTToggle, LTToggle, LMToggle;
 	Boolean prevA, prevB, prevX, prevY, prevRB, prevLB, prevRT, prevLT;
 
 	public XboxController(int port) {
@@ -52,6 +52,7 @@ public class XboxController extends Joystick {
 		this.LBToggle = false;
 		this.RTToggle = false;
 		this.LTToggle = false;
+		this.LMToggle = false;
 	}
 
 	// A BUTTON
@@ -270,6 +271,21 @@ public class XboxController extends Joystick {
 
 	public boolean getLeftMenu() {
 		return this.getRawButton(7);
+	}
+
+	public void toggleLeftMenu() {
+		if (this.LMToggle) {
+			this.LMToggle = false;
+		} else if (!this.LMToggle) {
+			this.LMToggle = true;
+		}
+	}
+	public boolean getLMToggle() {
+		if (this.LMToggle) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	// RIGHT MENU BUTTON

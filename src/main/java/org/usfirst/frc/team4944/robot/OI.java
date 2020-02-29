@@ -1,10 +1,13 @@
 package org.usfirst.frc.team4944.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import org.usfirst.frc.team4944.robot.commands.ArmsDown;
 import org.usfirst.frc.team4944.robot.commands.ArmsFinished;
 import org.usfirst.frc.team4944.robot.commands.ArmsUp;
 import org.usfirst.frc.team4944.robot.commands.CPFinished;
 import org.usfirst.frc.team4944.robot.commands.CPStart;
+import org.usfirst.frc.team4944.robot.commands.ControllerMode;
 import org.usfirst.frc.team4944.robot.commands.FeederBegin;
 import org.usfirst.frc.team4944.robot.commands.FeederFinished;
 import org.usfirst.frc.team4944.robot.commands.IntakeInit;
@@ -20,6 +23,7 @@ import org.usfirst.frc.team4944.robot.custom.TriggerCommand;
 import org.usfirst.frc.team4944.robot.custom.XboxController;
 import org.usfirst.frc.team4944.robot.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.TurretSubsystem;
+import org.usfirst.frc.team4944.robot.commands.ControllerMode;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class OI {
@@ -27,18 +31,21 @@ public class OI {
     boolean prevAButton, prevBButton, prevXButton, prevYButton, prevRBButton, prevLBButton, prevRTButton, prevLTButton;
     Command aCommandOn, aCommandOff, bCommandOn, bCommandOff, xCommandOn, xCommandOff, yCommandOn, yCommandOff;
     Command lbCommandOn, lbCommandOff, rbCommandOn, rbCommandOff, rtCommandOn, rtCommandOff, ltCommandOn, ltCommandOff;
-    Command dpad0On, dpad0Off, dpad180On, dpad180Off, dpad270On, dpad270Off, dpad90On, dpad90Off;
+    Command dpad0On, dpad0Off, dpad180On, dpad180Off, dpad270On, dpad270Off, dpad90On, dpad90Off, lmCommandOn, lmCommandOff;
     TurretSubsystem turret;
-    ToggleCommand toggleA, toggleB, toggleX, toggleY, toggleRB, toggleLB, toggleRT, toggleLT;
+    ToggleCommand toggleA, toggleB, toggleX, toggleY, toggleRB, toggleLB, toggleRT, toggleLT, toggleLM;
     TriggerCommand leftTrigger, rightTrigger;
     ShooterSubsystem shooter;
     double shooterFPS, shooterPower;
-
+    double controlMode;
     public OI() {
 
         // Controllers
         this.driver = new XboxController(0);
         this.operator = new XboxController(1);
+
+        // Controller Mode
+        this.controlMode = 0;
 
         // Subsystem
         this.shooter = new ShooterSubsystem();
@@ -56,6 +63,8 @@ public class OI {
         this.prevLTButton = false;
         // Commands
 
+        
+
         // A
         this.aCommandOn = new CPStart(0.2);
         this.aCommandOff = new CPFinished();
@@ -69,7 +78,7 @@ public class OI {
         this.driver.addWhenReleasedToB(this.bCommandOff);
 
         // X
-        this.xCommandOn = new OutTakeInit(-0.9, -0.5, -0.5);
+        this.xCommandOn = new OutTakeInit(-0.9, -0.5, -0.5, -0.3);
         this.xCommandOff = new OutTakingFinished();
         this.driver.addWhenHeldToX(this.xCommandOn);
         this.driver.addWhenReleasedToX(this.xCommandOff);
@@ -91,7 +100,12 @@ public class OI {
         this.lbCommandOff = new ArmsFinished();
         this.driver.addWhenHeldToLeftBumper(this.lbCommandOn);
         this.driver.addWhenReleasedToLeftBumper(this.lbCommandOff);
-        ;
+        
+        // LM
+        this.lmCommandOn = null;
+        this.lmCommandOff = null;
+        this.toggleLM = new ToggleCommand(this.lmCommandOn, this.lmCommandOff);
+        this.driver.addCommandToLeftMenu(null);
         // RT
         this.rtCommandOn = null;
         this.rtCommandOff = null;
@@ -124,4 +138,13 @@ public class OI {
 
         // Dpad Right
     }
+    //Controller Mode 0 
+    //Drive/CP/Intake/etc...
+    //Controller Mode 1
+    //Climber
+    // True = 0/False = 1
+	public void setControlMode(boolean controllerMode) {
+
+        
+	}
 }

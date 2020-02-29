@@ -138,11 +138,10 @@ public class Robot extends TimedRobot {
 		// SmartDashboard.putNumber("Turret Power", this.turret.getTurretPower());
 
 		// Hood
-		// SmartDashboard.putNumber("Hood Angle", this.turret.getHoodAngle());
-		// SmartDashboard.putNumber("Hood Encoder", this.hood.getHoodEncoderValue());
-		// SmartDashboard.putNumber("Hood SetPoint", this.hood.getHoodSetPoint());
-		// SmartDashboard.putNumber("Hood Power", this.hood.getHoodMotorPower());
-		// SmartDashboard.putNumber("Set Hood Angle", this.hood.getRequiredAngle());
+		SmartDashboard.putNumber("Hood Encoder", this.hood.getHoodEncoderValue());
+		SmartDashboard.putNumber("Hood SetPoint", this.hood.getHoodSetPoint());
+		SmartDashboard.putNumber("Hood Power", this.hood.getHoodMotorPower());
+		SmartDashboard.putNumber("Set Hood Angle", this.hood.getRequiredAngle());
 
 		// Calculated Values
 		// SmartDashboard.putNumber("Vx", this.hood.getVx());
