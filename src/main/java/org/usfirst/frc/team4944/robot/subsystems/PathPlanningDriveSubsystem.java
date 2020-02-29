@@ -18,9 +18,9 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class PathPlanningDriveSubsystem extends SubsystemBase {
+
+public class PathPlanningDriveSubsystem extends Subsystem {
   // The motors on the left side of the drive.
   private final SpeedControllerGroup m_leftMotors = new SpeedControllerGroup(new WPI_TalonFX(3), new WPI_TalonFX(4));
 
@@ -191,5 +191,11 @@ public class PathPlanningDriveSubsystem extends SubsystemBase {
    */
   public double getTurnRate() {
     return m_gyro.getRate() * (this.kGyroReversed ? -1.0 : 1.0);
+  }
+
+  @Override
+  protected void initDefaultCommand() {
+    // TODO Auto-generated method stub
+
   }
 }

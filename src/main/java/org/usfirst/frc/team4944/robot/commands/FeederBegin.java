@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team4944.robot.commands;
 
+import org.usfirst.frc.team4944.robot.OI;
 import org.usfirst.frc.team4944.robot.subsystems.HopperSubsystem;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
@@ -19,11 +20,14 @@ public class FeederBegin extends InstantCommand {
   HopperSubsystem hopper;
   double feederPower;
   double hopperPower;
+  OI oi;
 
   public FeederBegin(double feederPow, double hopperPow) {
     super();
     this.hopper = new HopperSubsystem();
+    this.oi = new OI();
     this.requires(hopper);
+    this.requires(oi);
     this.hopperPower = hopperPow;
     this.feederPower = feederPow;
   }
@@ -31,8 +35,13 @@ public class FeederBegin extends InstantCommand {
   // Called once when the command executes
   @Override
   protected void initialize() {
-    this.hopper.setFeedMotor(this.feederPower);
+    if(this.oi.getControlMode() == true){
+      this.hopper.setFeedMotor(this.feederPower);
     this.hopper.setHopperMotor(this.hopperPower);
+      }else{
+
+      }
+
   }
 
 }

@@ -103,8 +103,8 @@ public class HoodSubsystem extends Subsystem {
   public double convertDistToAngle(double distance){
     // double angle = (0.0161904762*(distance))-(0.7085714186*((distance)*(distance)))+(9.223809524*(distance))-(5.571428571);
     double angle = ((-.7489177489)*distance)+39.13419913;
-    System.out.println(distance + " Distance");
-    System.out.println(angle + " Angle");
+    // System.out.println(distance + " Distance");
+    // System.out.println(angle + " Angle");
     return angle;
     // return (0.0161904762*(distance))-(0.7085714186*((distance)*(distance)))+(9.223809524*(distance))-(5.571428571);
   }

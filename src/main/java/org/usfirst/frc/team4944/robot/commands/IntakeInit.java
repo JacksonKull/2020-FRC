@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team4944.robot.commands;
 
+import org.usfirst.frc.team4944.robot.OI;
 import org.usfirst.frc.team4944.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.IntakeSubsystem;
 
@@ -17,21 +18,28 @@ public class IntakeInit extends InstantCommand {
   IntakeSubsystem intake;
   double intakePower;
   ArmSubsystem arms;
-
+  OI oi;
   public IntakeInit(double power) {
     super();
     this.intake = new IntakeSubsystem();
+    this.oi = new OI();
     this.intakePower = power;
     requires(intake);
     this.arms = new ArmSubsystem();
     requires(arms);
+    requires(oi);
   }
 
   // Called once when the command executes
   @Override
   protected void initialize() {
-    this.arms.disableBreak();
-    this.intake.setIntakeMotor(this.intakePower);
+    if(this.oi.getControlMode() == true){
+      this.arms.disableBreak();
+      this.intake.setIntakeMotor(this.intakePower);
+    }else{
+
+      }
+
   }
 
 }

@@ -4,6 +4,7 @@ import org.usfirst.frc.team4944.robot.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
+
 public class CPFinished extends InstantCommand {
     IntakeSubsystem intake;
 

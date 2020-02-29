@@ -1,6 +1,5 @@
 package org.usfirst.frc.team4944.robot;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import org.usfirst.frc.team4944.robot.commands.ArmsDown;
 import org.usfirst.frc.team4944.robot.commands.ArmsFinished;
@@ -25,13 +24,14 @@ import org.usfirst.frc.team4944.robot.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.TurretSubsystem;
 import org.usfirst.frc.team4944.robot.commands.ControllerMode;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class OI {
+public class OI extends Subsystem{
     XboxController driver, operator;
     boolean prevAButton, prevBButton, prevXButton, prevYButton, prevRBButton, prevLBButton, prevRTButton, prevLTButton;
     Command aCommandOn, aCommandOff, bCommandOn, bCommandOff, xCommandOn, xCommandOff, yCommandOn, yCommandOff;
     Command lbCommandOn, lbCommandOff, rbCommandOn, rbCommandOff, rtCommandOn, rtCommandOff, ltCommandOn, ltCommandOff;
-    Command dpad0On, dpad0Off, dpad180On, dpad180Off, dpad270On, dpad270Off, dpad90On, dpad90Off, lmCommandOn, lmCommandOff;
+    Command dpad0On, dpad0Off, dpad180On, dpad180Off, dpad270On, dpad270Off, dpad90On, dpad90Off, lmCommand;
     TurretSubsystem turret;
     ToggleCommand toggleA, toggleB, toggleX, toggleY, toggleRB, toggleLB, toggleRT, toggleLT, toggleLM;
     TriggerCommand leftTrigger, rightTrigger;
@@ -39,20 +39,14 @@ public class OI {
     double shooterFPS, shooterPower;
     Boolean controlMode;
 
-    public OI() {
+    public OI(){
 
         // Controllers
         this.driver = new XboxController(0);
-        this.operator = new XboxController(1);
+        this.operator = new XboxController(0);
 
         // Controller Mode
         this.controlMode = true;
-
-        // Subsystem
-        this.shooter = new ShooterSubsystem();
-
-        // ShooterSpeed
-        this.shooterPower = 0.5;
 
         // Button Toggles
         this.prevAButton = false;
@@ -62,44 +56,7 @@ public class OI {
         this.prevRBButton = false;
         this.prevLBButton = false;
         this.prevLTButton = false;
-        // Commands
-
-        // LM
-        this.lmCommandOn = null;
-        this.lmCommandOff = null;
-        this.toggleLM = new ToggleCommand(this.lmCommandOn, this.lmCommandOff);
-        this.driver.addCommandToLeftMenu(null);
-        // RT
-        this.rtCommandOn = null;
-        this.rtCommandOff = null;
-        // this.driver.addWhenHeldToRightTrigger(this.rtCommandOn);
-        // this.driver.addWhenReleasedToRightTrigger(this.rtCommandOff);
-
-        // LT
-        this.ltCommandOn = null;
-        this.ltCommandOff = null;
-        // this.driver.addWhenHeldToLeftTrigger(this.ltCommandOn);
-        // this.driver.addWhenReleasedToRightTrigger(this.rtCommandOff);
-
-        // Dpad Up
-        this.dpad0On = null;
-        this.dpad0Off = null;
-        // this.driver.addWhenHeldToDpad0(this.dpad0On);
-        // this.driver.addWhenReleasedToDpad0(this.dpad0Off);
-
-        // Dpad Down
-        this.dpad180On = null;
-        this.dpad180Off = null;
-        // this.driver.addWhenHeldToDpad180(this.dpad180On);
-        // this.driver.addWhenReleasedToDpad0(this.dpad180Off);
-
-        // Dpad Left
-        this.dpad270On = null;
-        this.dpad270Off = null;
-        // this.driver.addWhenHeldToDpad270(this.dpad270On);
-        // this.driver.addWhenReleasedToDpad270(this.dpad270Off);
-
-        // Dpad Right
+        
     }
 
     // Controller Mode 0
@@ -113,12 +70,13 @@ public class OI {
 
     public void setControlMode(Boolean mode) {
         this.controlMode = mode;
-
+        System.out.println("Setting ContrlMode " + mode);
     }
 
-    public void setupControlModeOne() {
+
+    public void setupControlModeOne(boolean mode) {
         // A
-        this.aCommandOn = new CPStart(0.2);
+        this.aCommandOn = new CPStart(0.2, mode);
         this.aCommandOff = new CPFinished();
         this.driver.addWhenHeldToA(this.aCommandOn);
         this.driver.addWhenReleasedToA(this.aCommandOff);
@@ -142,32 +100,41 @@ public class OI {
         this.driver.addWhenReleasedToY(this.yCommandOff);
 
         // RB
-        this.rbCommandOn = new ArmsUp(0.2);
+        this.rbCommandOn = new ArmsUp(0.4);
         this.rbCommandOff = new ArmsFinished();
         this.driver.addWhenHeldToRightBumper(this.rbCommandOn);
         this.driver.addWhenReleasedToRightBumper(this.rbCommandOff);
 
         // LB
-        this.lbCommandOn = new ArmsDown(0.1);
+        this.lbCommandOn = new ArmsDown(0.2);
         this.lbCommandOff = new ArmsFinished();
         this.driver.addWhenHeldToLeftBumper(this.lbCommandOn);
         this.driver.addWhenReleasedToLeftBumper(this.lbCommandOff);
 
-    }
-
-    public void setupControlModeTwo() {
-
-        // RT
+        // RT -- Only Active on Control Mode 2
         this.rtCommandOn = new ArmsUp(0.4);
         this.rtCommandOff = new ArmsFinished();
         this.driver.addWhenHeldToRightTrigger(this.rtCommandOn);
         this.driver.addWhenReleasedToRightTrigger(this.rtCommandOff);
 
-        // LT
+        // LT -- Only Active on Control Mode 2
         this.ltCommandOn = new ArmsDown(0.2);
         this.ltCommandOff = new ArmsFinished();
         this.driver.addWhenHeldToLeftTrigger(this.ltCommandOn);
         this.driver.addWhenReleasedToLeftTrigger(this.ltCommandOff);
+
+    }
+
+    public void oiIinit(){
+        // LM
+        this.lmCommand = new ControllerMode();
+        this.driver.addCommandToLeftMenu(this.lmCommand);
+        this.setupControlModeOne(this.controlMode);
+    }
+
+    @Override
+    protected void initDefaultCommand() {
+        // TODO Auto-generated method stub
 
     }
 }

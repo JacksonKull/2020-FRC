@@ -19,6 +19,7 @@ public class ControllerMode extends InstantCommand {
 
   public ControllerMode() {
     oi = new OI();
+    requires(oi);
   }
 
   // Called when the command is initially scheduled.
@@ -26,9 +27,12 @@ public class ControllerMode extends InstantCommand {
   public void initialize() {
     if(this.oi.getControlMode() == true){
       this.oi.setControlMode(false);
-
-    }else{
+      System.out.println("Control Mode Two");
+      this.oi.setupControlModeOne(false);
+    }else if(this.oi.getControlMode() == false){
       this.oi.setControlMode(true);
+      System.out.println("Control Mode One");
+      this.oi.setupControlModeOne(true);
     }
   }
 }

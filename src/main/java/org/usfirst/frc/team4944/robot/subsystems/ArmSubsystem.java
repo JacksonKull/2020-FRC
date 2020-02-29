@@ -24,6 +24,8 @@ public class ArmSubsystem extends Subsystem {
     this.leftArmMotor = new TalonFX(5);
     this.rightArmMotor = new TalonFX(6);
     this.leftArmMotor.setInverted(true);
+    this.leftArmMotor.setNeutralMode(NeutralMode.Brake);
+    this.rightArmMotor.setNeutralMode(NeutralMode.Brake);
   }
 
   public void setLeftArmMotor(double power) {

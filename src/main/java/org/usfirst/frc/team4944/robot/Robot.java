@@ -53,6 +53,7 @@ public class Robot extends TimedRobot {
 		this.intake = new IntakeSubsystem();
 		this.hood = new HoodSubsystem();
 		this.oi = new OI();
+		this.oi.oiIinit();
 
 		// SmartDashboard
 		SmartDashboard.putNumber("Shooter Power", this.shooterPower);

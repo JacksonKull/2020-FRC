@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.POVButton;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /*
  * When Creating a new XboxController: XboxController controller = new XboxController(Port#);
