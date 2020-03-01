@@ -13,7 +13,6 @@ public class ArmsFinished extends InstantCommand {
         super();
         this.arms = new ArmSubsystem();
         requires(arms);
-
     }
 
     @Override

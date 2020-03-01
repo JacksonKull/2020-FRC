@@ -6,7 +6,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Talon;
@@ -18,16 +17,16 @@ public class DriveSystem extends Subsystem {
 	// MOTORS
 
 	// Comp Motors
-	TalonFX leftMotor1;
-	TalonFX leftMotor2;
-	TalonFX rightMotor1;
-	TalonFX rightMotor2;
+	// TalonFX leftMotor1;
+	// TalonFX leftMotor2;
+	// TalonFX rightMotor1;
+	// TalonFX rightMotor2;
 
-	//Practice Motors
-	// TalonSRX leftMotor1;
-	// TalonSRX leftMotor2;
-	// TalonSRX rightMotor1;
-	// TalonSRX rightMotor2;
+	// Practice Motors
+	TalonSRX leftMotor1;
+	TalonSRX leftMotor2;
+	TalonSRX rightMotor1;
+	TalonSRX rightMotor2;
 
 	// GYRO
 	AHRS gyro;
@@ -44,24 +43,24 @@ public class DriveSystem extends Subsystem {
 		// MOTORS
 
 		// Comp Boat
-		this.leftMotor1 = new TalonFX(3);
-		this.leftMotor1.setInverted(false);
-		this.leftMotor2 = new TalonFX(4);
-		this.leftMotor2.setInverted(false);
-		this.rightMotor1 = new TalonFX(1);
-		this.rightMotor1.setInverted(false);
-		this.rightMotor2 = new TalonFX(2);
-		this.rightMotor2.setInverted(false);
+		// this.leftMotor1 = new TalonFX(3);
+		// this.leftMotor1.setInverted(false);
+		// this.leftMotor2 = new TalonFX(4);
+		// this.leftMotor2.setInverted(false);
+		// this.rightMotor1 = new TalonFX(1);
+		// this.rightMotor1.setInverted(false);
+		// this.rightMotor2 = new TalonFX(2);
+		// this.rightMotor2.setInverted(false);
 
 		// Practice Bot
-		// this.leftMotor1 = new TalonSRX(3);
-		// this.leftMotor1.setInverted(false);
-		// this.leftMotor2 = new TalonSRX(4);
-		// this.leftMotor2.setInverted(false);
-		// this.rightMotor1 = new TalonSRX(1);
-		// this.rightMotor1.setInverted(false);
-		// this.rightMotor2 = new TalonSRX(2);
-		// this.rightMotor2.setInverted(false);
+		this.leftMotor1 = new TalonSRX(3);
+		this.leftMotor1.setInverted(false);
+		this.leftMotor2 = new TalonSRX(4);
+		this.leftMotor2.setInverted(false);
+		this.rightMotor1 = new TalonSRX(1);
+		this.rightMotor1.setInverted(false);
+		this.rightMotor2 = new TalonSRX(2);
+		this.rightMotor2.setInverted(false);
 
 		// ENCODERS
 		this.leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);

@@ -53,7 +53,6 @@ public class Robot extends TimedRobot {
 		this.intake = new IntakeSubsystem();
 		this.hood = new HoodSubsystem();
 		this.oi = new OI();
-		this.oi.oiIinit();
 
 		// SmartDashboard
 		SmartDashboard.putNumber("Shooter Power", this.shooterPower);
@@ -114,10 +113,8 @@ public class Robot extends TimedRobot {
 		this.shooterPower = SmartDashboard.getNumber("Shooter Power", 0.6);
 		if (this.driver.getLeftTriggerDown()) {
 			this.shooter.setManualShooterPower(this.shooterPower);
-
 		} else {
 			this.shooter.setManualShooterPower(0);
-
 		}
 
 		// LOCK ON MODE
@@ -133,8 +130,6 @@ public class Robot extends TimedRobot {
 
 		// SHOOTER
 		// this.shooter.updateValues();
-
-		// HOOD
 
 		// SMARTDASHBOARD
 		this.SmartDashboardDisplay(); // Displays all Smartdashboard Values

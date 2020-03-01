@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package org.usfirst.frc.team4944.robot.custom;
 
 import java.util.List;
@@ -14,18 +7,18 @@ import org.usfirst.frc.team4944.robot.subsystems.PathPlanningDriveSubsystem;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -92,24 +85,16 @@ public class RobotContainer {
         new Pose2d(3, 0, new Rotation2d(0)),
         // Pass config
         config);
-    return null;
 
-    // RamseteCommand ramseteCommand = new RamseteCommand(
-    // exampleTrajectory,
-    // m_robotDrive::getPose,
-    // new RamseteController(DriveConstants.kRamseteB, DriveConstants.kRamseteZeta),
-    // new SimpleMotorFeedforward(DriveConstants.ksVolts,
-    // DriveConstants.kvVoltSecondsPerMeter,
-    // DriveConstants.kaVoltSecondsSquaredPerMeter),
-    // DriveConstants.kDriveKinematics,
-    // m_robotDrive::getWheelSpeeds,
-    // new PIDController(DriveConstants.kPDriveVel, 0, 0),
-    // new PIDController(DriveConstants.kPDriveVel, 0, 0),
-    // // RamseteCommand passes volts to the callback
-    // m_robotDrive::tankDriveVolts,
-    // m_robotDrive
-    // );
-    // // Run path following command, then stop at the end.
-    // return ramseteCommand.andThen(() -> m_robotDrive.tankDriveVolts(0, 0));
+    RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory, m_robotDrive::getPose,
+        new RamseteController(DriveConstants.kRamseteB, DriveConstants.kRamseteZeta),
+        new SimpleMotorFeedforward(DriveConstants.ksVolts, DriveConstants.kvVoltSecondsPerMeter,
+            DriveConstants.kaVoltSecondsSquaredPerMeter),
+        DriveConstants.kDriveKinematics, m_robotDrive::getWheelSpeeds,
+        new PIDController(DriveConstants.kPDriveVel, 0, 0), new PIDController(DriveConstants.kPDriveVel, 0, 0),
+        // RamseteCommand passes volts to the callback
+        m_robotDrive::tankDriveVolts, m_robotDrive);
+    // Run path following command, then stop at the end.
+    return ramseteCommand.andThen(() -> m_robotDrive.tankDriveVolts(0, 0));
   }
 }

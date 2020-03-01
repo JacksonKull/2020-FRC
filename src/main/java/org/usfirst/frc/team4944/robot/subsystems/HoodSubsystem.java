@@ -1,4 +1,3 @@
-
 package org.usfirst.frc.team4944.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -10,9 +9,6 @@ import org.usfirst.team4944.robot.PID.BasicPID;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-/**
- * Add your docs here.
- */
 public class HoodSubsystem extends Subsystem {
 
   // Motors
@@ -40,7 +36,8 @@ public class HoodSubsystem extends Subsystem {
   final double encoderConst = 195.2;
   // Double
   double vx, vy, lmAngle;
-  // Encoder Count = (Theta - LowerLimAng)*maxEncoderCount/(UpperLimAng - LowerLimAng)
+  // Encoder Count = (Theta - LowerLimAng)*maxEncoderCount/(UpperLimAng -
+  // LowerLimAng)
 
   public HoodSubsystem() {
     // Motors
@@ -100,23 +97,28 @@ public class HoodSubsystem extends Subsystem {
     return this.hoodMotor.getSelectedSensorPosition();
   }
 
-  public double convertDistToAngle(double distance){
-    // double angle = (0.0161904762*(distance))-(0.7085714186*((distance)*(distance)))+(9.223809524*(distance))-(5.571428571);
-    double angle = ((-.7489177489)*distance)+39.13419913;
-    // System.out.println(distance + " Distance");
-    // System.out.println(angle + " Angle");
+  public double convertDistToAngle(double distance) {
+    // double angle =
+    // (0.0161904762*(distance))-(0.7085714186*((distance)*(distance)))+(9.223809524*(distance))-(5.571428571);
+    double angle = ((-.7489177489) * distance) + 39.13419913;
+    System.out.println(distance + " Distance");
+    System.out.println(angle + " Angle");
     return angle;
-    // return (0.0161904762*(distance))-(0.7085714186*((distance)*(distance)))+(9.223809524*(distance))-(5.571428571);
+    // return
+    // (0.0161904762*(distance))-(0.7085714186*((distance)*(distance)))+(9.223809524*(distance))-(5.571428571);
   }
 
-  // Encoder Count = (Theta - LowerLimAng)*maxEncoderCount/(UpperLimAng - LowerLimAng)
+  // Encoder Count = (Theta - LowerLimAng)*maxEncoderCount/(UpperLimAng -
+  // LowerLimAng)
   private int convertHoodAngleToEncoder(double desiredAngle) {
     // double ticksPerDegree = (maxHoodEncoder - minHoodEncoder) / (maxHoodAngle -
     // minHoodAngle);
     // return (int) (desiredAngle * ticksPerDegree);
-    // double encoderCounts = (this.maxHoodAngle - desiredAngle) * (this.encoderConst);
-    // double encoderCounts = (desiredAngle - this.minHoodAngle)*(this.maxHoodEncoder/(this.maxHoodAngle-this.minHoodAngle));
-    double encoderCounts = (desiredAngle)*191.111;
+    // double encoderCounts = (this.maxHoodAngle - desiredAngle) *
+    // (this.encoderConst);
+    // double encoderCounts = (desiredAngle -
+    // this.minHoodAngle)*(this.maxHoodEncoder/(this.maxHoodAngle-this.minHoodAngle));
+    double encoderCounts = (desiredAngle) * 191.111;
     return (int) encoderCounts;
   }
 
@@ -142,13 +144,13 @@ public class HoodSubsystem extends Subsystem {
   }
 
   // public double getRequiredAngle() {
-  //   this.lmAngle = Math.atan((this.vy) / (this.vx));
-  //   return Math.toDegrees(this.lmAngle) + this.getHoodAngleOffset();
+  // this.lmAngle = Math.atan((this.vy) / (this.vx));
+  // return Math.toDegrees(this.lmAngle) + this.getHoodAngleOffset();
   // }
 
-  public double getRequiredAngle(){
+  public double getRequiredAngle() {
     this.lmAngle = this.convertDistToAngle(this.lm.getDistInFeet());
-    //System.out.println(lmAngle);
+    // System.out.println(lmAngle);
     return this.lmAngle;
   }
 
