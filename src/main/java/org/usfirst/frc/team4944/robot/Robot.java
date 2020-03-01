@@ -1,17 +1,9 @@
 package org.usfirst.frc.team4944.robot;
 
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import javax.xml.namespace.QName;
-
-import org.usfirst.frc.team4944.robot.commands.IntakeInit;
-import org.usfirst.frc.team4944.robot.commands.IntakingFinished;
-import org.usfirst.frc.team4944.robot.commands.ShooterSpinDown;
-import org.usfirst.frc.team4944.robot.commands.ShooterSpinUpInit;
 import org.usfirst.frc.team4944.robot.custom.XboxController;
 import org.usfirst.frc.team4944.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.DriveSystem;
@@ -20,12 +12,17 @@ import org.usfirst.frc.team4944.robot.subsystems.HopperSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.TurretSubsystem;
+import org.usfirst.frc.team4944.robot.subsystems.WenchSubsystem;
 
 public class Robot extends TimedRobot {
+
 	// CONTROLLERS
+
 	XboxController driver;
 	XboxController operator;
+
 	// SUBSYSTEMS
+
 	OI oi;
 	DriveSystem driveSystem;
 	TurretSubsystem turret;
@@ -34,7 +31,10 @@ public class Robot extends TimedRobot {
 	HopperSubsystem hopper;
 	HoodSubsystem hood;
 	ArmSubsystem arms;
+	WenchSubsystem wench;
+
 	// SmartDashboard Values
+
 	double turretEncoder;
 	double shooterPower;
 
@@ -109,15 +109,17 @@ public class Robot extends TimedRobot {
 
 	public void updateValues() {
 
-		// TURRET
-		this.shooterPower = SmartDashboard.getNumber("Shooter Power", 0.6);
+		// SETS SHOOTER TO DESIRED SPEED
+
+		this.shooterPower = SmartDashboard.getNumber("Shooter Power", 0);
 		if (this.driver.getLeftTriggerDown()) {
 			this.shooter.setManualShooterPower(this.shooterPower);
 		} else {
 			this.shooter.setManualShooterPower(0);
 		}
 
-		// LOCK ON MODE
+		// RIGHT MENU LOCK ON TURRET/HOOD
+
 		if (this.driver.getRightMenu()) {
 			this.turret.followLimelightNoEncoder();
 			this.hood.updateValues();
@@ -128,33 +130,38 @@ public class Robot extends TimedRobot {
 			this.hood.setHoodMotorPower(0);
 		}
 
-		// SHOOTER
-		// this.shooter.updateValues();
-
 		// SMARTDASHBOARD
-		this.SmartDashboardDisplay(); // Displays all Smartdashboard Values
+
+		// Displays all Smartdashboard Values
+
+		this.SmartDashboardDisplay();
 	}
 
 	public void SmartDashboardDisplay() {
+
 		// Turret
+
 		// SmartDashboard.putNumber("Turret SetPoint", this.turret.getTurretSetPoint());
 		// SmartDashboard.putNumber("Turret Encoder",
 		// this.turret.getTurretEncoderValue());
 		// SmartDashboard.putNumber("Turret Power", this.turret.getTurretPower());
 
 		// Hood
+
 		SmartDashboard.putNumber("Hood Encoder", this.hood.getHoodEncoderValue());
 		SmartDashboard.putNumber("Hood SetPoint", this.hood.getHoodSetPoint());
 		SmartDashboard.putNumber("Hood Power", this.hood.getHoodMotorPower());
 		SmartDashboard.putNumber("Set Hood Angle", this.hood.getRequiredAngle());
 
 		// Calculated Values
+
 		// SmartDashboard.putNumber("Vx", this.hood.getVx());
 		// SmartDashboard.putNumber("Vy", this.hood.getVy());
 
 		// Limelight
-		SmartDashboard.putNumber("Limelight Y Offset", turret.lm.getYOffset());
-		SmartDashboard.putNumber("Limelight X Offset", turret.lm.getXOffset());
+
+		// SmartDashboard.putNumber("Limelight Y Offset", turret.lm.getYOffset());
+		// SmartDashboard.putNumber("Limelight X Offset", turret.lm.getXOffset());
 		SmartDashboard.putNumber("Distance From Target", turret.lm.getDistInFeet());
 		SmartDashboard.putBoolean("Limelight Connection:", turret.lm.getLimeLightConnected());
 	}

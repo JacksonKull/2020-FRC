@@ -25,7 +25,7 @@ public class OutTakingFinished extends InstantCommand {
   @Override
   protected void initialize() {
     this.intake.setIntakeMotor(0);
-    this.hopper.setFeedMotor(0);
+    this.hopper.setBeltMotor(0);
     this.hopper.setHopperMotor(0);
     this.shooter.setManualShooterPower(0);
   }

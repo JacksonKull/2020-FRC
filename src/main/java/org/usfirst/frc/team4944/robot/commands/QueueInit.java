@@ -4,20 +4,23 @@ import org.usfirst.frc.team4944.robot.subsystems.HopperSubsystem;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
-public class FeederFinished extends InstantCommand {
+public class QueueInit extends InstantCommand {
 
   HopperSubsystem hopper;
+  double beltPower;
+  double hopperPower;
 
-  public FeederFinished() {
+  public QueueInit(double beltPow, double hopperPow) {
     super();
     this.hopper = new HopperSubsystem();
     this.requires(hopper);
+    this.beltPower = beltPow;
+    this.hopperPower = hopperPow;
   }
 
   @Override
   protected void initialize() {
-    this.hopper.setFeedMotor(0.0);
-    this.hopper.setHopperMotor(0.0);
+    this.hopper.setBeltMotor(this.beltPower);
+    this.hopper.setHopperMotor(this.hopperPower);
   }
-
 }

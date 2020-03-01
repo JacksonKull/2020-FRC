@@ -11,8 +11,8 @@ public class OutTakeInit extends InstantCommand {
   IntakeSubsystem intake;
   HopperSubsystem hopper;
   ShooterSubsystem shooter;
-  double intakePow, hopperPow, feederPow, shooterPow;
-  public OutTakeInit(double intakePow, double hopperPow, double feederPow, double shooterPow) {
+  double intakePow, hopperPow, beltPow, shooterPow;
+  public OutTakeInit(double intakePow, double hopperPow, double beltPow, double shooterPow) {
     super();
     this.intake = new IntakeSubsystem();
     requires(intake);
@@ -20,7 +20,7 @@ public class OutTakeInit extends InstantCommand {
     this.hopper = new HopperSubsystem();
     requires(hopper);
     this.hopperPow = hopperPow;
-    this.feederPow = feederPow;
+    this.beltPow = beltPow;
     this.shooter = new ShooterSubsystem();
     requires(shooter);
     this.shooterPow = shooterPow;
@@ -30,7 +30,7 @@ public class OutTakeInit extends InstantCommand {
   protected void initialize() {
     this.intake.setIntakeMotor(this.intakePow);
     this.hopper.setHopperMotor(this.hopperPow);
-    this.hopper.setFeedMotor(this.feederPow);
+    this.hopper.setBeltMotor(this.beltPow);
     this.shooter.setManualShooterPower(this.shooterPow);
   }
 }

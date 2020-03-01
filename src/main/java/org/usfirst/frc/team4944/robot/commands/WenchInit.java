@@ -4,12 +4,12 @@ import org.usfirst.frc.team4944.robot.subsystems.WenchSubsystem;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
-public class WenchStart extends InstantCommand {
+public class WenchInit extends InstantCommand {
 
   WenchSubsystem wench;
   double wenchPow;
 
-  public WenchStart(double pow) {
+  public WenchInit(double pow) {
     super();
     this.wench = new WenchSubsystem();
     requires(wench);

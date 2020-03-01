@@ -1,36 +1,37 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package org.usfirst.frc.team4944.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+// import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import org.usfirst.frc.team4944.robot.custom.AS5600EncoderPwm;
 import org.usfirst.frc.team4944.robot.custom.Limelight;
-import org.usfirst.frc.team4944.robot.custom.Motor;
-import org.usfirst.frc.team4944.robot.custom.MotorType;
+// import org.usfirst.frc.team4944.robot.custom.Motor;
+// import org.usfirst.frc.team4944.robot.custom.MotorType;
 import org.usfirst.team4944.robot.PID.BasicPID;
 
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Servo;
+// import edu.wpi.first.networktables.NetworkTable;
+// import edu.wpi.first.networktables.NetworkTableInstance;
+// import edu.wpi.first.wpilibj.Encoder;
+// import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class TurretSubsystem extends Subsystem {
+
 	// Limelight
+
 	public Limelight lm;
+
 	// Motors
+
 	TalonSRX turretMotor;
+
 	// Encoder
+
 	AS5600EncoderPwm turretEncoder;
+
 	// Turret Constants
+
 	final int turretOffset = 100;
 	final int minTurretEncoder = -1312;
 	final int neutralTurretEncoder = 0;
@@ -38,21 +39,33 @@ public class TurretSubsystem extends Subsystem {
 	final double minTurretAngle = -90;
 	final double maxTurretAngle = 90;
 	final double maxTurretPow = 0.15;
+
 	// Total Range of 2532
+
 	final double visionMaxPow = 0.15;
+
 	// PID
+
 	BasicPID turretPID;
+
 	// Vision PID Values
+
 	final double visionP = .28;
+
 	// Turret PID Values
+
 	final double turret_p = .05;
 	final double turret_i = 0;
 	final double turret_d = 0;
 
 	public TurretSubsystem() {
+
 		// Motors
+
 		this.turretMotor = new TalonSRX(7);
+
 		// Encoder
+
 		this.turretEncoder = new AS5600EncoderPwm(this.turretMotor.getSensorCollection());
 		this.turretPID = new BasicPID(this.turret_p, this.turret_i, this.turret_d);
 		this.turretPID.setSetPoint(this.neutralTurretEncoder);
@@ -82,6 +95,7 @@ public class TurretSubsystem extends Subsystem {
 	}
 
 	// Drives the Motors based off of the PID and
+
 	public void driveTurretPID() {
 		System.out.println(
 				Math.abs(Math.abs(this.getTurretSetPoint()) - Math.abs(this.getTurretEncoderValue())) + " Difference");
@@ -96,6 +110,7 @@ public class TurretSubsystem extends Subsystem {
 	}
 
 	// Drives the limelight based purly off of offset (No Encoders)
+
 	public void followLimelightNoEncoder() {
 		if (lm.getTargetVisible()) {
 			double turPow = lm.getXOffset() * visionP;
@@ -109,6 +124,7 @@ public class TurretSubsystem extends Subsystem {
 	}
 
 	// Returns if the shooter is within lineup range
+
 	public boolean followLimelight() {
 		System.out.println(lm.getTargetVisible());
 		if (!lm.getTargetVisible()) {
