@@ -38,6 +38,9 @@ public class Robot extends TimedRobot {
 	double turretEncoder;
 	double shooterPower;
 
+	// Comp Bot
+	
+
 	@Override
 	public void robotInit() {
 		// CONTROLLERS INIT
@@ -117,17 +120,17 @@ public class Robot extends TimedRobot {
 		} else {
 			this.shooter.setManualShooterPower(0);
 		}
-
+		
 		// RIGHT MENU LOCK ON TURRET/HOOD
-
-		if (this.driver.getRightMenu()) {
-			this.turret.followLimelightNoEncoder();
+		
+		if (this.driver.getRightTriggerDown()) {
 			this.hood.updateValues();
 			this.hood.setAngleByLM();
 			this.hood.driveHoodPID();
+			this.turret.followLimelightNoEncoder();
 		} else {
-			this.turret.setTurretMotorPower(0);
 			this.hood.setHoodMotorPower(0);
+			this.turret.setTurretMotorPower(0);
 		}
 
 		// SMARTDASHBOARD
@@ -150,7 +153,7 @@ public class Robot extends TimedRobot {
 
 		SmartDashboard.putNumber("Hood Encoder", this.hood.getHoodEncoderValue());
 		SmartDashboard.putNumber("Hood SetPoint", this.hood.getHoodSetPoint());
-		SmartDashboard.putNumber("Hood Power", this.hood.getHoodMotorPower());
+		// SmartDashboard.putNumber("Hood Power", this.hood.getHoodMotorPower());
 		SmartDashboard.putNumber("Set Hood Angle", this.hood.getRequiredAngle());
 
 		// Calculated Values

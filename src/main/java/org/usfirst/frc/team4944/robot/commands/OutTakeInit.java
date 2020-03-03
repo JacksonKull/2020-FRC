@@ -28,9 +28,9 @@ public class OutTakeInit extends InstantCommand {
 
   @Override
   protected void initialize() {
-    this.intake.setIntakeMotor(this.intakePow);
-    this.hopper.setHopperMotor(this.hopperPow);
-    this.hopper.setBeltMotor(this.beltPow);
+    this.intake.setIntakeMotor(-this.intakePow);
+    this.hopper.setHopperMotor(-this.hopperPow);
+    this.hopper.setBeltMotor(-this.beltPow);
     this.shooter.setManualShooterPower(this.shooterPow);
   }
 }

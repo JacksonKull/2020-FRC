@@ -1,12 +1,8 @@
 package org.usfirst.frc.team4944.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-// import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-// import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-// import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
-// import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 
 import org.usfirst.frc.team4944.robot.custom.Limelight;
@@ -53,9 +49,7 @@ public class ShooterSubsystem extends Subsystem {
 
 	public void setShooterPower(double rpm) {
 		this.shooterPID.setSetPoint(rpm);
-		System.out.println(rpm + " RPM SETPOINT");
 		double errorRPM = rpm - this.getRPM();
-		System.out.println(errorRPM + " ERROR");
 		if (errorRPM < 0) {
 			double power = 0;
 			this.shooterMotor1.set(ControlMode.PercentOutput, power);

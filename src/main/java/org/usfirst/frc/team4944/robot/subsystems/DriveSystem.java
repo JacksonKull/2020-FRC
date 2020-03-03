@@ -17,49 +17,35 @@ public class DriveSystem extends Subsystem {
 	// MOTORS
 
 	// Comp Motors
-	// TalonFX leftMotor1;
-	// TalonFX leftMotor2;
-	// TalonFX rightMotor1;
-	// TalonFX rightMotor2;
-
-	// Practice Motors
-	TalonSRX leftMotor1;
-	TalonSRX leftMotor2;
-	TalonSRX rightMotor1;
-	TalonSRX rightMotor2;
+	TalonFX leftMotor1;
+	TalonFX leftMotor2;
+	TalonFX rightMotor1;
+	TalonFX rightMotor2;
 
 	// GYRO
 	AHRS gyro;
+
 	// DRIVE PIDS
 	DrivePID leftPID;
 	DrivePID rightPID;
+
 	// GYRO PID
+
 	BasicPID anglePID;
 	// Constants
-	// final double maxPow = 1;
 	final double maxPow = 0.25;
 
 	public DriveSystem() {
 		// MOTORS
 
-		// Comp Boat
-		// this.leftMotor1 = new TalonFX(3);
-		// this.leftMotor1.setInverted(false);
-		// this.leftMotor2 = new TalonFX(4);
-		// this.leftMotor2.setInverted(false);
-		// this.rightMotor1 = new TalonFX(1);
-		// this.rightMotor1.setInverted(false);
-		// this.rightMotor2 = new TalonFX(2);
-		// this.rightMotor2.setInverted(false);
-
-		// Practice Bot
-		this.leftMotor1 = new TalonSRX(3);
+		// Comp Bot
+		this.leftMotor1 = new TalonFX(3);
 		this.leftMotor1.setInverted(false);
-		this.leftMotor2 = new TalonSRX(4);
+		this.leftMotor2 = new TalonFX(4);
 		this.leftMotor2.setInverted(false);
-		this.rightMotor1 = new TalonSRX(1);
+		this.rightMotor1 = new TalonFX(1);
 		this.rightMotor1.setInverted(false);
-		this.rightMotor2 = new TalonSRX(2);
+		this.rightMotor2 = new TalonFX(2);
 		this.rightMotor2.setInverted(false);
 
 		// ENCODERS
@@ -112,8 +98,5 @@ public class DriveSystem extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
-
 	}
-
 }

@@ -11,7 +11,7 @@ public class IntakeSubsystem extends Subsystem {
 
     public IntakeSubsystem() {
         this.intakeMotor = new TalonSRX(15);
-        this.intakeMotor.setInverted(true);
+        this.intakeMotor.setInverted(false);
     }
 
     public void setIntakeMotor(double power) {

@@ -82,7 +82,7 @@ public class XboxController extends Joystick {
 	}
 
 	public void addCommandToA(Command c) {
-		A.whenPressed(c);
+		A.whenActive(c);
 	}
 
 	public void addWhenReleasedToA(Command c) {
@@ -119,7 +119,7 @@ public class XboxController extends Joystick {
 	}
 
 	public void addCommandToB(Command c) {
-		B.whenPressed(c);
+		B.whenActive(c);
 	}
 
 	public void addWhenReleasedToB(Command c) {
@@ -156,7 +156,7 @@ public class XboxController extends Joystick {
 	}
 
 	public void addCommandToX(Command c) {
-		X.whenPressed(c);
+		X.whenActive(c);
 	}
 
 	public void addWhenReleasedToX(Command c) {
@@ -193,7 +193,7 @@ public class XboxController extends Joystick {
 	}
 
 	public void addCommandToY(Command c) {
-		Y.whenPressed(c);
+		Y.whenActive(c);
 	}
 
 	public void addWhenReleasedToY(Command c) {
@@ -230,7 +230,7 @@ public class XboxController extends Joystick {
 	}
 
 	public void addCommandToLeftBumper(Command c) {
-		leftBumper.whenPressed(c);
+		leftBumper.whenActive(c);
 	}
 
 	public void addWhenReleasedToLeftBumper(Command c) {
@@ -267,7 +267,7 @@ public class XboxController extends Joystick {
 	}
 
 	public void addCommandToRightBumper(Command c) {
-		rightBumper.whenPressed(c);
+		rightBumper.whenActive(c);
 	}
 
 	public void addWhenReleasedToRightBumper(Command c) {
@@ -304,7 +304,7 @@ public class XboxController extends Joystick {
 	}
 
 	public void addCommandToLeftMenu(Command c) {
-		leftMenu.whenPressed(c);
+		leftMenu.whenActive(c);
 	}
 
 	public void addWhenReleasedToLeftMenu(Command c) {
@@ -341,7 +341,7 @@ public class XboxController extends Joystick {
 	}
 
 	public void addCommandToRightMenu(Command c) {
-		rightMenu.whenPressed(c);
+		rightMenu.whenActive(c);
 	}
 
 	public void addWhenReleasedToRightMenu(Command c) {

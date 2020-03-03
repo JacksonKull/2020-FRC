@@ -10,7 +10,8 @@ public class WenchSubsystem extends Subsystem {
   TalonSRX wenchMotor;
 
   public WenchSubsystem() {
-    this.wenchMotor = new TalonSRX(12);
+    this.wenchMotor = new TalonSRX(12); 
+    this.wenchMotor.setInverted(true);
   }
 
   public void setWenchMotor(double power) {

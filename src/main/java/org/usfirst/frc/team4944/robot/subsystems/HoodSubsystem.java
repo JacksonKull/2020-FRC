@@ -19,25 +19,20 @@ public class HoodSubsystem extends Subsystem {
   BasicPID hoodPID;
   // PID Values
   final double hood_p = 0.00009;
-  // final double hood_i = 0.0000001;
-  final double hood_i = 0.0001;
+  final double hood_i = 0.0002;
   final double hood_d = 0;
   // Constants
   final int hoodOffset = 100;
-  // final int maxHoodEncoder = 4880;
-  final int maxHoodEncoder = 5160;
+  final int maxHoodEncoder = 5800;
   final int minHoodEncoder = 0;
-  // final double minHoodAngle = 20;
-  final double minHoodAngle = 20.4;
-  // final double maxHoodAngle = 45;
-  final double maxHoodAngle = 47.4;
+
+  final double minHoodAngle = 20;
+  final double maxHoodAngle = 47;
   final double maxHoodPow = 0.3;
   double hoodAngleOffset = 0.0;
-  final double encoderConst = 195.2;
+  final double encoderConst = 214.8148;
   // Double
   double vx, vy, lmAngle;
-  // Encoder Count = (Theta - LowerLimAng)*maxEncoderCount/(UpperLimAng -
-  // LowerLimAng)
 
   public HoodSubsystem() {
     // Motors
@@ -85,10 +80,8 @@ public class HoodSubsystem extends Subsystem {
     double error = Math.abs(this.getHoodSetPoint()) - Math.abs(this.getHoodEncoderValue());
     if (error > 30 || error < -30) {
       double power = this.hoodPID.getPower(this.getHoodEncoderValue());
-      System.out.println(power + " Power");
       this.setHoodMotorPower(power);
     } else {
-      System.out.println("Hood Within Range");
       this.setHoodMotorPower(0);
     }
   }
@@ -98,38 +91,26 @@ public class HoodSubsystem extends Subsystem {
   }
 
   public double convertDistToAngle(double distance) {
-    // double angle =
-    // (0.0161904762*(distance))-(0.7085714186*((distance)*(distance)))+(9.223809524*(distance))-(5.571428571);
     double angle = ((-.7489177489) * distance) + 39.13419913;
-    System.out.println(distance + " Distance");
-    System.out.println(angle + " Angle");
     return angle;
-    // return
-    // (0.0161904762*(distance))-(0.7085714186*((distance)*(distance)))+(9.223809524*(distance))-(5.571428571);
   }
 
-  // Encoder Count = (Theta - LowerLimAng)*maxEncoderCount/(UpperLimAng -
+  // Encoder Count = (UpperLimAng - Theta)*maxEncoderCount/(UpperLimAng -
   // LowerLimAng)
-  private int convertHoodAngleToEncoder(double desiredAngle) {
-    // double ticksPerDegree = (maxHoodEncoder - minHoodEncoder) / (maxHoodAngle -
-    // minHoodAngle);
-    // return (int) (desiredAngle * ticksPerDegree);
-    // double encoderCounts = (this.maxHoodAngle - desiredAngle) *
-    // (this.encoderConst);
-    // double encoderCounts = (desiredAngle -
-    // this.minHoodAngle)*(this.maxHoodEncoder/(this.maxHoodAngle-this.minHoodAngle));
-    double encoderCounts = (desiredAngle) * 191.111;
+  public int convertHoodAngleToEncoder(double desiredAngle) {
+    double encoderCounts = ((maxHoodAngle - desiredAngle) * ((maxHoodEncoder) / (maxHoodAngle - minHoodAngle)));
     return (int) encoderCounts;
   }
 
-  public double convertEncoderToAngle(double encoder) {
-    return (0);
+  public int convertEncoderToAngle(int encoder) {
+    double encoderCounts = (this
+        .convertHoodAngleToEncoder(convertDistToAngle(this.lm.getDistInFeet()) - this.minHoodAngle)
+        * (this.maxHoodEncoder / (this.maxHoodAngle - this.minHoodAngle)));
+    return (int) encoderCounts;
   }
 
   public void setHoodAngle(double desiredAngle) {
-    int encoderGoal = (this.convertHoodAngleToEncoder(desiredAngle));
-    // System.out.println(desiredAngle + " Angle");
-    // System.out.println(encoderGoal + " SetPoint");
+    int encoderGoal = this.convertHoodAngleToEncoder(desiredAngle);
     this.setHoodSetPoint(encoderGoal);
   }
 
@@ -143,14 +124,8 @@ public class HoodSubsystem extends Subsystem {
     return this.vy;
   }
 
-  // public double getRequiredAngle() {
-  // this.lmAngle = Math.atan((this.vy) / (this.vx));
-  // return Math.toDegrees(this.lmAngle) + this.getHoodAngleOffset();
-  // }
-
   public double getRequiredAngle() {
     this.lmAngle = this.convertDistToAngle(this.lm.getDistInFeet());
-    // System.out.println(lmAngle);
     return this.lmAngle;
   }
 
@@ -162,6 +137,7 @@ public class HoodSubsystem extends Subsystem {
 
   public void setAngleByLM() {
     this.setHoodAngle(this.getRequiredAngle());
+    System.out.println(this.getRequiredAngle() + " Required Angle");
   }
 
   @Override

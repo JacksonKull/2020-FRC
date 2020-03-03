@@ -55,7 +55,7 @@ public class TurretSubsystem extends Subsystem {
 	// Turret PID Values
 
 	final double turret_p = .05;
-	final double turret_i = 0;
+	final double turret_i = 0.00000001;
 	final double turret_d = 0;
 
 	public TurretSubsystem() {
@@ -113,7 +113,8 @@ public class TurretSubsystem extends Subsystem {
 
 	public void followLimelightNoEncoder() {
 		if (lm.getTargetVisible()) {
-			double turPow = lm.getXOffset() * visionP;
+			double turPow = lm.getXOffset() * visionP; // Working Earlier
+			// double turPow = this.turretPID.getPower(lm.getXOffset());
 			System.out.println(turPow * maxTurretPow + " Power");
 			this.setTurretMotorPower((-turPow) * this.maxTurretPow);
 		}

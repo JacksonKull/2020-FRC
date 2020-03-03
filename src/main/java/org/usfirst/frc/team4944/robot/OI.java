@@ -34,7 +34,7 @@ public class OI {
     public OI() {
 
         // Controllers
-        
+
         this.driver = new XboxController(0);
         this.operator = new XboxController(1);
 
@@ -57,28 +57,22 @@ public class OI {
         this.driver.addWhenReleasedToA(this.aCommandOff);
 
         // B -- INTAKE (DRIVER)
-        this.bCommandOn = new IntakeInit(-0.9);
+        this.bCommandOn = new IntakeInit(0.9);
         this.bCommandOff = new IntakingFinished();
         this.driver.addWhenHeldToB(this.bCommandOn);
         this.driver.addWhenReleasedToB(this.bCommandOff);
 
         // X -- OUTAKE/HOPPER/BELT/SHOOTER (DRIVER)
-        this.xCommandOn = new OutTakeInit(0.9, 0.5, -0.5, 0.0);
+        this.xCommandOn = new OutTakeInit(0.7, 0.5, 0.5, 0.4);
         this.xCommandOff = new OutTakingFinished();
         this.driver.addWhenHeldToX(this.xCommandOn);
         this.driver.addWhenReleasedToX(this.xCommandOff);
 
         // Y -- QUEUER (DRIVER)
-        this.yCommandOn = new QueueInit(0.7, -0.7);
+        this.yCommandOn = new QueueInit(0.7, 0.7);
         this.yCommandOff = new QueueFinished();
         this.driver.addWhenHeldToY(this.yCommandOn);
         this.driver.addWhenReleasedToY(this.yCommandOff);
-
-        // Y -- WENCH (OPERATOR)
-        this.yCommandOn = new WenchInit(0.1);
-        this.yCommandOff = new WenchFinished();
-        this.operator.addWhenHeldToY(this.yCommandOn);
-        this.operator.addWhenReleasedToY(this.yCommandOff);
 
         // RB -- CONTROL PANEL HEIGHT (DRIVER)
         this.rbCommandOn = new ArmsUp(0.2);
@@ -99,9 +93,15 @@ public class OI {
         this.operator.addWhenReleasedToRightTrigger(this.rtCommandOff);
 
         // LT -- CLIMB DOWN (OPERATOR)
-        this.ltCommandOn = new ArmsDown(-0.2);
+        this.ltCommandOn = new ArmsDown(0.2);
         this.ltCommandOff = new ArmsFinished();
         this.operator.addWhenHeldToLeftTrigger(this.ltCommandOn);
         this.operator.addWhenReleasedToRightTrigger(this.rtCommandOff);
+
+        // Y -- WENCH (OPERATOR)
+        this.yCommandOn = new WenchInit(0.4);
+        this.yCommandOff = new WenchFinished();
+        this.operator.addWhenHeldToY(this.yCommandOn);
+        this.operator.addWhenReleasedToY(this.yCommandOff);
     }
 }
