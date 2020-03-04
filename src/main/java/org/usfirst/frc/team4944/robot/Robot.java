@@ -12,7 +12,7 @@ import org.usfirst.frc.team4944.robot.subsystems.HopperSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.TurretSubsystem;
-import org.usfirst.frc.team4944.robot.subsystems.WenchSubsystem;
+import org.usfirst.frc.team4944.robot.custom.Limelight;
 
 public class Robot extends TimedRobot {
 
@@ -31,7 +31,7 @@ public class Robot extends TimedRobot {
 	HopperSubsystem hopper;
 	HoodSubsystem hood;
 	ArmSubsystem arms;
-	WenchSubsystem wench;
+	Limelight lm;
 
 	// SmartDashboard Values
 
@@ -39,7 +39,6 @@ public class Robot extends TimedRobot {
 	double shooterPower;
 
 	// Comp Bot
-	
 
 	@Override
 	public void robotInit() {
@@ -56,13 +55,14 @@ public class Robot extends TimedRobot {
 		this.intake = new IntakeSubsystem();
 		this.hood = new HoodSubsystem();
 		this.oi = new OI();
+		this.lm = new Limelight();
 
 		// SmartDashboard
 		SmartDashboard.putNumber("Shooter Power", this.shooterPower);
 		this.SmartDashboardDisplay();
 
 		// Double
-		this.shooterPower = 0.5;
+		// this.shooterPower = 0.5;
 	}
 
 	@Override
@@ -113,21 +113,20 @@ public class Robot extends TimedRobot {
 	public void updateValues() {
 
 		// SETS SHOOTER TO DESIRED SPEED
-
-		this.shooterPower = SmartDashboard.getNumber("Shooter Power", 0);
 		if (this.driver.getLeftTriggerDown()) {
 			this.shooter.setManualShooterPower(this.shooterPower);
 		} else {
-			this.shooter.setManualShooterPower(0);
+			this.shooter.setManualShooterPower(0.2);
 		}
-		
+
 		// RIGHT MENU LOCK ON TURRET/HOOD
-		
+
 		if (this.driver.getRightTriggerDown()) {
 			this.hood.updateValues();
 			this.hood.setAngleByLM();
 			this.hood.driveHoodPID();
 			this.turret.followLimelightNoEncoder();
+			this.shooterPower = (.5211761905 + (.0109621429 * this.lm.getDistInFeet()));
 		} else {
 			this.hood.setHoodMotorPower(0);
 			this.turret.setTurretMotorPower(0);
@@ -138,6 +137,9 @@ public class Robot extends TimedRobot {
 		// Displays all Smartdashboard Values
 
 		this.SmartDashboardDisplay();
+
+		// Shooter Power Equation
+
 	}
 
 	public void SmartDashboardDisplay() {
@@ -153,9 +155,11 @@ public class Robot extends TimedRobot {
 
 		SmartDashboard.putNumber("Hood Encoder", this.hood.getHoodEncoderValue());
 		SmartDashboard.putNumber("Hood SetPoint", this.hood.getHoodSetPoint());
-		// SmartDashboard.putNumber("Hood Power", this.hood.getHoodMotorPower());
+		SmartDashboard.putNumber("Hood Power", this.hood.getHoodMotorPower());
 		SmartDashboard.putNumber("Set Hood Angle", this.hood.getRequiredAngle());
 
+		SmartDashboard.putNumber("Set Shooter Power", .5211761905 + (.0109621429 * this.lm.getDistInFeet()));
+		// SmartDashboard.putNumber("Shooter Power v2", this.shooter.shooterMotor1());
 		// Calculated Values
 
 		// SmartDashboard.putNumber("Vx", this.hood.getVx());

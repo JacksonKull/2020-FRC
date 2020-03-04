@@ -18,7 +18,8 @@ public class ShooterSubsystem extends Subsystem {
 	Limelight lm;
 	// Constants
 	final int ticksPerRevolution = 4096;
-	final double p = 0.00085;
+	//final double p = 0.00085;
+	final double p = 0.001;
 	final double i = 0.001;
 	final double d = 0;
 	final double shooterHeight = 1;
@@ -75,6 +76,7 @@ public class ShooterSubsystem extends Subsystem {
 		this.shooterMotor1.set(ControlMode.PercentOutput, power);
 		this.shooterMotor2.set(ControlMode.PercentOutput, power);
 	}
+
 
 	public double getRPM() {
 		double motorTPMS = this.shooterMotor1.getSelectedSensorVelocity(0);
