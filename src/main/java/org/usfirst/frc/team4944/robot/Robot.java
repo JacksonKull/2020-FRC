@@ -37,6 +37,7 @@ public class Robot extends TimedRobot {
 
 	double turretEncoder;
 	double shooterPower;
+	double shooterCoeficient;
 
 	// Comp Bot
 
@@ -57,8 +58,11 @@ public class Robot extends TimedRobot {
 		this.oi = new OI();
 		this.lm = new Limelight();
 
+		// 0.0109621429
+		this.shooterCoeficient = .0109621429;
 		// SmartDashboard
 		SmartDashboard.putNumber("Shooter Power", this.shooterPower);
+		SmartDashboard.putNumber("Shooter Coefficient", this.shooterCoeficient);
 		this.SmartDashboardDisplay();
 
 		// Double
@@ -111,6 +115,8 @@ public class Robot extends TimedRobot {
 	}
 
 	public void updateValues() {
+		this.shooterCoeficient = SmartDashboard.getNumber("Shooter Coefficient", this.shooterCoeficient);
+
 
 		// SETS SHOOTER TO DESIRED SPEED
 		if (this.driver.getLeftTriggerDown()) {
@@ -126,7 +132,7 @@ public class Robot extends TimedRobot {
 			this.hood.setAngleByLM();
 			this.hood.driveHoodPID();
 			this.turret.followLimelightNoEncoder();
-			this.shooterPower = (.5211761905 + (.0109621429 * this.lm.getDistInFeet()));
+			this.shooterPower = (.5211761905 + (this.shooterCoeficient * this.lm.getDistInFeet()));
 		} else {
 			this.hood.setHoodMotorPower(0);
 			this.turret.setTurretMotorPower(0);
@@ -158,7 +164,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Hood Power", this.hood.getHoodMotorPower());
 		SmartDashboard.putNumber("Set Hood Angle", this.hood.getRequiredAngle());
 
-		SmartDashboard.putNumber("Set Shooter Power", .5211761905 + (.0109621429 * this.lm.getDistInFeet()));
+		SmartDashboard.putNumber("Set Shooter Power", .5211761905 + (this.shooterCoeficient * this.lm.getDistInFeet()));
 		// SmartDashboard.putNumber("Shooter Power v2", this.shooter.shooterMotor1());
 		// Calculated Values
 

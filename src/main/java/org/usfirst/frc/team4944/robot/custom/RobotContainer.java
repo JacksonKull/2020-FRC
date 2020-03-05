@@ -86,15 +86,16 @@ public class RobotContainer {
         // Pass config
         config);
 
-    RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory, m_robotDrive::getPose,
-        new RamseteController(DriveConstants.kRamseteB, DriveConstants.kRamseteZeta),
-        new SimpleMotorFeedforward(DriveConstants.ksVolts, DriveConstants.kvVoltSecondsPerMeter,
-            DriveConstants.kaVoltSecondsSquaredPerMeter),
-        DriveConstants.kDriveKinematics, m_robotDrive::getWheelSpeeds,
-        new PIDController(DriveConstants.kPDriveVel, 0, 0), new PIDController(DriveConstants.kPDriveVel, 0, 0),
-        // RamseteCommand passes volts to the callback
-        m_robotDrive::tankDriveVolts, m_robotDrive);
+    // RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory, m_robotDrive::getPose,
+    //     new RamseteController(DriveConstants.kRamseteB, DriveConstants.kRamseteZeta),
+    //     new SimpleMotorFeedforward(DriveConstants.ksVolts, DriveConstants.kvVoltSecondsPerMeter,
+    //         DriveConstants.kaVoltSecondsSquaredPerMeter),
+    //     DriveConstants.kDriveKinematics, m_robotDrive::getWheelSpeeds,
+    //     new PIDController(DriveConstants.kPDriveVel, 0, 0), new PIDController(DriveConstants.kPDriveVel, 0, 0),
+    //     // RamseteCommand passes volts to the callback
+    //     m_robotDrive::tankDriveVolts, m_robotDrive);
     // Run path following command, then stop at the end.
-    return ramseteCommand.andThen(() -> m_robotDrive.tankDriveVolts(0, 0));
+    // return ramseteCommand.andThen(() -> m_robotDrive.tankDriveVolts(0, 0));
+    return null;
   }
 }

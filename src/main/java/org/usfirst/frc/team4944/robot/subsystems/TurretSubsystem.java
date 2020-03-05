@@ -54,7 +54,7 @@ public class TurretSubsystem extends Subsystem {
 
 	// Turret PID Values
 
-	final double turret_p = .05;
+	final double turret_p = .009;
 	final double turret_i = 0.00000001;
 	final double turret_d = 0;
 
