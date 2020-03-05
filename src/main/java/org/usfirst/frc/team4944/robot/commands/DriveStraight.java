@@ -14,8 +14,10 @@ public class DriveStraight extends Command {
 	// DRIVE PIDS
 	DrivePID leftPID;
 	DrivePID rightPID;
+	
 	// BASIC PIDS
 	BasicPID anglePID;
+
 
 	public DriveStraight(double driveGoal, double headingGoal, DrivePID leftPID, DrivePID rightPID, BasicPID anglePID) {
 		this.driveGoal = driveGoal;

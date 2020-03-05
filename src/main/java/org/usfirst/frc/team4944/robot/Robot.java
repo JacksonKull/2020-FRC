@@ -124,7 +124,7 @@ public class Robot extends TimedRobot {
 		if (this.driver.getRightTriggerDown()) {
 			this.hood.updateValues();
 			this.hood.setAngleByLM();
-			this.hood.driveHoodPID();
+			//this.hood.driveHoodPID();
 			this.turret.followLimelightNoEncoder();
 			this.shooterPower = (.5211761905 + (.00835 * this.lm.getDistInFeet()));
 		} else {
