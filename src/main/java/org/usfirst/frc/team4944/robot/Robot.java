@@ -130,17 +130,14 @@ public class Robot extends TimedRobot {
 		if (this.driver.getRightTriggerDown()) {
 			this.hood.updateValues();
 			this.hood.setAngleByLM();
-			//this.hood.driveHoodPID();
+			this.hood.driveHoodPID();
 			this.turret.followLimelightNoEncoder();
-<<<<<<< HEAD
-			this.shooterPower = (.5211761905 + (this.shooterCoeficient * this.lm.getDistInFeet()));
-=======
 			this.shooterPower = (.5211761905 + (.00835 * this.lm.getDistInFeet()));
->>>>>>> e44d2bdc6d8cfd4b35568b2c48660f60984d3cd5
 		} else {
 			this.hood.setHoodMotorPower(0);
 			this.turret.setTurretMotorPower(0);
 		}
+		
 
 		// SMARTDASHBOARD
 

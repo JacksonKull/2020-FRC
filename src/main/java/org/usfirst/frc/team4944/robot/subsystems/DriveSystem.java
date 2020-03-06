@@ -15,25 +15,23 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class DriveSystem extends Subsystem {
 
 	// MOTORS
-
 	// Comp Motors
 	TalonFX leftMotor1;
 	TalonFX leftMotor2;
 	TalonFX rightMotor1;
 	TalonFX rightMotor2;
-
 	// GYRO
 	AHRS gyro;
-
 	// DRIVE PIDS
 	DrivePID leftPID;
 	DrivePID rightPID;
-
 	// GYRO PID
-
 	BasicPID anglePID;
 	// Constants
-	final double maxPow = 0.25;
+	final double maxPow = 0.85;
+	final double wheelDiam = 6;
+	final double wheelCircum = Math.PI*this.wheelDiam;
+	final double ticksPerRotation = 2048;
 
 	public DriveSystem() {
 		// MOTORS
@@ -94,6 +92,11 @@ public class DriveSystem extends Subsystem {
 
 	public void stop() {
 		setPower(0, 0);
+	}
+
+	public double convertInchesToEncoderCount(double inches){
+		double ticksPerInch = (this.ticksPerRotation/this.wheelCircum);
+		return inches*ticksPerInch;
 	}
 
 	@Override
