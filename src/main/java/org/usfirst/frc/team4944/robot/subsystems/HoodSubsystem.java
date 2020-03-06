@@ -25,14 +25,17 @@ public class HoodSubsystem extends Subsystem {
   final int hoodOffset = 100;
   final int maxHoodEncoder = 5800;
   final int minHoodEncoder = 0;
-
   final double minHoodAngle = 20;
   final double maxHoodAngle = 47;
   final double maxHoodPow = 0.3;
   double hoodAngleOffset = 0.0;
   final double encoderConst = 214.8148;
+  final double acceptableError = 5;
   // Double
   double vx, vy, lmAngle;
+  double currentHood = 0;
+  double lastHood = 0;
+  double speedThreshold = 5;
 
   public HoodSubsystem() {
     // Motors
@@ -137,7 +140,36 @@ public class HoodSubsystem extends Subsystem {
 
   public void setAngleByLM() {
     this.setHoodAngle(this.getRequiredAngle());
-    System.out.println(this.getRequiredAngle() + " Required Angle");
+    // System.out.println(this.getRequiredAngle() + " Required Angle");
+  }
+
+  public void updateAutoValues(){
+    this.lastHood = this.currentHood;
+    this.currentHood = this.getHoodEncoderValue();
+  }
+
+  public double getHoodSpeed(){
+    return this.lastHood - this.currentHood;
+  }
+
+  public boolean getHoodDoneMoving(){
+    if(this.getHoodSpeed() < this.speedThreshold){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  public boolean getWithinRange(){
+    if(Math.abs(this.hoodPID.getError()) < this.acceptableError){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  public void stop(){
+    this.setHoodMotorPower(0);
   }
 
   @Override

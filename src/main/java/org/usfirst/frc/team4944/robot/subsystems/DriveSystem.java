@@ -27,15 +27,22 @@ public class DriveSystem extends Subsystem {
 	DrivePID rightPID;
 	// GYRO PID
 	BasicPID anglePID;
-	// Constants
-	final double maxPow = 0.85;
+	// CONSTANTS
+	final double maxPow = 0.25;
 	final double wheelDiam = 6;
 	final double wheelCircum = Math.PI*this.wheelDiam;
 	final double ticksPerRotation = 2048;
+	final double speedThreshold = 1;
+	// VALUES
+	double currentLeft = 0;
+	double currentRight = 0;
+	double currentAngle = 0;
+	double lastLeft = 0;
+	double lastRight = 0;
+	double lastAngle = 0;
 
 	public DriveSystem() {
 		// MOTORS
-
 		// Comp Bot
 		this.leftMotor1 = new TalonFX(3);
 		this.leftMotor1.setInverted(false);
@@ -45,12 +52,11 @@ public class DriveSystem extends Subsystem {
 		this.rightMotor1.setInverted(false);
 		this.rightMotor2 = new TalonFX(2);
 		this.rightMotor2.setInverted(false);
-
 		// ENCODERS
 		this.leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
 		this.rightMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
 		// GYRO
-		// this.gyro = new AHRS(Port.kMXP);
+		this.gyro = new AHRS(Port.kMXP);
 		// ANGLE PID
 		this.anglePID = new BasicPID(1 / 500, 1 / 500, 1 / 500);
 	}
@@ -82,12 +88,28 @@ public class DriveSystem extends Subsystem {
 		return rightMotor1.getSelectedSensorPosition();
 	}
 
+	public void updateValues(){
+		this.lastLeft = this.currentLeft;
+		this.lastRight = this.currentRight;
+		this.lastAngle = this.currentAngle;
+		this.currentLeft = this.getLeftEncoder();
+		this.currentRight = this.getRightEncoder();
+	}
+
 	public double getLeftSpeed() {
-		return 0;
+		return this.lastLeft - this.currentLeft;
 	}
 
 	public double getRightSpeed() {
-		return 0;
+		return this.lastRight - this.currentRight;
+	}
+
+	public boolean getDoneDriveing(){
+		if(Math.abs(this.getRightSpeed()) < this.speedThreshold && Math.abs(this.getLeftSpeed()) < this.speedThreshold){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	public void stop() {

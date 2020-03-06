@@ -38,7 +38,9 @@ public class TurretSubsystem extends Subsystem {
 	final int maxTurretEncoder = 1220;
 	final double minTurretAngle = -90;
 	final double maxTurretAngle = 90;
-	final double maxTurretPow = 0.15;
+	final double maxTurretPow = 0.4;
+	final double speedThreshold = 1;
+	final double acceptableError = 0.1;
 
 	// Total Range of 2532
 
@@ -54,9 +56,16 @@ public class TurretSubsystem extends Subsystem {
 
 	// Turret PID Values
 
-	final double turret_p = .5;
-	final double turret_i = .5;
+	// final double turret_p = .005;
+	final double turret_p = .08;
+	// final double turret_i = .1;
+	final double turret_i = 0.1;
 	final double turret_d = 0;
+
+	// Values
+
+	double currentTur = 0;
+	double lastTur = 0;
 
 	public TurretSubsystem() {
 
@@ -65,10 +74,13 @@ public class TurretSubsystem extends Subsystem {
 		this.turretMotor = new TalonSRX(7);
 
 		// Encoder
-
+		
 		this.turretEncoder = new AS5600EncoderPwm(this.turretMotor.getSensorCollection());
 		this.turretPID = new BasicPID(this.turret_p, this.turret_i, this.turret_d);
 		this.turretPID.setSetPoint(this.neutralTurretEncoder);
+
+		// Limelight
+
 		this.lm = new Limelight();
 	}
 
@@ -118,6 +130,8 @@ public class TurretSubsystem extends Subsystem {
 			// double turPow = this.turretPID.getPower(lm.getXOffset());
 			System.out.println(turPow * maxTurretPow + " Power");
 			this.setTurretMotorPower((turPow) * this.maxTurretPow);
+		}else{
+			this.setTurretMotorPower(0);
 		}
 	}
 
@@ -156,6 +170,35 @@ public class TurretSubsystem extends Subsystem {
 	public void addTurretAngle(double desiredAngle) {
 		int encoderGoal = this.getTurretEncoderValue() + this.convertTurretAngleToEncoder(desiredAngle);
 		this.setTurretSetPoint(encoderGoal);
+	}
+
+	public void updateTurretValues(){
+		this.lastTur = this.currentTur;
+		this.currentTur = this.getTurretEncoderValue();
+	}
+
+	public int getTurretSpeed(){
+		return 0;
+	}
+
+	public boolean getTuretDoneMoving(){
+		if(Math.abs(this.getTurretSpeed()) < this.speedThreshold){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public boolean getWithinRange(){
+		if(Math.abs(this.turretPID.getError()) < this.acceptableError){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public void stop(){
+		this.setTurretMotorPower(0);
 	}
 
 	@Override

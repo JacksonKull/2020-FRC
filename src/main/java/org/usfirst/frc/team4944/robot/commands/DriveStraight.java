@@ -47,14 +47,13 @@ public class DriveStraight extends Command {
 	}
 
 	public boolean isFinished() {
-		if ((Math.abs(driveSystem.getLeftSpeed()) < 1 && Math.abs(driveSystem.getRightSpeed()) < 1)
-				&& (Math.abs(leftPID.getError()) <= 7.5 && Math.abs(rightPID.getError()) <= 7.5)) {
-
+		if (this.driveSystem.getDoneDriveing()) {
 			System.out.println("Exited");
 			driveSystem.setLeftPower(0);
 			driveSystem.setRightPower(0);
 			return true;
+		}else{
+			return false;	
 		}
-		return false;
 	}
 }

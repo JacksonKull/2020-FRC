@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4944.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -12,6 +13,7 @@ import org.usfirst.frc.team4944.robot.subsystems.HopperSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.TurretSubsystem;
+import org.usfirst.frc.team4944.robot.commands.VisionAlign;
 import org.usfirst.frc.team4944.robot.custom.Limelight;
 
 public class Robot extends TimedRobot {
@@ -32,6 +34,9 @@ public class Robot extends TimedRobot {
 	HoodSubsystem hood;
 	ArmSubsystem arms;
 	Limelight lm;
+
+	// Auto Commands
+	Command autoCommand;
 
 	// SmartDashboard Values
 
@@ -82,6 +87,9 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
+		Scheduler.getInstance().run();
+		this.autoCommand = new VisionAlign();
+		this.autoCommand.start();
 		this.SmartDashboardDisplay();
 	}
 
@@ -122,7 +130,7 @@ public class Robot extends TimedRobot {
 		if (this.driver.getLeftTriggerDown()) {
 			this.shooter.setManualShooterPower(this.shooterPower);
 		} else {
-			this.shooter.setManualShooterPower(0.2);
+			this.shooter.setManualShooterPower(0.1);
 		}
 
 		// RIGHT MENU LOCK ON TURRET/HOOD

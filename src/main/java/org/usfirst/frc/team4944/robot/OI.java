@@ -59,7 +59,7 @@ public class OI {
         this.driver.addWhenReleasedToA(this.aCommandOff);
 
         // B -- INTAKE (DRIVER)
-        this.bCommandOn = new IntakeInit(0.9);
+        this.bCommandOn = new IntakeInit(-0.9);
         this.bCommandOff = new IntakingFinished();
         this.driver.addWhenHeldToB(this.bCommandOn);
         this.driver.addWhenReleasedToB(this.bCommandOff);
@@ -67,7 +67,7 @@ public class OI {
         // X -- OUTAKE/HOPPER/BELT/SHOOTER (DRIVER)
         //Comp 
         //Practice Negative/Negative/Negative/Negative
-        this.xCommandOn = new OutTakeInit(-0.7, -0.5, -0.5, 0.0);
+        this.xCommandOn = new OutTakeInit(0.7, -0.5, -0.5, 0.0);
         this.xCommandOff = new OutTakingFinished();
         this.driver.addWhenHeldToX(this.xCommandOn);
         this.driver.addWhenReleasedToX(this.xCommandOff);
