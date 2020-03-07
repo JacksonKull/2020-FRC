@@ -12,6 +12,7 @@ public class Limelight {
     final double limelightAngle = 17;
     // Practice bot angle 12
     final String tableName = "limelight";
+    double dist;
 
     public Limelight() {
         this.table = NetworkTableInstance.getDefault().getTable(this.tableName);
@@ -55,6 +56,10 @@ public class Limelight {
 
     public double getHeighOffGroudLM() {
         return this.feetOffGroundLimelight;
+    }
+
+    public void updateLMValues(){
+        this.dist = this.getDistInFeet();
     }
 
 }
