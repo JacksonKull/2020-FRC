@@ -30,7 +30,7 @@ public class HoodSubsystem extends Subsystem {
   final double maxHoodPow = 0.3;
   double hoodAngleOffset = 0.0;
   final double encoderConst = 214.8148;
-  final double acceptableError = 5;
+  final double acceptableError = 50;
   // Double
   double vx, vy, lmAngle;
   double currentHood = 0;
@@ -150,6 +150,14 @@ public class HoodSubsystem extends Subsystem {
 
   public double getHoodSpeed(){
     return this.lastHood - this.currentHood;
+  }
+
+  public double getPIDPower(double input){
+		return this.hoodPID.getPower(input);
+  }
+  
+  public double getError(){
+    return this.hoodPID.getError();
   }
 
   public boolean getHoodDoneMoving(){

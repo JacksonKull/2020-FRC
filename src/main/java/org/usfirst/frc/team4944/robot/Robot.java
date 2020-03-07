@@ -13,6 +13,7 @@ import org.usfirst.frc.team4944.robot.subsystems.HopperSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.TurretSubsystem;
+import org.usfirst.frc.team4944.robot.commands.ThreeBallAuto;
 import org.usfirst.frc.team4944.robot.commands.VisionAlign;
 import org.usfirst.frc.team4944.robot.custom.Limelight;
 
@@ -88,7 +89,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		Scheduler.getInstance().run();
-		this.autoCommand = new VisionAlign();
+		this.autoCommand = new ThreeBallAuto();
 		this.autoCommand.start();
 		this.SmartDashboardDisplay();
 	}
@@ -96,7 +97,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run(); // KEEP HERE TO RUN COMMANDS
-		this.updateValues();
+		
 	}
 
 	@Override
@@ -107,7 +108,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run(); // KEEP HERE TO RUN COMMANDS
-
+		System.out.println("Teleop");
 		// Drive Code
 
 		final double Y = -driver.getLeftStickY();
@@ -145,7 +146,7 @@ public class Robot extends TimedRobot {
 			this.hood.setHoodMotorPower(0);
 			this.turret.setTurretMotorPower(0);
 		}
-		
+
 
 		// SMARTDASHBOARD
 

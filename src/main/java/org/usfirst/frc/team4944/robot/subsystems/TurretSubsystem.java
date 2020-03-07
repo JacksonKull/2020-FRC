@@ -40,7 +40,7 @@ public class TurretSubsystem extends Subsystem {
 	final double maxTurretAngle = 90;
 	final double maxTurretPow = 0.4;
 	final double speedThreshold = 1;
-	final double acceptableError = 0.1;
+	final double acceptableError = 0.15;
 
 	// Total Range of 2532
 
@@ -59,7 +59,7 @@ public class TurretSubsystem extends Subsystem {
 	// final double turret_p = .005;
 	final double turret_p = .08;
 	// final double turret_i = .1;
-	final double turret_i = 0.1;
+	final double turret_i = 0.09;
 	final double turret_d = 0;
 
 	// Values
@@ -133,6 +133,14 @@ public class TurretSubsystem extends Subsystem {
 		}else{
 			this.setTurretMotorPower(0);
 		}
+	}
+
+	public double getPIDPower(double input){
+		return this.turretPID.getPower(input);
+	}
+
+	public double getTurretMaxPow(){
+		return this.maxTurretPow;
 	}
 
 	public int getTurretEncoderValue() {
