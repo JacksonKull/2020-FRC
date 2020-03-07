@@ -146,6 +146,8 @@ public class Robot extends TimedRobot {
 			this.turret.setTurretMotorPower(0);
 		}
 		
+		// BALL SENSOR
+		
 
 		// SMARTDASHBOARD
 
