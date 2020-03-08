@@ -9,7 +9,8 @@ public class Limelight {
     // Constants
     final double feetOffGroundLimelight = 1.75;
     final double feetOffGroundTarget = 8.71;
-    final double limelightAngle = 17;
+    // final double limelightAngle = 17;
+    final double limelightAngle = 18;
     // Practice bot angle 12
     final String tableName = "limelight";
     double dist;
