@@ -78,6 +78,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledInit() {
+		// this.arms.applyBreak();
 		this.SmartDashboardDisplay();
 	}
 

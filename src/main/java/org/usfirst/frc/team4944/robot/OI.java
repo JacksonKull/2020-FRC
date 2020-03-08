@@ -21,12 +21,12 @@ import org.usfirst.frc.team4944.robot.subsystems.TurretSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-
 public class OI {
     XboxController driver, operator;
     boolean prevAButton, prevBButton, prevXButton, prevYButton, prevRBButton, prevLBButton, prevRTButton, prevLTButton;
     Command aCommandOn, aCommandOff, bCommandOn, bCommandOff, xCommandOn, xCommandOff, yCommandOn, yCommandOff;
     Command lbCommandOn, lbCommandOff, rbCommandOn, rbCommandOff, rtCommandOn, rtCommandOff, ltCommandOn, ltCommandOff;
+    Command lmCommandOn, lmCommandOff;
     TurretSubsystem turret;
     ToggleCommand toggleA, toggleB, toggleX, toggleY, toggleRB, toggleLB, toggleRT, toggleLT, toggleLM;
     TriggerCommand leftTrigger, rightTrigger;
@@ -65,8 +65,8 @@ public class OI {
         this.driver.addWhenReleasedToB(this.bCommandOff);
 
         // X -- OUTAKE/HOPPER/BELT/SHOOTER (DRIVER)
-        //Comp 
-        //Practice Negative/positive/Negative/Negative
+        // Comp
+        // Practice Negative/positive/Negative/Negative
         this.xCommandOn = new OutTakeInit(0.7, -0.5, -0.5, 0);
         this.xCommandOff = new OutTakingFinished();
         this.driver.addWhenHeldToX(this.xCommandOn);
@@ -80,33 +80,45 @@ public class OI {
         this.driver.addWhenReleasedToY(this.yCommandOff);
 
         // RB -- CONTROL PANEL HEIGHT (DRIVER)
-        // this.rbCommandOn = new ArmsUp(0.2);
-        // this.rbCommandOff = new ArmsFinished();
-        // this.driver.addWhenHeldToRightBumper(this.rbCommandOn);
-        // this.driver.addWhenReleasedToRightBumper(this.rbCommandOff);
+        this.rbCommandOn = new ArmsUp(0.4);
+        this.rbCommandOff = new ArmsFinished();
+        this.driver.addWhenHeldToRightBumper(this.rbCommandOn);
+        this.driver.addWhenReleasedToRightBumper(this.rbCommandOff);
 
         // LB -- INTAKE HEIGHT (DRIVER)
-        // this.lbCommandOn = new ArmsDown(0.1);
-        // this.lbCommandOff = new ArmsFinished();
-        // this.driver.addWhenHeldToLeftBumper(this.lbCommandOn);
-        // this.driver.addWhenReleasedToLeftBumper(this.lbCommandOff);
+        this.lbCommandOn = new ArmsDown(0.2);
+        this.lbCommandOff = new ArmsFinished();
+        this.driver.addWhenHeldToLeftBumper(this.lbCommandOn);
+        this.driver.addWhenReleasedToLeftBumper(this.lbCommandOff);
 
-        // // RT -- CLIMB UP (OPERATOR)
-        // this.rtCommandOn = new ArmsUp(0.4);
-        // this.rtCommandOff = new ArmsFinished();
-        // this.operator.addWhenHeldRightTrigger(this.rtCommandOn);
-        // this.operator.addWhenReleasedToRightTrigger(this.rtCommandOff);
+        // RT -- CLIMB UP (OPERATOR)
+        this.rtCommandOn = new ArmsUp(0.2);
+        this.rtCommandOff = new ArmsFinished();
+        this.operator.addWhenHeldRightTrigger(this.rtCommandOn);
+        this.operator.addWhenReleasedToRightTrigger(this.rtCommandOff);
 
-        // // LT -- CLIMB DOWN (OPERATOR)
-        // this.ltCommandOn = new ArmsDown(0.2);
-        // this.ltCommandOff = new ArmsFinished();
-        // this.operator.addWhenHeldToLeftTrigger(this.ltCommandOn);
-        // this.operator.addWhenReleasedToRightTrigger(this.rtCommandOff);
+        // LT -- CLIMB DOWN (OPERATOR)
+        this.ltCommandOn = new ArmsDown(0.2);
+        this.ltCommandOff = new ArmsFinished();
+        this.operator.addWhenHeldToLeftTrigger(this.ltCommandOn);
+        this.operator.addWhenReleasedToRightTrigger(this.rtCommandOff);
 
-        // // Y -- WENCH (OPERATOR)
-        // this.yCommandOn = new WenchInit(0.4);
-        // this.yCommandOff = new WenchFinished();
-        // this.operator.addWhenHeldToY(this.yCommandOn);
-        // this.operator.addWhenReleasedToY(this.yCommandOff);
+        // Y -- WENCH FAST (OPERATOR)
+        this.yCommandOn = new WenchInit(0.9);
+        this.yCommandOff = new WenchFinished();
+        this.operator.addWhenHeldToY(this.yCommandOn);
+        this.operator.addWhenReleasedToY(this.yCommandOff);
+
+        // X -- WENCH SLOW (OPERATOR)
+        this.xCommandOn = new WenchInit(0.6);
+        this.xCommandOff = new WenchFinished();
+        this.operator.addWhenHeldToX(this.xCommandOn);
+        this.operator.addWhenReleasedToX(this.xCommandOff);
+
+        // LM -- WENCH REVERSE (OPERATOR) 
+        this.lmCommandOn = new WenchInit(-0.5);
+        this.lmCommandOff = new WenchFinished();
+        this.operator.addWhenHeldToLeftMenu(this.lmCommandOn);
+        this.operator.addWhenReleasedToLeftMenu(this.lmCommandOff);
     }
 }
