@@ -24,6 +24,10 @@ public class HopperSubsystem extends Subsystem {
         // this.feederMotor.setInverted(true);
     }
 
+    public void hopperInit(){
+        this.ballSensor = new AnalogInput(3);
+    }
+
     public void setBeltMotor(double power) {
         this.beltMotor.set(ControlMode.PercentOutput, power);
     }

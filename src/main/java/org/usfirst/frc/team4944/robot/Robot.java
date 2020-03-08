@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4944.robot;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -13,6 +14,7 @@ import org.usfirst.frc.team4944.robot.subsystems.HopperSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.TurretSubsystem;
+import org.usfirst.frc.team4944.robot.commands.QueNShootTesting;
 import org.usfirst.frc.team4944.robot.commands.ThreeBallAuto;
 import org.usfirst.frc.team4944.robot.commands.VisionAlign;
 import org.usfirst.frc.team4944.robot.custom.Limelight;
@@ -63,7 +65,6 @@ public class Robot extends TimedRobot {
 		this.hood = new HoodSubsystem();
 		this.oi = new OI();
 		this.lm = new Limelight();
-
 		// 0.0109621429
 		this.shooterCoeficient = .0109621429;
 		// SmartDashboard
@@ -89,7 +90,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		Scheduler.getInstance().run();
-		this.autoCommand = new ThreeBallAuto();
+		// this.autoCommand = new ThreeBallAuto();
+		this.autoCommand = new QueNShootTesting();
 		this.autoCommand.start();
 		this.SmartDashboardDisplay();
 	}
@@ -97,7 +99,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run(); // KEEP HERE TO RUN COMMANDS
-		
 	}
 
 	@Override
@@ -147,9 +148,6 @@ public class Robot extends TimedRobot {
 			this.turret.setTurretMotorPower(0);
 		}
 		
-		// BALL SENSOR
-		
-
 		// SMARTDASHBOARD
 
 		// Displays all Smartdashboard Values
@@ -190,4 +188,5 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Distance From Target", turret.lm.getDistInFeet());
 		SmartDashboard.putBoolean("Limelight Connection:", turret.lm.getLimeLightConnected());
 	}
+
 }

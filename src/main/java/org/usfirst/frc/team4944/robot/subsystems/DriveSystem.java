@@ -28,7 +28,7 @@ public class DriveSystem extends Subsystem {
 	// GYRO PID
 	BasicPID anglePID;
 	// CONSTANTS
-	final double maxPow = 0.25;
+	final double maxPow = 0.8;
 	final double wheelDiam = 6;
 	final double wheelCircum = Math.PI*this.wheelDiam;
 	final double ticksPerRotation = 2048;
