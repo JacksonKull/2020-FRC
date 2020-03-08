@@ -115,10 +115,11 @@ public class OI {
         this.operator.addWhenHeldToX(this.xCommandOn);
         this.operator.addWhenReleasedToX(this.xCommandOff);
 
-        // LM -- WENCH REVERSE (OPERATOR) 
+        // LM -- WENCH REVERSE (OPERATOR)
         this.lmCommandOn = new WenchInit(-0.5);
         this.lmCommandOff = new WenchFinished();
         this.operator.addWhenHeldToLeftMenu(this.lmCommandOn);
         this.operator.addWhenReleasedToLeftMenu(this.lmCommandOff);
     }
 }
+// Trains Are Cool
