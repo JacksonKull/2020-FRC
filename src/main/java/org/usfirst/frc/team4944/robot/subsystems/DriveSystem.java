@@ -4,6 +4,7 @@ import org.usfirst.team4944.robot.PID.BasicPID;
 import org.usfirst.team4944.robot.PID.DrivePID;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
@@ -94,6 +95,7 @@ public class DriveSystem extends Subsystem {
 		this.lastAngle = this.currentAngle;
 		this.currentLeft = this.getLeftEncoder();
 		this.currentRight = this.getRightEncoder();
+		this.breakDisable();
 	}
 
 	public double getLeftSpeed() {
@@ -119,6 +121,14 @@ public class DriveSystem extends Subsystem {
 	public double convertInchesToEncoderCount(double inches){
 		double ticksPerInch = (this.ticksPerRotation/this.wheelCircum);
 		return inches*ticksPerInch;
+	}
+	public void breakDisable() {
+
+		this.leftMotor1.setNeutralMode(NeutralMode.Coast);
+		this.leftMotor2.setNeutralMode(NeutralMode.Coast);
+		this.rightMotor1.setNeutralMode(NeutralMode.Coast);
+		this.rightMotor2.setNeutralMode(NeutralMode.Coast);
+
 	}
 
 	@Override
