@@ -79,32 +79,32 @@ public class OI {
         this.driver.addWhenHeldToY(this.yCommandOn);
         this.driver.addWhenReleasedToY(this.yCommandOff);
 
-        // RB -- CONTROL PANEL HEIGHT (DRIVER)
-        this.rbCommandOn = new ArmsUp(0.4);
-        this.rbCommandOff = new ArmsFinished();
-        this.driver.addWhenHeldToRightBumper(this.rbCommandOn);
-        this.driver.addWhenReleasedToRightBumper(this.rbCommandOff);
+        // // RB -- CONTROL PANEL HEIGHT (DRIVER)
+        // this.rbCommandOn = new ArmsUp(0.4);
+        // this.rbCommandOff = new ArmsFinished();
+        // this.driver.addWhenHeldToRightBumper(this.rbCommandOn);
+        // this.driver.addWhenReleasedToRightBumper(this.rbCommandOff);
 
-        // LB -- INTAKE HEIGHT (DRIVER)
-        this.lbCommandOn = new ArmsDown(0.2);
-        this.lbCommandOff = new ArmsFinished();
-        this.driver.addWhenHeldToLeftBumper(this.lbCommandOn);
-        this.driver.addWhenReleasedToLeftBumper(this.lbCommandOff);
+        // // LB -- INTAKE HEIGHT (DRIVER)
+        // this.lbCommandOn = new ArmsDown(0.2);
+        // this.lbCommandOff = new ArmsFinished();
+        // this.driver.addWhenHeldToLeftBumper(this.lbCommandOn);
+        // this.driver.addWhenReleasedToLeftBumper(this.lbCommandOff);
 
-        // RT -- CLIMB UP (OPERATOR)
-        this.rtCommandOn = new ArmsUp(0.2);
-        this.rtCommandOff = new ArmsFinished();
-        this.operator.addWhenHeldRightTrigger(this.rtCommandOn);
-        this.operator.addWhenReleasedToRightTrigger(this.rtCommandOff);
+        // // RT -- CLIMB UP (OPERATOR)
+        // this.rtCommandOn = new ArmsUp(0.2);
+        // this.rtCommandOff = new ArmsFinished();
+        // this.operator.addWhenHeldRightTrigger(this.rtCommandOn);
+        // this.operator.addWhenReleasedToRightTrigger(this.rtCommandOff);
 
-        // LT -- CLIMB DOWN (OPERATOR)
-        this.ltCommandOn = new ArmsDown(0.2);
-        this.ltCommandOff = new ArmsFinished();
-        this.operator.addWhenHeldToLeftTrigger(this.ltCommandOn);
-        this.operator.addWhenReleasedToRightTrigger(this.rtCommandOff);
+        // // LT -- CLIMB DOWN (OPERATOR)
+        // this.ltCommandOn = new ArmsDown(0.2);
+        // this.ltCommandOff = new ArmsFinished();
+        // this.operator.addWhenHeldToLeftTrigger(this.ltCommandOn);
+        // this.operator.addWhenReleasedToLeftTrigger(this.ltCommandOff);
 
         // Y -- WENCH FAST (OPERATOR)
-        this.yCommandOn = new WenchInit(0.9);
+        this.yCommandOn = new WenchInit(1.0);
         this.yCommandOff = new WenchFinished();
         this.operator.addWhenHeldToY(this.yCommandOn);
         this.operator.addWhenReleasedToY(this.yCommandOff);

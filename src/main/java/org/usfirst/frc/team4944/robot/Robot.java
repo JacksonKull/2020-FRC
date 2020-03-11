@@ -133,7 +133,7 @@ public class Robot extends TimedRobot {
 		if (this.driver.getLeftTriggerDown()) {
 			this.shooter.setManualShooterPower(this.shooterPower);
 		} else {
-			this.shooter.setManualShooterPower(0.1);
+			this.shooter.setManualShooterPower(0.15);
 		}
 
 		// RIGHT MENU LOCK ON TURRET/HOOD
