@@ -50,11 +50,12 @@ public class DriveStraight extends Command {
 	public void execute() {
 		// POWERS
 		double leftPower = leftPID.getPower(driveSystem.getLeftEncoder());
-		double rightPower = rightPID.getPower(driveSystem.getRightEncoder());
+		double rightPower = -rightPID.getPower(driveSystem.getRightEncoder());
 		double anglePower = anglePID.getPower(driveSystem.getAngle());
 		// SETTING DRIVE TRAIN POWERS
 		driveSystem.setPower(leftPower + anglePower, rightPower - anglePower);
-		System.out.println("left power: " + leftPower + "right power: " + rightPower + "angle power: " + anglePower);
+		System.out.println("Left Power: " + leftPower + " Right Power: " + rightPower + " Angle Power: " + anglePower);
+		System.out.println("Left Error: " + this.leftPID.getError() + " Right Error: " + this.rightPID.getError() + " Angle Error: " + this.anglePID.getError());
 	}
 
 	public boolean isFinished() {

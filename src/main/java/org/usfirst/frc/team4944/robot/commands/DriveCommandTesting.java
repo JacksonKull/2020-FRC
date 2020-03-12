@@ -21,11 +21,11 @@ public class DriveCommandTesting extends CommandGroup {
 
   // CONSTANTS
 
-  double left_P = 0.0004;
+  double left_P = 0.00001;
   double left_I = 0;
   double left_D = 0;
 
-  double right_P = 0.0004;
+  double right_P = 0.00001;
   double right_I = 0;
   double right_D = 0;
 
@@ -44,9 +44,10 @@ public class DriveCommandTesting extends CommandGroup {
   // GOALS
 
   final double headingGoal = 0;
-  final double driveGoal = 120;
+  final double driveGoal = 120*10;
 
   // DRIVE COMMANDS
+
 
   DriveStraight drive = new DriveStraight(this.driveSystem.convertInchesToEncoderCount(driveGoal), this.headingGoal, this.leftPID, this.rightPID, this.anglePID);
 

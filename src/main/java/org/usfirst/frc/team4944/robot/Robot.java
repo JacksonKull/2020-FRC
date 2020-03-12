@@ -73,6 +73,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Shooter Coefficient", this.shooterCoeficient);
 		this.SmartDashboardDisplay();
 
+		this.driveSystem.resetAngle();
+
 		// Double
 		// this.shooterPower = 0.5;
 	}
@@ -140,10 +142,11 @@ public class Robot extends TimedRobot {
 
 
 		// Encoders
-		System.out.println(this.driveSystem.getLeftEncoder());
+		System.out.println(this.driveSystem.getLeftEncoder() + " Left");
+		System.out.println(this.driveSystem.getRightEncoder() + " Right");
 
 		// Gyro
-		System.out.println(this.driveSystem.getAngle());
+		// System.out.println(this.driveSystem.getAngle());
 
 		// RIGHT MENU LOCK ON TURRET/HOOD
 

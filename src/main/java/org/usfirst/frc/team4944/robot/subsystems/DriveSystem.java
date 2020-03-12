@@ -61,6 +61,8 @@ public class DriveSystem extends Subsystem {
 		this.rightMotor1.setSelectedSensorPosition(0);
 		// GYRO
 		this.gyro = new AHRS(Port.kMXP);
+		this.gyro.reset();
+		// this.gyro.
 		// ANGLE PID
 		this.anglePID = new BasicPID(1 / 500, 1 / 500, 1 / 500);
 	}
@@ -84,12 +86,16 @@ public class DriveSystem extends Subsystem {
 		return gyro.getAngle();
 	}
 
+	public void resetAngle(){
+		this.gyro.reset();
+	}
+
 	public int getLeftEncoder() {
 		return leftMotor1.getSelectedSensorPosition();
 	}
 
 	public int getRightEncoder() {
-		return rightMotor1.getSelectedSensorPosition();
+		return -rightMotor1.getSelectedSensorPosition();
 	}
 
 	public void updateValues(){
@@ -131,7 +137,7 @@ public class DriveSystem extends Subsystem {
 
 	public double convertInchesToEncoderCount(double inches){
 		double ticksPerInch = (this.ticksPerRotation/this.wheelCircum);
-		return inches*ticksPerInch;
+		return (inches*ticksPerInch);
 	}
 	public void breakDisable() {
 
