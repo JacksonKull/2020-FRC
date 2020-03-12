@@ -142,6 +142,9 @@ public class Robot extends TimedRobot {
 		// Encoders
 		System.out.println(this.driveSystem.getLeftEncoder());
 
+		// Gyro
+		System.out.println(this.driveSystem.getAngle());
+
 		// RIGHT MENU LOCK ON TURRET/HOOD
 
 		if (this.driver.getRightTriggerDown()) {
