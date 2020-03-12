@@ -14,6 +14,7 @@ import org.usfirst.frc.team4944.robot.subsystems.HopperSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team4944.robot.subsystems.TurretSubsystem;
+import org.usfirst.frc.team4944.robot.commands.DriveCommandTesting;
 import org.usfirst.frc.team4944.robot.commands.QueNShootTesting;
 import org.usfirst.frc.team4944.robot.commands.ThreeBallAuto;
 import org.usfirst.frc.team4944.robot.commands.VisionAlign;
@@ -92,7 +93,8 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		Scheduler.getInstance().run();
 		// this.autoCommand = new ThreeBallAuto();
-		this.autoCommand = new QueNShootTesting();
+		// this.autoCommand = new QueNShootTesting();
+		this.autoCommand = new DriveCommandTesting();
 		this.autoCommand.start();
 		this.SmartDashboardDisplay();
 	}
@@ -133,8 +135,12 @@ public class Robot extends TimedRobot {
 		if (this.driver.getLeftTriggerDown()) {
 			this.shooter.setManualShooterPower(this.shooterPower);
 		} else {
-			this.shooter.setManualShooterPower(0.1);
+			this.shooter.setManualShooterPower(0.15);
 		}
+
+
+		// Encoders
+		System.out.println(this.driveSystem.getLeftEncoder());
 
 		// RIGHT MENU LOCK ON TURRET/HOOD
 
@@ -189,5 +195,6 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Distance From Target", turret.lm.getDistInFeet());
 		SmartDashboard.putBoolean("Limelight Connection:", turret.lm.getLimeLightConnected());
 	}
+	
 
 }

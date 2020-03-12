@@ -33,6 +33,7 @@ public class DriveSystem extends Subsystem {
 	final double wheelCircum = Math.PI*this.wheelDiam;
 	final double ticksPerRotation = 2048;
 	final double speedThreshold = 1;
+	final double driveThreshold = 100;
 	// VALUES
 	double currentLeft = 0;
 	double currentRight = 0;
@@ -53,8 +54,10 @@ public class DriveSystem extends Subsystem {
 		this.rightMotor2 = new TalonFX(2);
 		this.rightMotor2.setInverted(false);
 		// ENCODERS
-		this.leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
-		this.rightMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+		this.leftMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+		this.rightMotor1.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+		this.leftMotor1.setSelectedSensorPosition(0);
+		this.rightMotor1.setSelectedSensorPosition(0);
 		// GYRO
 		this.gyro = new AHRS(Port.kMXP);
 		// ANGLE PID
@@ -106,6 +109,14 @@ public class DriveSystem extends Subsystem {
 
 	public boolean getDoneDriveing(){
 		if(Math.abs(this.getRightSpeed()) < this.speedThreshold && Math.abs(this.getLeftSpeed()) < this.speedThreshold){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public boolean getWithinRange(){
+		if(Math.abs(this.leftPID.getError()) <= this.driveThreshold && Math.abs(this.rightPID.getError()) <= this.driveThreshold){
 			return true;
 		}else{
 			return false;
